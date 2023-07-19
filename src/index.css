@@ -1,0 +1,99 @@
+/* App.css */
+
+:root {
+  --background_color: #212121;
+  --my_blue: #69c5e9;
+  --my_green: #21d810;
+  --dark_blue: #212832;
+  --dark_blue2: rgba(27, 40, 56, 1);
+  --light_gray: #3b3b3b;
+  --some_gray: #595858;
+  --almost_white: #ebebeb;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  gap: 20px;
+  padding: 15px;
+}
+
+body {
+  font-family: 'Roboto';
+  background-color: var(--dark_blue);
+  color: var(--almost_white);
+}
+
+.content-with-toolbar {
+  flex: 1;
+  background-color: var(--background_color);
+  width: 100%;
+  height: 100%;
+}
+
+.content-with-menu {
+  flex: 1;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+}
+
+.content {
+  min-width: 367px;
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 10px;
+  gap: 20px;
+  row-gap: 30px;
+  background-color: var(--background_color);
+  position: relative;
+  padding-bottom: 40px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.pagination-button {
+  margin: 10px;
+  background-color: var(--almost_white);
+  border: solid;
+  border-color: var(--almost_white);
+  border-radius: 2px;
+  border-width: 2px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+  margin: 10px;
+  background-color: var(--my_blue);
+  border: solid;
+  border-color: var(--my_blue);
+  border-radius: 2px;
+  border-width: 2px;
+}
+
+.pagination-button:active:not(:disabled) {
+  margin: 10px;
+  background-color: var(--my_green);
+  border: solid;
+  border-color: var(--my_green);
+  border-radius: 2px;
+  border-width: 2px;
+}
