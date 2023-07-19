@@ -1,0 +1,118 @@
+:root {
+    --background_color: #212121;
+    --my_blue: #69c5e9;
+    --my_green: #21d810;
+    --dark_blue: #212832;
+    --dark_blue2: rgba(27, 40, 56, 1);
+    --light_gray: #3b3b3b;
+    --some_gray: #595858;
+    --almost_white: #ebebeb;
+  }
+  
+  .add-item-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); 
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .add-item-dialog-content {
+    position: fixed;
+    top: 140px;
+    left: 310px;
+    width: 500px;
+    background-color: var(--background_color);
+    border-radius: 8px;
+    border: solid;
+    border-color: var(--my_blue);
+    border-width: 2px;
+    padding: 20px;
+  }
+  
+  .add-item-dialog-content h2 {
+    margin-top: 0;
+    margin-bottom: 10;
+  }
+  
+  .add-item-dialog-content form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .add-item-dialog-content label {
+    margin-bottom: 10px;
+  }
+  
+  .add-item-dialog-content input,
+  .add-item-dialog-content select {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid var(--light_gray);
+    border-radius: 4px;
+    background-color: var(--some_gray);
+    color: var(--almost_white)
+  }
+  
+  .add-item-dialog-content .button-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .add-item-dialog-content button {
+    margin-left: 10px;
+    border: solid;
+    border-color: var(--almost_white);
+    border-radius: 2px;
+    border-width: 2px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .add-item-dialog-content button:hover {
+    margin-left: 10px;
+    background-color: var(--my_blue);
+    border: solid;
+    border-color: var(--my_blue);
+    border-radius: 2px;
+    border-width: 2px;
+  }
+
+  .add-item-dialog-content button:active {
+    margin-left: 10px;
+    background-color: var(--my_green);
+    border: solid;
+    border-color: var(--my_green);
+    border-radius: 2px;
+    border-width: 2px;
+  }
+
+  .select-container {
+    position: relative;
+    width: 200px;
+  }
+  
+  .select-dropdown {
+    background-color: var(--almost_white);
+    border: 1px solid var(--some_gray);
+    border-radius: 4px;
+    padding: 5px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+    
+  .select-option {
+    background-color: var(--light_gray);
+    color: var(--almost_white);
+    padding: 2px;
+  }  
+  input::placeholder {
+    color: rgb(155, 155, 155);
+  }
+  

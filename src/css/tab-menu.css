@@ -1,0 +1,46 @@
+:root {
+    --background_color: #212121;
+    --my_blue: #69c5e9;
+    --my_green: #21d810;
+    --dark_blue: #212832;
+    --dark_blue2: rgba(27, 40, 56, 1);
+    --light_gray: #3b3b3b;
+    --some_gray: #595858;
+    --almost_white: #ebebeb;
+  }
+
+  .tab-menu-container {
+    display: flex;
+    justify-content: flex-start;
+  }
+  
+  .tab-menu {
+    display: flex;
+    gap: 3px;
+  }
+  
+  .tab {
+    cursor: pointer;
+    padding: 8px 32px;
+    display: flex;
+    align-items: flex-end;
+    transition: color 0.3s ease;
+    background-color: var(--light_gray);
+    font-size: 16px;
+  }
+  
+  .tab.active {
+    font-weight: bold;
+    color: var(--my_green);
+    background-color: var(--background_color);
+  }
+  
+  .tab:hover:not(.active) {
+    border-width: 2px;
+    color: var(--my_blue);
+  }
+  
+  .tab-icon {
+    margin-right: 8px;
+    font-size: 24px;
+  }

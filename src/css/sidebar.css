@@ -1,0 +1,113 @@
+:root {
+    --background_color: #212121;
+    --my_blue: #69c5e9;
+    --my_green: #21d810;
+    --dark_blue: #212832;
+    --dark_blue2: rgba(27, 40, 56, 1);
+    --light_gray: #3b3b3b;
+    --some_gray: #595858;
+    --almost_white: #ebebeb;
+  }
+
+.sidebar {
+    border-radius: 5px;
+    min-width: 200px;
+    width: 200px;
+    min-height: 320px;
+    height: 600px;
+    overflow: auto;
+    background-color: var(--light_gray);
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+  }
+
+  .sidebar-title {
+    font-family: 'Roboto';
+  }
+  
+  .divider {
+    margin-top: -10px;
+    margin-bottom: 20px;
+    border: none;
+    border-top: 2px solid;
+    border-color: var(--my_blue);
+  }
+  
+  .sidebar ul {
+    margin-top: 10px;
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+  }
+  
+  .sidebar li {
+    margin-bottom: 10px;
+  }
+  
+  .sidebar li button {
+    display: block;
+    width: 100%;
+    padding: 8px 16px;
+    text-align: left;
+    background-color: transparent;
+    border: 1px solid var(--almost_white);
+    border-radius: 5px;
+    border-width: 2px;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--almost_white);
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .sidebar li button:hover {
+    border-color: var(--my_blue);
+    color: var(--my_blue);
+    border-width: 2px;
+  }
+  
+  .sidebar li.active button {
+    border-color: var(--my_green);
+    color: var(--my_green);
+    border-width: 2px;
+  }
+  
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    margin-top: 2px;
+  }
+  
+  .sidebar-icon {
+    margin-left: 60px;
+    font-size: 24px;
+    margin-top: 5px;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+  
+  .sidebar-icon:hover {
+    color: var(--my_blue);
+  }
+  
+  .sidebar-icon:active {
+    color: var(--my_green);
+  }
+
+  .sidebar::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .sidebar::-webkit-scrollbar-track {
+    background-color: var(--light_gray);
+  }
+  
+  .sidebar::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+  
+  .sidebar::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  

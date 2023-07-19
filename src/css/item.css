@@ -1,0 +1,108 @@
+:root {
+    --background_color: #212121;
+    --my_blue: #69c5e9;
+    --my_green: #21d810;
+    --dark_blue: #212832;
+    --dark_blue2: rgba(27, 40, 56, 1);
+    --light_gray: #3b3b3b;
+    --some_gray: #595858;
+    --almost_white: #ebebeb;
+  }
+  
+  .item-button {
+    width: 140px;
+    height: 200px;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    cursor: pointer;
+    border: 3px solid var(--light_gray);
+    border-radius: 3px;
+    transition: border-color 0.3s ease;
+    margin-bottom: 2px;
+  }
+  
+  .item-button:hover:not(.active) {
+    border-color: var(--my_blue);
+  }
+  
+  .item-button:hover .item-overlay { 
+    transition-delay: 500ms;
+    opacity: 1;
+  }
+  
+  .item-button.active {
+    border-color: var(--my_green);
+  }
+  
+  .item-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  
+  .item-overlay {
+    transition: opacity 0.5s ease;
+    opacity: 0; 
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 8px;
+    color: white;
+  }
+    
+  .item-overlay-static {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 8px;
+    color: white;
+  }
+  
+  .item-title {
+    font-size: 14px;
+    font-family: 'Roboto';
+  }
+
+  .item-finished-icon {
+    margin-right: 10px;
+    margin-left: 5px;
+    color: var(--my_green);
+    font-size: 16px;
+  }
+  
+  .wholeItem {
+    position: relative;
+  }
+  
+  .item-button-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .item-info {
+    width: 140px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-top: 1px;
+    background-color: var(--light_gray);
+    border-radius: 3px;
+  }
+  
+  .item-finished-icon {
+    margin-right: 10px;
+  }
+  
+  .item-finished-on {
+    color: var(--almost_white);
+    font-size: 14px;
+  }
+  
