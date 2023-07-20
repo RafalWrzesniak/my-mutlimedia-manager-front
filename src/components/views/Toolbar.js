@@ -44,22 +44,19 @@ const Toolbar = forwardRef((props, ref) => {
   const chooseProperSearchProperty = (activeTab) => {
     const fieldsForTab = {
       'BOOK_LIST': [
-        { value: '', label: 'Wybierz...' },
         { value: 'title', label: 'Tytuł' },
         { value: 'description', label: 'Opis' },
         { value: 'publisher', label: 'Wydawca' },
         { value: 'category', label: 'Kategoria' }
       ],
       'MOVIE_LIST': [       
-        { value: '', label: 'Wybierz...' }, 
         { value: 'polishTitle', label: 'Tytuł' },
-        { value: 'title', label: 'Tytuł org' },
+        { value: 'titleOrg', label: 'Tytuł org' },
         { value: 'plotLocal', label: 'Opis' },
         { value: 'genreList', label: 'Gatunek' },
         { value: 'countryList', label: 'Produkcja' }
       ],
       'GAME_LIST': [
-        { value: '', label: 'Wybierz...' },
         { value: 'title', label: 'Tytuł' },
         { value: 'description', label: 'Opis' },
         { value: 'publisher', label: 'Wydawca' },
@@ -101,6 +98,9 @@ const Toolbar = forwardRef((props, ref) => {
 
   const handleChangingPropertyToFind = (event) => {
     let propertyToFind = event.target.value;
+    if(propertyToFind === 'titleOrg') {
+      propertyToFind = 'title'
+    }
     setPropertyToFind(propertyToFind)
     if(props.handleSearchInputChange) {
       props.handleSearchInputChange(propertyToFind, searchInputValue);
@@ -118,7 +118,12 @@ const Toolbar = forwardRef((props, ref) => {
   }
 
   const clearSearchInput = () => {
-    setSearchInputValue('')
+    setSearchInputValue('');
+    let property = 'title';
+    if(props.activeTab === 'MOVIE_LIST') {
+      property = 'polishTitle'
+    }
+    setPropertyToFind(property)
   }
 
   const handleSortDirectionChange = () => {
@@ -177,7 +182,8 @@ const Toolbar = forwardRef((props, ref) => {
           />  
           <select
             className="select-input"
-            onChange={handleChangingPropertyToFind}>
+            onChange={handleChangingPropertyToFind}
+            value={propertyToFind}>
             {chooseProperSearchProperty(props.activeTab).map((option) => (
             <option className="select-option"
               key={option.value}

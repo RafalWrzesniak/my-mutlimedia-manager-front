@@ -106,7 +106,6 @@ const App = () => {
       setCurrentPage(0);
       setTotalPages(1)
     } else if(activeList) {
-      console.log(activeList)
       handleListChange(rememeredList)
     }
   }
@@ -114,7 +113,6 @@ const App = () => {
   const handleInputSearch = async (propertyName, valueToFind) => {
     if(!propertyName || valueToFind.length < 3) {
         setSearchInputData({})
-        console.log(activeList)
         if(activeList === -1) {
           handleListChange(rememeredList);
         }
