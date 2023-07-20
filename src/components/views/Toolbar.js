@@ -183,7 +183,8 @@ const Toolbar = forwardRef((props, ref) => {
           <select
             className="select-input"
             onChange={handleChangingPropertyToFind}
-            value={propertyToFind}>
+            value={propertyToFind}
+            disabled={recentlyDoneIsActive}>
             {chooseProperSearchProperty(props.activeTab).map((option) => (
             <option className="select-option"
               key={option.value}

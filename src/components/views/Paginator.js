@@ -9,7 +9,7 @@ const Paginator = ({ totalPages, currentPage, onPageChange }) => {
   };
 
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
+    if (currentPage < totalPages - 1) {
       onPageChange(currentPage + 1);
     }
   };
@@ -33,7 +33,7 @@ const Paginator = ({ totalPages, currentPage, onPageChange }) => {
       <button
         className='pagination-button'
         onClick={handleNextPage}
-        disabled={currentPage === totalPages}
+        disabled={currentPage === totalPages - 1}
       >
         Dalej
       </button>

@@ -12,7 +12,7 @@
 .toolbar {
     display: flex;
     margin-top: 10px;
-    margin-left: 15px;
+    margin-left: 11px;
     padding: 10px;
     align-items: center;
     background-color: var(--background_color);
@@ -94,6 +94,7 @@
     font-size: 14px;
     outline: none;
     margin-right: 10px;
+    cursor: pointer;
   }  
  
   .select-wrapper:hover:not(:disabled) {
@@ -107,18 +108,19 @@
     cursor: default;
   }
   
-  input::placeholder {
-    color: rgb(155, 155, 155);
-  }
-
-
   .input-with-select {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: flex-end;
   }
-  
+ 
+  .select-input:disabled {
+    color: var(--light_gray);
+    background: transparent;
+    border-color: var(--light_gray);
+  }
+
   .select-input {
     transition: border-color 0.3s ease, color 0.3s ease;
     position: absolute;
@@ -139,11 +141,12 @@
   .select-input:hover:not(:disabled) {
     border-color: var(--my_blue);
     color: var(--my_blue);
+    cursor: pointer;
   }
   
   .search-input {
     padding: 5px;
-    background-color: var(--some_gray);
+    background-color: var(--background_color);
     border: solid 2px var(--light_gray);
     border-radius: 5px;
     outline: none;
@@ -153,3 +156,12 @@
     font-size: 14px;
   }
   
+  .search-input::placeholder {
+    color: rgb(155, 155, 155);
+  }
+
+  .search-input:disabled {
+    background: transparent;
+    color: var(--light_gray);
+    border-color: var(--light_gray);
+  }

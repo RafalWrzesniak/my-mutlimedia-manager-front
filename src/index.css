@@ -14,7 +14,7 @@
 .app {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 90vh;
   gap: 20px;
   padding: 15px;
 }
@@ -26,16 +26,21 @@ body {
 }
 
 .content-with-toolbar {
-  flex: 1;
   background-color: var(--background_color);
-  width: 100%;
-  height: 100%;
+  border-radius: 0px 5px 5px 5px;
+  flex: 1;
+  width: 100%;  
+
+  /* display: flex;
+  flex-direction: column;
+  align-items: flex-start; */
 }
 
 .content-with-menu {
   flex: 1;
   display: flex;
   width: 100%;
+  height: 95vh;
   flex-direction: column;
   align-items: flex-start;
 }
@@ -46,54 +51,44 @@ body {
 }
 
 .content {
-  min-width: 367px;
-  flex: 1;
+  min-width: 400px;
+  min-height: 510px;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   padding: 10px;
   gap: 20px;
-  row-gap: 30px;
-  background-color: var(--background_color);
   position: relative;
-  padding-bottom: 40px;
 }
 
 .pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: fit-content;
+  margin-left: 40%;
   margin-bottom: 10px;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 .pagination-button {
   margin: 10px;
-  background-color: var(--almost_white);
+  background: transparent;
+  padding: 3px 5px;
+  color: var(--almost_white);
   border: solid;
-  border-color: var(--almost_white);
-  border-radius: 2px;
+  border-color: var(--light_gray);
+  border-radius: 5px;
   border-width: 2px;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: border-color 0.3s ease, color 0.3s ease;
 }
 
 .pagination-button:hover:not(:disabled) {
-  margin: 10px;
-  background-color: var(--my_blue);
-  border: solid;
+  color: var(--my_blue);
   border-color: var(--my_blue);
-  border-radius: 2px;
-  border-width: 2px;
 }
 
 .pagination-button:active:not(:disabled) {
-  margin: 10px;
-  background-color: var(--my_green);
-  border: solid;
+  color: var(--my_green);
   border-color: var(--my_green);
-  border-radius: 2px;
-  border-width: 2px;
+}
+
+.pagination-button:disabled {
+  color: var(--light_gray)
 }

@@ -26,6 +26,7 @@
     align-items: flex-end;
     transition: color 0.3s ease;
     background-color: var(--light_gray);
+    border-radius: 5px 5px 0px 0px;
     font-size: 16px;
   }
   

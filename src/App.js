@@ -29,7 +29,7 @@ const App = () => {
   const [searchInputData, setSearchInputData] = useState({});
 
   const handlePageChange = async (page) => {
-    console.log("Zmieniam na strone: ", page)
+    console.log("Zmieniam na strone: ", page + 1)
     setCurrentPage(page);
     let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
     let listDetailes;
@@ -178,12 +178,12 @@ const App = () => {
               items={displayedItems} 
               activeItem={activeItem} 
               onItemChange={handleItemChange} />
-              <Paginator
+            </div>
+            <Paginator
               totalPages={totalPages}
               currentPage={currentPage}
               onPageChange={handlePageChange}
             />
-            </div>
           </div>
         </div>
       </div>
