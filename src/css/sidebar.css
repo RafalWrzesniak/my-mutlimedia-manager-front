@@ -14,7 +14,7 @@
     min-width: 200px;
     width: 200px;
     min-height: 320px;
-    height: 600px;
+    height: 45vh;
     overflow: auto;
     background-color: var(--light_gray);
     padding-left: 20px;

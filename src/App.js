@@ -12,9 +12,9 @@ import ReactModal from 'react-modal';
 ReactModal.setAppElement('#root');
 
 const App = () => {
-  const pageSize = 20;
+  const pageSize = 30;
   const toolbarRef = useRef(null);  
-  const [activeTab, setActiveTab] = useState(null);
+  const [activeTab, setActiveTab] = useState('BOOK_LIST');
   const [activeList, setActiveList] = useState(null);
   const [allUserLists, setAllUserLists] = useState([]);
   const [tabLists, setTabLists] = useState([]);
@@ -28,6 +28,7 @@ const App = () => {
   const [sortDirection, setSortDirection] = useState('DESC');
   const [searchInputData, setSearchInputData] = useState({});
 
+
   const handlePageChange = async (page) => {
     console.log("Zmieniam na strone: ", page + 1)
     setCurrentPage(page);
@@ -37,7 +38,7 @@ const App = () => {
       listDetailes = await findProductsByProperty(searchInputData.propertyName, searchInputData.valueToFind, tabToApi(activeTab), page, sortDirection, sortKey, pageSize)
       setDisplayedItems(listDetailes)
     } else {
-      listDetailes = await getListByName(currentList.name, tabToApi(activeTab), page, sortDirection, sortKey);
+      listDetailes = await getListByName(currentList.name, tabToApi(activeTab), page, sortDirection, sortKey, pageSize);
       setDisplayedItems(tabToListObjects(listDetailes, activeTab))
     }
   };
@@ -56,6 +57,13 @@ const App = () => {
     handleListChange(activeList);
   };
 
+  const refreshSideBarList = async () => {
+    let userListsData = await getUserListInfo();
+    setAllUserLists(userListsData);
+    let updatedLists = getListsForTab(userListsData, activeTab);  
+    setTabLists(updatedLists);
+  }
+
   const handleTabChange = async (tab) => {
     console.log("Changing tab to: " + tab)
     setActiveTab(tab);
@@ -65,7 +73,7 @@ const App = () => {
     if(currentList) {
       setActiveList(currentList.id);
       console.log("Changing list to: " + currentList.name)
-      let listDetailes = await getListByName(currentList.name, tabToApi(tab));
+      let listDetailes = await getListByName(currentList.name, tabToApi(tab), 0, sortDirection, sortKey, pageSize);
       setCurrentPage(0);
       setTotalPages(Math.ceil((listDetailes.booksNumber | listDetailes.gamesNumber | listDetailes.moviesNumber)/pageSize)); 
       setDisplayedItems(tabToListObjects(listDetailes, tab))
@@ -79,7 +87,8 @@ const App = () => {
     setActiveList(listId);
     let currentList = tabLists.filter(listFromTab => listFromTab.id === listId)[0];
     console.log("Changing list to: " + currentList.name)
-    let listDetailes = await getListByName(currentList.name, tabToApi(activeTab), 0, sortDirection, sortKey);
+    let listDetailes = await getListByName(currentList.name, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize);
+    console.log(listDetailes)
     setDisplayedItems(tabToListObjects(listDetailes, activeTab))
     setCurrentPage(0);
     setTotalPages(Math.ceil((listDetailes.booksNumber | listDetailes.gamesNumber | listDetailes.moviesNumber)/pageSize));
@@ -139,12 +148,11 @@ const App = () => {
       try {
         let userListsData = await getUserListInfo();
         setAllUserLists(userListsData);
-        setActiveTab('BOOK_LIST');
-        let updatedLists = getListsForTab(userListsData, 'BOOK_LIST');  
+        let updatedLists = getListsForTab(userListsData, activeTab);  
         setTabLists(updatedLists);
         let activeList = updatedLists.length > 0 ? updatedLists[0] : -1;
         setActiveList(activeList.id);
-        let listDetailes = await getListByName(activeList.name, 'book', 0, sortDirection, sortKey);
+        let listDetailes = await getListByName(activeList.name, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize);
         setDisplayedItems(listDetailes.bookWithUserDetailsDtos);
       } catch (error) {
         console.error('Error fetching user lists:', error);
@@ -157,7 +165,13 @@ const App = () => {
   return (
     <div className="app">
       <div className="container">
-        <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} />
+        <Sidebar 
+        lists={tabLists} 
+        activeList={activeList}
+        onListChange={handleListChange}
+        activeApi={activeTab}
+        refreshSideBarList={refreshSideBarList}
+        />
         <div className='content-with-menu'>
           <div className="tab-menu-container">
             <TabMenu activeTab={activeTab} onTabChange={handleTabChange} />
@@ -170,7 +184,7 @@ const App = () => {
             handleSortChange={setSortKey}
             handleSortDirectionChange={setSortDirection}
             handleSearchInputChange={handleInputSearch}
-            activeTab={activeTab ? activeTab : 'BOOK_LIST'}
+            activeTab={activeTab}
             />
             <AddItemDialog isOpen={isDialogOpen} onClose={handleCloseDialog} lists={tabLists} activeApi={tabToApi(activeTab)} />            
             <div className="content">

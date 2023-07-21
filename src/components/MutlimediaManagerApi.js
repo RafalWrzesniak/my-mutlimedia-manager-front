@@ -12,9 +12,9 @@ const getUserListInfo = async () => {
     }
   };
   
-const getListByName = async (listName, apiType, page, direction, sortKey) => {
+const getListByName = async (listName, apiType, page, direction, sortKey, pageSize) => {
     try {
-      const finalUrl = `${URL}/${apiType}/list?listName=${listName}&direction=${direction ? direction : 'ASC'}&sortKey=${sortKey ? sortKey : 'id'}&page=${page ? page : 0}`;
+      const finalUrl = `${URL}/${apiType}/list?listName=${listName}&direction=${direction ? direction : 'ASC'}&sortKey=${sortKey ? sortKey : 'id'}&page=${page ? page : 0}&pageSize=${pageSize ? pageSize : 20}`;
       const response = await axios.get(finalUrl);
       return response.data;
     } catch (error) {
@@ -33,10 +33,28 @@ const getListByName = async (listName, apiType, page, direction, sortKey) => {
     }
   };
 
-  const addItemByUrl = async (url, listName, apiType) => {
+  const createBookFromUrl = async (bookUrl, listName, bookFormat) => {
     try {
-      const response = await axios.post(`${URL}/${apiType}/create`, {url, listName});
-      console.log('Item added:', response.data);
+      const response = await axios.post(`${URL}/book/createBookUrl?bookUrl=${bookUrl}&listName=${listName}&bookFormat=${bookFormat}`);
+      console.log('Book added:', response.data);
+    } catch (error) {
+      console.error('Error adding item:', error);
+    }
+  }
+
+  const createGameFromUrl = async (url, listName, platform) => {
+    try {
+      const response = await axios.post(`${URL}/game/createGameUrl?url=${url}&listName=${listName}&gamePlatform=${platform}`);
+      console.log('Game added:', response.data);
+    } catch (error) {
+      console.error('Error adding item:', error);
+    }
+  }
+
+  const createMovieFromUrl = async (url, listName) => {
+    try {
+      const response = await axios.post(`${URL}/movie/create?url=${url}&listName=${listName}`);
+      console.log('Movie added:', response.data);
     } catch (error) {
       console.error('Error adding item:', error);
     }
@@ -52,5 +70,15 @@ const getListByName = async (listName, apiType, page, direction, sortKey) => {
       return null;
     }
   }
+
+  const createNewList = async (listName, apiType) => {
+    try {
+      const response = await axios.post(`${URL}/${apiType}/list?listName=${listName}`);
+      console.log('Created list: ', response.data);
+    } catch (error) {
+      console.error('Error adding list:', error);
+    }
+  }
   
-export { getUserListInfo, getListByName, getRecentlyDone, addItemByUrl, findProductsByProperty };
+export { getUserListInfo, getListByName, getRecentlyDone, createBookFromUrl, createGameFromUrl, 
+  createMovieFromUrl, findProductsByProperty, createNewList };
