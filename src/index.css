@@ -72,10 +72,8 @@ body {
   background: transparent;
   padding: 3px 5px;
   color: var(--almost_white);
-  border: solid;
-  border-color: var(--light_gray);
+  border: solid 2px var(--light_gray);
   border-radius: 5px;
-  border-width: 2px;
   transition: border-color 0.3s ease, color 0.3s ease;
 }
 

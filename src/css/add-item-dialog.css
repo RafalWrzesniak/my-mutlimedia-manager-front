@@ -25,14 +25,19 @@
   .add-item-dialog-content {
     position: fixed;
     top: 140px;
-    left: 310px;
+    left: 300px;
     width: 500px;
     background-color: var(--background_color);
     border-radius: 8px;
     border: solid;
     border-color: var(--my_blue);
     border-width: 2px;
-    padding: 20px;
+    padding: 20px 30px 10px 20px;
+  }
+
+  
+  .add-item-dialog-content:not(:focus) {
+    border-color: var(--my_blue);
   }
   
   .add-item-dialog-content h2 {
@@ -49,17 +54,27 @@
     margin-bottom: 10px;
   }
   
-  .add-item-dialog-content input,
   .add-item-dialog-content select {
-    width: 100%;
+    width: 200px;
     padding: 5px;
     margin-top: 5px;
     border: 1px solid var(--light_gray);
     border-radius: 4px;
     background-color: var(--some_gray);
-    color: var(--almost_white)
+    color: var(--almost_white);
   }
-  
+
+
+  .add-item-dialog-content input {
+    width: 96%;
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid var(--light_gray);
+    border-radius: 4px;
+    background-color: var(--some_gray);
+    color: var(--almost_white);
+  }
+
   .add-item-dialog-content .button-container {
     margin-top: 10px;
     display: flex;
@@ -67,35 +82,27 @@
   }
   
   .add-item-dialog-content button {
-    margin-left: 10px;
-    border: solid;
-    border-color: var(--almost_white);
-    border-radius: 2px;
-    border-width: 2px;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    margin: 10px;
+    background: transparent;
+    padding: 5px 15px;
+    color: var(--almost_white);
+    border: solid 2px var(--light_gray);
+    border-radius: 5px;
+    transition: border-color 0.3s ease, color 0.3s ease;
   }
 
   .add-item-dialog-content button:hover {
-    margin-left: 10px;
-    background-color: var(--my_blue);
-    border: solid;
+    color: var(--my_blue);
     border-color: var(--my_blue);
-    border-radius: 2px;
-    border-width: 2px;
   }
 
   .add-item-dialog-content button:active {
-    margin-left: 10px;
-    background-color: var(--my_green);
-    border: solid;
+    color: var(--my_green);
     border-color: var(--my_green);
-    border-radius: 2px;
-    border-width: 2px;
   }
 
   .select-container {
     position: relative;
-    width: 200px;
   }
   
   .select-dropdown {
@@ -112,6 +119,7 @@
     color: var(--almost_white);
     padding: 2px;
   }  
+
   input::placeholder {
     color: rgb(155, 155, 155);
   }
