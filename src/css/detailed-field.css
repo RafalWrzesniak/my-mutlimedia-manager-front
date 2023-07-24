@@ -1,0 +1,37 @@
+:root {
+    --background_color: #212121;
+    --my_blue: #69c5e9;
+    --my_green: #21d810;
+    --dark_blue: #212832;
+    --dark_blue2: rgba(27, 40, 56, 1);
+    --light_gray: #3b3b3b;
+    --some_gray: #595858;
+    --almost_white: #ebebeb;
+  }
+
+.detailed-field {
+    text-align: left;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    width: fit-content;
+  }
+  
+  .value {
+    font-size: 16px;
+    color: var(--almost_white);
+    margin-bottom: 3px;
+    text-align: left;
+  }
+  
+  .description {
+    font-size: 14px;
+    color: var(--some_gray);
+  }
+    
+  .value-justified {
+    font-size: 16px;
+    color: var(--almost_white);
+    margin-bottom: 3px;
+    text-align: justify;
+  }
+  

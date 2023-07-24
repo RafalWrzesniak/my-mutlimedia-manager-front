@@ -1,3 +1,4 @@
+import moment from 'moment';
 
   function tabToApi(tab) {
     const tabToApiMap = {
@@ -28,4 +29,29 @@
       }) : [];
   }
 
-  export {tabToApi, tabToListObjects, getListsForTab}
+  function formatDate(date) {
+    return moment(date).format('DD.MM.YYYY');
+  }  
+  
+  function formatTime(time) {
+    if(time < 60) {
+      return `${time}min`
+    }
+    const hours = Math.floor(time / 60);
+    const minutes = time % 60;
+  
+    return `${hours}h ${minutes}min`;
+  }
+
+  function listToString(list) {
+    let string = '';
+    for (let i = 0; i < list.length; i++) {
+      if (i > 0) {
+        string += ', ';
+      }
+      string += list[i];
+    }
+    return string;
+  }
+
+  export { tabToApi, tabToListObjects, getListsForTab, formatDate, formatTime, listToString }

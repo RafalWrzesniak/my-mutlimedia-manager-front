@@ -8,12 +8,15 @@ import { getListByName, getUserListInfo, getRecentlyDone, findProductsByProperty
 import { tabToApi, tabToListObjects, getListsForTab } from './components/Utils';
 import AddItemDialog from './components/views/AddItemDialog';
 import ReactModal from 'react-modal';
+import BookDetailedWindow from './components/views/detailed/BookDetailedWindow';
+import GameDetailedWindow from './components/views/detailed/GameDetailedWindow';
+import MovieDetailedWindow from './components/views/detailed/MovieDetailedWindow';
 
 ReactModal.setAppElement('#root');
 
 const App = () => {
-  const pageSize = 30;
   const toolbarRef = useRef(null);  
+  const [pageSize, setPageSize] = useState(30);
   const [activeTab, setActiveTab] = useState('BOOK_LIST');
   const [activeList, setActiveList] = useState(null);
   const [allUserLists, setAllUserLists] = useState([]);
@@ -98,7 +101,7 @@ const App = () => {
   };
 
   const handleItemChange = (item) => {
-    setActiveItem(item.id !==  activeItem ? item.id : -1)
+    setActiveItem(item !==  activeItem ? item : undefined)
     console.log(item)
   };
 
@@ -200,6 +203,9 @@ const App = () => {
             />
           </div>
         </div>
+        {(activeItem && activeTab==='BOOK_LIST' && activeItem.numberOfPages) && (<BookDetailedWindow book={activeItem}></BookDetailedWindow>)}
+        {(activeItem && activeTab==='MOVIE_LIST' && activeItem.imdbId) && (<MovieDetailedWindow movie={activeItem}></MovieDetailedWindow>)}
+        {(activeItem && activeTab==='GAME_LIST' && activeItem.studio) && (<GameDetailedWindow game={activeItem}></GameDetailedWindow>)}
       </div>
     </div>
   );
