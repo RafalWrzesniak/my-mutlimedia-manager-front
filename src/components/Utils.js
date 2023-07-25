@@ -24,7 +24,8 @@ import moment from 'moment';
       .map((list) => {
         return {
           id: list.id,
-          name: list.name
+          name: list.name,
+          items: list.booksNumber ? list.booksNumber : list.gamesNumber ? list.gamesNumber : list.moviesNumber
         };
       }) : [];
   }

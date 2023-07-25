@@ -73,6 +73,7 @@ const App = () => {
     let updatedLists = getListsForTab(allUserLists, tab)
     setTabLists(updatedLists);
     let currentList = updatedLists.length > 0 ? updatedLists[0] : null;
+    setActiveItem(undefined);
     if(currentList) {
       setActiveList(currentList.id);
       console.log("Changing list to: " + currentList.name)

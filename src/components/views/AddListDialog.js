@@ -27,7 +27,7 @@ const AddListDialog = ({ isOpen, onClose, activeApi, refreshSideBarList }) => {
         <label>
           Nazwa listy:
           <div className="select-container">
-            <input autoFocus={true} maxLength={100} type="text" value={inputListName} onChange={handleInputChange} />
+            <input autoFocus={true} maxLength={15} type="text" value={inputListName} onChange={handleInputChange} />
           </div>
         </label>
         <div className="button-container">

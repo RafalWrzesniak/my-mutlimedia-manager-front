@@ -8,7 +8,7 @@ const Sidebar = ({ lists, activeList, onListChange, activeApi, refreshSideBarLis
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleListChange = (list) => {
-    onListChange(list);
+    onListChange(list.id);
   };
 
   const handleOpenDialog = () => {
@@ -33,8 +33,8 @@ const Sidebar = ({ lists, activeList, onListChange, activeApi, refreshSideBarLis
           <li
             key={list.id}
             className={list.id === activeList ? 'active' : ''}
-            onClick={() => handleListChange(list.id)}>
-            <button>{list.name}</button>
+            onClick={() => handleListChange(list)}>
+            <button>{`${list.name} (${list.items})`}</button>
           </li>
         ))}
       </ul>

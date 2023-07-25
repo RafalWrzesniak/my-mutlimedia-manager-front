@@ -21,16 +21,16 @@ const AddItemDialog = ({ isOpen, onClose, lists, activeApi }) => {
     setPlatformOrVersion(event.target.value);
   };
 
-  const onAddItem = () => {
+  const onAddItem = async () => {
     console.log("Dodaje: " + inputUrl);
     console.log("Wybrana lista: " + selectedList);
     console.log("Wybrana zakładka: " + activeApi);
     if(activeApi === 'book') {
-      createBookFromUrl(inputUrl, selectedList, platformOrVersion)
+      await createBookFromUrl(inputUrl, selectedList, platformOrVersion)
     } else if(activeApi === 'game') {
-      createGameFromUrl(inputUrl, selectedList, platformOrVersion)
+      await createGameFromUrl(inputUrl, selectedList, platformOrVersion)
     } else if(activeApi === 'movie') {
-      createMovieFromUrl(inputUrl, selectedList)
+      await createMovieFromUrl(inputUrl, selectedList)
     }
     setInputUrl('');
     setSelectedList('');

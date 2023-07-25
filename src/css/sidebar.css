@@ -11,8 +11,8 @@
 
 .sidebar {
     border-radius: 5px;
-    min-width: 200px;
-    width: 200px;
+    min-width: 220px;
+    width: 220px;
     min-height: 320px;
     height: 45vh;
     overflow: auto;
@@ -79,7 +79,7 @@
   }
   
   .sidebar-icon {
-    margin-left: 60px;
+    margin-left: 90px;
     font-size: 24px;
     margin-top: 5px;
     transition: color 0.3s ease;
