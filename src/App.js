@@ -16,7 +16,7 @@ ReactModal.setAppElement('#root');
 
 const App = () => {
   const toolbarRef = useRef(null);  
-  const [pageSize, setPageSize] = useState(30);
+  const [pageSize] = useState(30);
   const [activeTab, setActiveTab] = useState('BOOK_LIST');
   const [activeList, setActiveList] = useState(null);
   const [allUserLists, setAllUserLists] = useState([]);
@@ -57,7 +57,6 @@ const App = () => {
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
-    handleListChange(activeList);
   };
 
   const refreshSideBarList = async () => {
@@ -100,6 +99,11 @@ const App = () => {
     toolbarRef.current.clearSearchInput();
 
   };
+
+  const refreshAppState = () => {
+    refreshSideBarList();
+    handleListChange(activeList);
+  }
 
   const handleItemChange = (item) => {
     setActiveItem(item !==  activeItem ? item : undefined)
@@ -190,7 +194,7 @@ const App = () => {
             handleSearchInputChange={handleInputSearch}
             activeTab={activeTab}
             />
-            <AddItemDialog isOpen={isDialogOpen} onClose={handleCloseDialog} lists={tabLists} activeApi={tabToApi(activeTab)} />            
+            <AddItemDialog isOpen={isDialogOpen} onClose={handleCloseDialog} lists={tabLists} activeApi={tabToApi(activeTab)} refreshState={refreshAppState} />            
             <div className="content">
               <Content 
               items={displayedItems} 
@@ -204,9 +208,9 @@ const App = () => {
             />
           </div>
         </div>
-        {(activeItem && activeTab==='BOOK_LIST' && activeItem.numberOfPages) && (<BookDetailedWindow book={activeItem}></BookDetailedWindow>)}
-        {(activeItem && activeTab==='MOVIE_LIST' && activeItem.imdbId) && (<MovieDetailedWindow movie={activeItem}></MovieDetailedWindow>)}
-        {(activeItem && activeTab==='GAME_LIST' && activeItem.studio) && (<GameDetailedWindow game={activeItem}></GameDetailedWindow>)}
+        {(activeItem && activeTab==='BOOK_LIST' && activeItem.numberOfPages) && (<BookDetailedWindow book={activeItem} tabLists={tabLists} refreshState={refreshAppState} />)}
+        {(activeItem && activeTab==='MOVIE_LIST' && activeItem.imdbId) && (<MovieDetailedWindow movie={activeItem} tabLists={tabLists} refreshState={refreshAppState} />)}
+        {(activeItem && activeTab==='GAME_LIST' && activeItem.studio) && (<GameDetailedWindow game={activeItem} tabLists={tabLists} refreshState={refreshAppState} />)}
       </div>
     </div>
   );

@@ -2,10 +2,12 @@ import React from 'react';
 import '../../../css/detailed-window.css';
 import { formatDate, formatTime, listToString } from '../../Utils';
 import DetailedField from './DetailedField';
+import ItemToolbar from './ItemToolbar';
 
-const MovieDetailedWindow = ({ movie }) => {
+const MovieDetailedWindow = ({ movie, tabLists, refreshState }) => {
   return (
     <div className="detailed-window">
+    <ItemToolbar item={movie} lists={tabLists} refreshState={refreshState} />
       <img className="image" src={movie.imagePath} alt="movie cover" />
       <div className="title">
         <a href={movie.filmwebUrl} target="_blank" rel="noopener noreferrer">

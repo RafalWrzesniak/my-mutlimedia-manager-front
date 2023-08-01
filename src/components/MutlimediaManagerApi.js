@@ -33,28 +33,31 @@ const getListByName = async (listName, apiType, page, direction, sortKey, pageSi
     }
   };
 
-  const createBookFromUrl = async (bookUrl, listName, bookFormat) => {
+  const createBookFromUrl = async (bookUrl, listName, bookFormat, refreshState) => {
     try {
       const response = await axios.post(`${URL}/book/createBookUrl?bookUrl=${bookUrl}&listName=${listName}&bookFormat=${bookFormat}`);
       console.log('Book added:', response.data);
+      refreshState();
     } catch (error) {
       console.error('Error adding item:', error);
     }
   }
 
-  const createGameFromUrl = async (url, listName, platform) => {
+  const createGameFromUrl = async (url, listName, platform, refreshState) => {
     try {
       const response = await axios.post(`${URL}/game/createGameUrl?url=${url}&listName=${listName}&gamePlatform=${platform}`);
       console.log('Game added:', response.data);
+      refreshState();
     } catch (error) {
       console.error('Error adding item:', error);
     }
   }
 
-  const createMovieFromUrl = async (url, listName) => {
+  const createMovieFromUrl = async (url, listName, refreshState) => {
     try {
       const response = await axios.post(`${URL}/movie/create?url=${url}&listName=${listName}`);
       console.log('Movie added:', response.data);
+      refreshState();
     } catch (error) {
       console.error('Error adding item:', error);
     }
@@ -79,6 +82,35 @@ const getListByName = async (listName, apiType, page, direction, sortKey, pageSi
       console.error('Error adding list:', error);
     }
   }
+
+  const findListsContainingProduct = async (productId, apiType) => {
+    try {
+      const finalUrl = `${URL}/${apiType}/list/with/${productId}`;
+      const response = await axios.get(finalUrl);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching lists containing product:', error);
+      return null;
+    }
+  }
+
+  const addItemToList = async (itemId, listName, apiType, onSuccess) => {
+    try {
+      await axios.post(`${URL}/${apiType}/list/add?listName=${listName}&productId=${itemId}`);
+      onSuccess();
+    } catch (error) {
+      console.error('Error adding item to list:', error);
+    }
+  }
+
+  const removeItemFromList = async (itemId, listName, apiType, onSucces) => {
+    try {
+      await axios.delete(`${URL}/${apiType}/list/remove?listName=${listName}&productId=${itemId}`);
+      onSucces();
+    } catch (error) {
+      console.error('Error removing item from list:', error);
+    }
+  }
   
 export { getUserListInfo, getListByName, getRecentlyDone, createBookFromUrl, createGameFromUrl, 
-  createMovieFromUrl, findProductsByProperty, createNewList };
+  createMovieFromUrl, findProductsByProperty, createNewList, findListsContainingProduct, addItemToList, removeItemFromList };

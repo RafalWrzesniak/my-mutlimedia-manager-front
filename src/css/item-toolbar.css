@@ -1,0 +1,34 @@
+:root {
+  --background_color: #212121;
+  --my_blue: #69c5e9;
+  --my_green: #21d810;
+  --dark_blue: #212832;
+  --dark_blue2: rgba(27, 40, 56, 1);
+  --light_gray: #3b3b3b;
+  --some_gray: #595858;
+  --almost_white: #ebebeb;
+}
+
+
+.item-toolbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .completion-button button {
+    padding: 7px 10px;
+    border: 2px solid var(--light_gray);
+    border-radius: 5px;
+    background-color: transparent;
+    color: var(--almost_white);
+    cursor: pointer;
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .completion-button button:hover {
+    border-color: var(--my_blue);
+    color: var(--my_blue);
+  }

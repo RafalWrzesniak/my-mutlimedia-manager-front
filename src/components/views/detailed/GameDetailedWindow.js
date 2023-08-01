@@ -2,10 +2,12 @@ import React from 'react';
 import '../../../css/detailed-window.css';
 import { formatDate, listToString } from '../../Utils';
 import DetailedField from './DetailedField';
+import ItemToolbar from './ItemToolbar';
 
-const GameDetailedWindow = ({ game }) => {
+const GameDetailedWindow = ({ game, tabLists, refreshState }) => {
   return (
     <div className="detailed-window">
+    <ItemToolbar item={game} lists={tabLists} refreshState={refreshState} />
       <img className="image" src={game.imagePath} alt="game cover" />
       <div className="title">
         <a href={game.gryOnlineUrl} target="_blank" rel="noopener noreferrer">

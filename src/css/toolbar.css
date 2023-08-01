@@ -78,8 +78,8 @@
     background-color: var(--light_gray);
     color: var(--almost_white);
     padding: 2px;
-  }
-  
+  }  
+
   .select-wrapper {
     position: relative;
     transition: border-color 0.3s ease, color 0.3s ease;

@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import '../../css/add-item-dialog.css';
 import { createBookFromUrl, createGameFromUrl, createMovieFromUrl } from '../MutlimediaManagerApi';
 
-const AddItemDialog = ({ isOpen, onClose, lists, activeApi }) => {
+const AddItemDialog = ({ isOpen, onClose, lists, activeApi, refreshState }) => {
 
   const [inputUrl, setInputUrl] = useState('');
   const [platformOrVersion, setPlatformOrVersion] = useState('');
@@ -17,20 +17,20 @@ const AddItemDialog = ({ isOpen, onClose, lists, activeApi }) => {
     setSelectedList(event.target.value);
   };
 
-  const handlePlatformOrVersionChane = (event) => {
+  const handlePlatformOrVersionChange = (event) => {
     setPlatformOrVersion(event.target.value);
   };
 
-  const onAddItem = async () => {
+  const onAddItem = () => {
     console.log("Dodaje: " + inputUrl);
     console.log("Wybrana lista: " + selectedList);
     console.log("Wybrana zakładka: " + activeApi);
     if(activeApi === 'book') {
-      await createBookFromUrl(inputUrl, selectedList, platformOrVersion)
+      createBookFromUrl(inputUrl, selectedList, platformOrVersion, refreshState)
     } else if(activeApi === 'game') {
-      await createGameFromUrl(inputUrl, selectedList, platformOrVersion)
+      createGameFromUrl(inputUrl, selectedList, platformOrVersion, refreshState)
     } else if(activeApi === 'movie') {
-      await createMovieFromUrl(inputUrl, selectedList)
+      createMovieFromUrl(inputUrl, selectedList, refreshState)
     }
     setInputUrl('');
     setSelectedList('');
@@ -93,7 +93,7 @@ const AddItemDialog = ({ isOpen, onClose, lists, activeApi }) => {
           <label>
           {activeApi=== 'book' ? 'Wybierz format' : 'Wybierz platformę'}
           <div className="select-container">
-            <select className="select-dropdown" value={platformOrVersion} onChange={handlePlatformOrVersionChane}>
+            <select className="select-dropdown" value={platformOrVersion} onChange={handlePlatformOrVersionChange}>
               <option value="" className="select-option">-</option>
               {choosePlatformOrVersion(activeApi).map((option) => (
                 <option 
