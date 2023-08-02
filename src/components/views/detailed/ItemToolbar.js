@@ -1,9 +1,9 @@
 import '../../../css/item-toolbar.css';
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
-import { addItemToList, findListsContainingProduct, removeItemFromList } from '../../MutlimediaManagerApi';
-import { tabToApi } from '../../Utils';
-import RegularButton from '../../RegularButton';
+import { addItemToList, findListsContainingProduct, removeItemFromList } from '../../api/MutlimediaManagerApi';
+import { tabToApi } from '../../utils/Utils';
+import RegularButton from '../../basic/RegularButton';
 import { MdDone } from 'react-icons/md';
 
 const ItemToolbar = ({ lists, item, refreshState }) => {
@@ -92,6 +92,7 @@ const ItemToolbar = ({ lists, item, refreshState }) => {
           onChange={handleOptionChange}
           placeholder="Wybierz listę"
           isClearable={false}
+          isSearchable={false}
           styles={customStyles}
           options={options}
         />

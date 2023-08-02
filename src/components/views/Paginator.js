@@ -1,5 +1,5 @@
 import React from 'react';
-import RegularButton from '../RegularButton';
+import RegularButton from '../basic/RegularButton';
 
 const Paginator = ({ totalPages, currentPage, onPageChange }) => {
 

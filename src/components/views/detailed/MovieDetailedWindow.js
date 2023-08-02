@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../../css/detailed-window.css';
-import { formatDate, formatTime, listToString } from '../../Utils';
+import { formatDate, formatTime, listToString } from '../../utils/Utils';
 import DetailedField from './DetailedField';
 import ItemToolbar from './ItemToolbar';
 

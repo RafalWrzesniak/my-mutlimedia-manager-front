@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/regular-button.css';
+import '../../css/regular-button.css';
 
 const RegularButton = ({ text, icon, onClick, disabled, isActive, extraStyle }) => {
 

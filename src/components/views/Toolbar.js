@@ -2,7 +2,7 @@ import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import { AiOutlineAppstoreAdd, AiOutlineFileDone } from 'react-icons/ai';
 import { BsSortDownAlt, BsSortDown } from 'react-icons/bs';
 import '../../css/toolbar.css';
-import RegularButton from '../RegularButton';
+import RegularButton from '../basic/RegularButton';
 
 const Toolbar = forwardRef((props, ref) => {
 

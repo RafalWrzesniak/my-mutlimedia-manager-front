@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import '../../css/add-item-dialog.css';
-import { createNewList } from '../MutlimediaManagerApi';
-import RegularButton from '../RegularButton';
-import { tabToApi } from '../Utils';
+import { createNewList } from '../api/MutlimediaManagerApi';
+import RegularButton from '../basic/RegularButton';
+import { tabToApi } from '../utils/Utils';
 
 const AddListDialog = ({ isOpen, onClose, activeApi, refreshSideBarList }) => {
 

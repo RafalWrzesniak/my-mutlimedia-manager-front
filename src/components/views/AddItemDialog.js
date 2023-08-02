@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import '../../css/add-item-dialog.css';
-import { createBookFromUrl, createGameFromUrl, createMovieFromUrl } from '../MutlimediaManagerApi';
-import RegularButton from '../RegularButton';
+import { createBookFromUrl, createGameFromUrl, createMovieFromUrl } from '../api/MutlimediaManagerApi';
+import RegularButton from '../basic/RegularButton';
 
 const AddItemDialog = ({ isOpen, onClose, lists, activeApi, refreshState }) => {
 
