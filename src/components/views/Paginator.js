@@ -1,4 +1,5 @@
 import React from 'react';
+import RegularButton from '../RegularButton';
 
 const Paginator = ({ totalPages, currentPage, onPageChange }) => {
 
@@ -19,24 +20,12 @@ const Paginator = ({ totalPages, currentPage, onPageChange }) => {
   }
 
   return (
-    <div className="pagination">
-      <button
-        className='pagination-button'
-        onClick={handlePreviousPage}
-        disabled={currentPage === 0}
-      >
-        Wstecz
-      </button>
+    <div className="horizontal-container-center">
+      <RegularButton text='Wstecz' onClick={handlePreviousPage} disabled={currentPage === 0} extraStyle='small' />
       <span>
         {currentPage + 1} / {totalPages}
       </span>
-      <button
-        className='pagination-button'
-        onClick={handleNextPage}
-        disabled={currentPage === totalPages - 1}
-      >
-        Dalej
-      </button>
+      <RegularButton text='Dalej' onClick={handleNextPage} disabled={currentPage === totalPages - 1} extraStyle='small' />
     </div>
   );
 };

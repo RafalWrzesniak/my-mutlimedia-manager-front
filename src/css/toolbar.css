@@ -18,62 +18,6 @@
     background-color: var(--background_color);
   }
   
-  .toolbar-button {
-    align-items: center;
-    display: flex;
-    padding: 8px 8px;
-    background: transparent;
-    width: 115px;
-    height: 38px;
-    font-size: 14px;
-    color: var(--almost_white);
-    border: solid 2px var(--light_gray);
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px;
-    transition: border-color 0.3s ease, color 0.3s ease;
-  }  
-
-  .toolbar-button:hover:not(:disabled)  {
-    color: var(--my_blue);
-    border-color: var(--my_blue);
-  }
-
-  .toolbar-button:disabled  {
-    color: var(--light_gray);
-    border-color: var(--light_gray);
-    cursor: default;
-  }
-  
-  .toolbar-button:active {
-    width: 115px;
-    height: 38px;
-    color: var(--my_green);
-    border-color: var(--my_green);
-  }
-
-  .toolbar-button-active {
-    width: 115px;
-    height: 38px;
-    align-items: center;
-    padding: 8px 8px;
-    display: flex;
-    background: transparent;
-    font-size: 14px;
-    color: var(--my_green);
-    border-width: 2px;
-    border-radius: 5px;
-    border-color: var(--my_green);
-    cursor: pointer;
-    margin-right: 10px;
-    transition: border-color 0.3s ease, color 0.3s ease;
-  }  
-
-  .toolbar-icon {
-    font-size: 20px;
-    margin-right: 5px;
-  }
-  
   .select-option {
     background-color: var(--light_gray);
     color: var(--almost_white);

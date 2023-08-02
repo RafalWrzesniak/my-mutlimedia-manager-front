@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { addItemToList, findListsContainingProduct, removeItemFromList } from '../../MutlimediaManagerApi';
 import { tabToApi } from '../../Utils';
+import RegularButton from '../../RegularButton';
+import { MdDone } from 'react-icons/md';
 
 const ItemToolbar = ({ lists, item, refreshState }) => {
 
@@ -59,6 +61,7 @@ const ItemToolbar = ({ lists, item, refreshState }) => {
       }),
       multiValueLabel: (provided) => ({
         ...provided,
+        fontSize: '14px',
         color: 'var(--my_blue)',
       }),
       option: (provided, state) => ({
@@ -92,9 +95,7 @@ const ItemToolbar = ({ lists, item, refreshState }) => {
           styles={customStyles}
           options={options}
         />
-        <div className="completion-button">
-          <button>Ukończ</button>
-        </div>
+        <RegularButton text='Ukończ' icon={<MdDone/>} />
       </div>
     );
 };

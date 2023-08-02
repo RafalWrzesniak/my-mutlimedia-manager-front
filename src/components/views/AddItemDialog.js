@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import '../../css/add-item-dialog.css';
 import { createBookFromUrl, createGameFromUrl, createMovieFromUrl } from '../MutlimediaManagerApi';
+import RegularButton from '../RegularButton';
 
 const AddItemDialog = ({ isOpen, onClose, lists, activeApi, refreshState }) => {
 
@@ -107,9 +108,9 @@ const AddItemDialog = ({ isOpen, onClose, lists, activeApi, refreshState }) => {
           </div>
         </label>
         )}
-        <div className="button-container">
-          <button type="button" onClick={onAddItem}>Dodaj</button>
-          <button type="button" onClick={onClose}>Anuluj</button>
+        <div className="horizontal-container-right">
+          <RegularButton text='Dodaj' onClick={onAddItem} extraStyle='small' />
+          <RegularButton text='Anuluj' onClick={onClose} extraStyle='small' />
         </div>
       </form>
     </Modal>

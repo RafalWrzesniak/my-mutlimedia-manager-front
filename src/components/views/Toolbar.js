@@ -2,6 +2,7 @@ import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import { AiOutlineAppstoreAdd, AiOutlineFileDone } from 'react-icons/ai';
 import { BsSortDownAlt, BsSortDown } from 'react-icons/bs';
 import '../../css/toolbar.css';
+import RegularButton from '../RegularButton';
 
 const Toolbar = forwardRef((props, ref) => {
 
@@ -141,16 +142,8 @@ const Toolbar = forwardRef((props, ref) => {
 
   return (
     <div className="toolbar">
-      <button onClick={handleAddItem} className="toolbar-button">
-        <AiOutlineAppstoreAdd className="toolbar-icon" />
-        Dodaj
-      </button>
-      <button 
-        onClick={handleRecentlyDone} 
-        className={`toolbar-button${recentlyDoneIsActive ? "-active" : ""}`}>
-        <AiOutlineFileDone className='toolbar-icon'/>
-        Ostatnie
-      </button>
+      <RegularButton text='Dodaj' icon={<AiOutlineAppstoreAdd/>} onClick={handleAddItem} />
+      <RegularButton text='Ostatnie' icon={<AiOutlineFileDone/>} onClick={handleRecentlyDone} isActive={recentlyDoneIsActive} />
       <select 
         className="select-wrapper" 
         value={selectedSortingOption} 
@@ -166,10 +159,11 @@ const Toolbar = forwardRef((props, ref) => {
           </option>
         ))}
       </select>
-      <button onClick={handleSortDirectionChange} className="toolbar-button" disabled={recentlyDoneIsActive}>
-        {sortingDirection === 'DESC' ? <BsSortDown className='toolbar-icon'/> : <BsSortDownAlt className='toolbar-icon' />}
-        {sortingDirection === 'DESC' ? 'Malejąco' : 'Rosnąco'}
-      </button>
+
+      {sortingDirection === 'DESC' ? 
+        <RegularButton text='Malejąco' icon={<BsSortDown/>} onClick={handleSortDirectionChange} disabled={recentlyDoneIsActive} /> :
+        <RegularButton text='Rosnąco' icon={<BsSortDownAlt/>} onClick={handleSortDirectionChange} disabled={recentlyDoneIsActive} />
+      }
       <div className="input-with-select">
         <input 
           type="text" 

@@ -17,18 +17,3 @@
     gap: 10px;
     margin-bottom: 20px;
   }
-  
-  .completion-button button {
-    padding: 7px 10px;
-    border: 2px solid var(--light_gray);
-    border-radius: 5px;
-    background-color: transparent;
-    color: var(--almost_white);
-    cursor: pointer;
-    transition: border-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .completion-button button:hover {
-    border-color: var(--my_blue);
-    color: var(--my_blue);
-  }

@@ -1,0 +1,96 @@
+:root {
+    --background_color: #212121;
+    --my_blue: #69c5e9;
+    --my_green: #21d810;
+    --dark_blue: #212832;
+    --dark_blue2: rgba(27, 40, 56, 1);
+    --light_gray: #3b3b3b;
+    --some_gray: #595858;
+    --almost_white: #ebebeb;
+  }
+
+  .regular-button {
+    align-items: center;
+    display: flex;
+    padding: 8px 8px;
+    background: transparent;
+    width: 115px;
+    height: 38px;
+    font-size: 14px;
+    color: var(--almost_white);
+    border: solid 2px var(--light_gray);
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }  
+
+  .regular-button:hover:not(:disabled)  {
+    color: var(--my_blue);
+    border-color: var(--my_blue);
+  }
+
+  .regular-button:disabled  {
+    color: var(--light_gray);
+    border-color: var(--light_gray);
+    cursor: default;
+  }
+  
+  .regular-button:active {
+    color: var(--my_green);
+    border-color: var(--my_green);
+  }
+  
+  .regular-button-actived {
+    width: 115px;
+    height: 38px;
+    align-items: center;
+    padding: 8px 8px;
+    display: flex;
+    background: transparent;
+    font-size: 14px;
+    color: var(--my_green);
+    border-width: 2px;
+    border-radius: 5px;
+    border-color: var(--my_green);
+    cursor: pointer;
+    margin-right: 10px;
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }  
+
+  .regular-button-small {
+    padding: 4px 8px;
+    align-items: center;
+    display: flex;
+    background: transparent;
+    font-size: 12px;
+    color: var(--almost_white);
+    border: solid 2px var(--light_gray);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }  
+
+  .regular-button-small:hover:not(:disabled)  {
+    color: var(--my_blue);
+    border-color: var(--my_blue);
+  }
+
+  .regular-button-small:disabled  {
+    color: var(--light_gray);
+    border-color: var(--light_gray);
+    cursor: default;
+  }
+  
+  .regular-button-small:active:not(:disabled) {
+    color: var(--my_green);
+    border-color: var(--my_green);
+  }
+
+
+  .button-icon {
+    font-size: 20px;
+    margin-top: 3px;
+    margin-right: 5px;
+  }
+  

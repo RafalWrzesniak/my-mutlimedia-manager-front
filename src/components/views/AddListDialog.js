@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import '../../css/add-item-dialog.css';
 import { createNewList } from '../MutlimediaManagerApi';
+import RegularButton from '../RegularButton';
 import { tabToApi } from '../Utils';
 
 const AddListDialog = ({ isOpen, onClose, activeApi, refreshSideBarList }) => {
@@ -30,9 +31,9 @@ const AddListDialog = ({ isOpen, onClose, activeApi, refreshSideBarList }) => {
             <input autoFocus={true} maxLength={15} type="text" value={inputListName} onChange={handleInputChange} />
           </div>
         </label>
-        <div className="button-container">
-          <button type="button" onClick={onAddItem}>Dodaj</button>
-          <button type="button" onClick={onClose}>Anuluj</button>
+        <div className="horizontal-container-right">
+          <RegularButton text='Dodaj' onClick={onAddItem} extraStyle='small' />
+          <RegularButton text='Anuluj' onClick={onClose} extraStyle='small' />
         </div>
       </form>
     </Modal>
