@@ -79,3 +79,31 @@ body {
   gap: 20px;
   position: relative;
 }
+
+.select-wrapper {
+  position: relative;
+  transition: border-color 0.3s ease, color 0.3s ease;
+  background: transparent;
+  border: solid 2px var(--almost_white);
+  border-radius: 5px;
+  border-color: var(--light_gray);
+  color: var(--almost_white);
+  height: 38px;
+  width: 115px;
+  padding: 5px;
+  font-size: 14px;
+  outline: none;
+  margin-right: 10px;
+  cursor: pointer;
+}  
+
+.select-wrapper:hover:not(:disabled) {
+  border-color: var(--my_blue);
+  color: var(--my_blue);
+}
+
+.select-wrapper:disabled  {
+  color: var(--light_gray);
+  border-color: var(--light_gray);
+  cursor: default;
+}

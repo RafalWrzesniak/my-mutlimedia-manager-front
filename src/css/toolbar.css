@@ -1,14 +1,3 @@
-:root {
-    --background_color: #212121;
-    --my_blue: #69c5e9;
-    --my_green: #21d810;
-    --dark_blue: #212832;
-    --dark_blue2: rgba(27, 40, 56, 1);
-    --light_gray: #3b3b3b;
-    --some_gray: #595858;
-    --almost_white: #ebebeb;
-  }
-
 .toolbar {
     display: flex;
     margin-top: 10px;
@@ -17,41 +6,7 @@
     align-items: center;
     background-color: var(--background_color);
   }
-  
-  .select-option {
-    background-color: var(--light_gray);
-    color: var(--almost_white);
-    padding: 2px;
-  }  
 
-  .select-wrapper {
-    position: relative;
-    transition: border-color 0.3s ease, color 0.3s ease;
-    background: transparent;
-    border: solid 2px var(--almost_white);
-    border-radius: 5px;
-    border-color: var(--light_gray);
-    color: var(--almost_white);
-    height: 38px;
-    width: 115px;
-    padding: 5px;
-    font-size: 14px;
-    outline: none;
-    margin-right: 10px;
-    cursor: pointer;
-  }  
- 
-  .select-wrapper:hover:not(:disabled) {
-    border-color: var(--my_blue);
-    color: var(--my_blue);
-  }
-
-  .select-wrapper:disabled  {
-    color: var(--light_gray);
-    border-color: var(--light_gray);
-    cursor: default;
-  }
-  
   .input-with-select {
     position: relative;
     display: flex;

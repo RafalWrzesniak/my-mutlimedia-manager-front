@@ -76,13 +76,14 @@ const App = () => {
     if(currentList) {
       setActiveList(currentList.id);
       console.log("Changing list to: " + currentList.name)
-      let listDetailes = await getListByName(currentList.name, tabToApi(tab), 0, sortDirection, sortKey, pageSize);
+      let listDetailes = await getListByName(currentList.name, tabToApi(tab), 0, undefined, undefined, pageSize);
       setCurrentPage(0);
       setTotalPages(Math.ceil((listDetailes.booksNumber | listDetailes.gamesNumber | listDetailes.moviesNumber)/pageSize)); 
       setDisplayedItems(tabToListObjects(listDetailes, tab))
     }
     toolbarRef.current.turnOffRecentlyDoneButton();
     toolbarRef.current.clearSearchInput();
+    toolbarRef.current.restartSorting(tab);
     };  
   
   const handleListChange = async (listId) => {
@@ -162,6 +163,7 @@ const App = () => {
         setActiveList(activeList.id);
         let listDetailes = await getListByName(activeList.name, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize);
         setDisplayedItems(listDetailes.bookWithUserDetailsDtos);
+        toolbarRef.current.restartSorting(activeTab);
       } catch (error) {
         console.error('Error fetching user lists:', error);
       }

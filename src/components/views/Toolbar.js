@@ -8,6 +8,7 @@ const Toolbar = forwardRef((props, ref) => {
 
   const [recentlyDoneIsActive, setRecentlyDoneIsActive] = useState(false);
   const [selectedSortingOption, setSelectedSortingOption] = useState('');
+  const [sortingOptions, setSortingOptions] = useState([]);
   const [propertyToFind, setPropertyToFind] = useState('');
   const [searchInputValue, setSearchInputValue] = useState('');
   const [sortingDirection, setSortingDirection] = useState('DESC');
@@ -15,14 +16,12 @@ const Toolbar = forwardRef((props, ref) => {
   const chooseProperSortKeys = (activeTab) => {
     const fieldsForTab = {
       'BOOK_LIST': [
-        { value: '', label: 'Sortuj' },
         { value: 'id', label: 'ID' },
         { value: 'title', label: 'Tytuł' },
         { value: 'datePublished', label: 'Premiera' },
         { value: 'numberOfPages', label: 'Strony' }
       ],
       'MOVIE_LIST': [       
-        { value: '', label: 'Sortuj' }, 
         { value: 'id', label: 'ID' },
         { value: 'polishTitle', label: 'Tytuł' },
         { value: 'releaseDate', label: 'Premiera' },
@@ -30,7 +29,6 @@ const Toolbar = forwardRef((props, ref) => {
         { value: 'imDbRatingVotes', label: 'Popularność' }
       ],
       'GAME_LIST': [
-        { value: '', label: 'Sortuj' },
         { value: 'id', label: 'ID' },
         { value: 'title', label: 'Tytuł' },
         { value: 'releaseDate', label: 'Premiera' },
@@ -127,6 +125,11 @@ const Toolbar = forwardRef((props, ref) => {
     setPropertyToFind(property)
   }
 
+  const restartSorting = (newTab) => {
+    console.log('Restarts sorting')
+    createOptionsForSortingDropdown(newTab);
+  }
+
   const handleSortDirectionChange = () => {
     const newSortingDirection = sortingDirection === 'ASC' ? 'DESC' : 'ASC';
     setSortingDirection(newSortingDirection);
@@ -136,28 +139,31 @@ const Toolbar = forwardRef((props, ref) => {
   }
 
   useImperativeHandle(ref, () => ({
-    turnOffRecentlyDoneButton, clearSearchInput
+    turnOffRecentlyDoneButton, clearSearchInput, restartSorting
   }));
 
-
-  return (
-    <div className="toolbar">
-      <RegularButton text='Dodaj' icon={<AiOutlineAppstoreAdd/>} onClick={handleAddItem} />
-      <RegularButton text='Ostatnie' icon={<AiOutlineFileDone/>} onClick={handleRecentlyDone} isActive={recentlyDoneIsActive} />
-      <select 
-        className="select-wrapper" 
-        value={selectedSortingOption} 
-        onChange={handleSortChange}
-        disabled={recentlyDoneIsActive}
-        >
-        {chooseProperSortKeys(props.activeTab).map((option) => (
+  const createOptionsForSortingDropdown = (tab) => {
+    let sortingOptions = chooseProperSortKeys(tab).map((option) => 
+        (
           <option className="select-option"
             key={option.value}
             value={option.value}
             disabled={option.value === ''}>
             {option.label}
           </option>
-        ))}
+          )
+      );
+    setSortingOptions(sortingOptions)
+  }
+
+  
+  return (
+    <div className="toolbar">
+      <RegularButton text='Dodaj' icon={<AiOutlineAppstoreAdd/>} onClick={handleAddItem} />
+      <RegularButton text='Ostatnie' icon={<AiOutlineFileDone/>} onClick={handleRecentlyDone} isActive={recentlyDoneIsActive} />
+      
+      <select className="select-wrapper" value={selectedSortingOption} onChange={handleSortChange} disabled={recentlyDoneIsActive}>
+        {sortingOptions}
       </select>
 
       {sortingDirection === 'DESC' ? 
@@ -165,28 +171,14 @@ const Toolbar = forwardRef((props, ref) => {
         <RegularButton text='Rosnąco' icon={<BsSortDownAlt/>} onClick={handleSortDirectionChange} disabled={recentlyDoneIsActive} />
       }
       <div className="input-with-select">
-        <input 
-          type="text" 
-          className="search-input" 
-          value={searchInputValue}
-          placeholder="Wyszukiwanie..." 
-          disabled={recentlyDoneIsActive}
-          maxLength={15}
-          onChange={handleSearchInputChange}
-          />  
-          <select
-            className="select-input"
-            onChange={handleChangingPropertyToFind}
-            value={propertyToFind}
-            disabled={recentlyDoneIsActive}>
+        <input type="text" className="search-input" value={searchInputValue} placeholder="Wyszukiwanie..." 
+          disabled={recentlyDoneIsActive} maxLength={15} onChange={handleSearchInputChange} />  
+          <select className="select-input" onChange={handleChangingPropertyToFind} value={propertyToFind} disabled={recentlyDoneIsActive} >
             {chooseProperSearchProperty(props.activeTab).map((option) => (
-            <option className="select-option"
-              key={option.value}
-              value={option.value}
-              >
-              {option.label}
-            </option>
-        ))}
+              <option className="select-option" key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
       </div>
       

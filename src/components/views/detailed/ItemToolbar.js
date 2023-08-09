@@ -1,104 +1,60 @@
 import '../../../css/item-toolbar.css';
 import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
 import { addItemToList, findListsContainingProduct, removeItemFromList } from '../../api/MutlimediaManagerApi';
 import { tabToApi } from '../../utils/Utils';
 import RegularButton from '../../basic/RegularButton';
 import { MdDone } from 'react-icons/md';
+import DropdownButton from '../../basic/DropdownButton';
 
 const ItemToolbar = ({ lists, item, refreshState }) => {
-
-  const [selectedOptions, setSelectedOptions] = useState([]);
   
-    const options = lists.map((list) => ({ value: list.name, label: list.name, listType: list.listType }));
+  const [initDropdownLists, setInitDropdownLists] = useState([]);
+  const [renderDropdownButton, setRenderDropDownButton] = useState(false);
+  
+  const listMappedToOptions = lists.map((list) => ({ value: list.name, label: list.name, listType: list.listType }));
 
-    useEffect(() => {
-      const fetchListsContainingItem = async () => {
-        let foundLists = await findListsContainingProduct(item.id, tabToApi(lists[0].listType));
-        let mappedLists = foundLists.map((list) => ({ value: list.name, label: list.name, listType: list.listType }));
-        setSelectedOptions(mappedLists)
-      }
-      fetchListsContainingItem();
-    }, [item]);
+  const addItemToListFunc = (list) => {
+    console.log(`Dodaję do listy: '${list.value}' obiekt '${item.title}'`);
+    addItemToList(item.id, list.value, tabToApi(list.listType), refreshState)
+  };
 
-    const handleOptionChange = (selected) => {
-      const deselectedList = selectedOptions.find(
-        (prevOption) => !selected.some((selectedOption) => selectedOption.value === prevOption.value)
-      );
-      if (deselectedList) {
-        console.log(`Usuwam z listy: '${deselectedList.value}' obiekt '${item.title}'`);
-        removeItemFromList(item.id, deselectedList.value, tabToApi(deselectedList.listType), refreshState)
-      }
+  const removeItemFromListFunc = (list) => {
+    console.log(`Usuwam z listy: '${list.value}' obiekt '${item.title}'`);
+    removeItemFromList(item.id, list.value, tabToApi(list.listType), refreshState)
+  };
+  
+  const fetchListsContainingItem = async () => {
+    let foundLists = await findListsContainingProduct(item.id, tabToApi(lists[0].listType));
+    let mappedLists = foundLists.map((list) => ({ value: list.name, label: list.name, listType: list.listType }));
+    setInitDropdownLists(mappedLists);
+    setRenderDropDownButton(true);
+  }
+  
+  useEffect(() => {
+    setRenderDropDownButton(false);
+    fetchListsContainingItem();
+  }, [item])
 
-      const newlySelectedList = selected.find(
-        (selectedOption) => !selectedOptions.some((prevOption) => prevOption.value === selectedOption.value)
-      );
-      if (newlySelectedList) {
-        console.log(`Dodaję do listy: '${newlySelectedList.value}' obiekt '${item.title}'`);
-        addItemToList(item.id, newlySelectedList.value, tabToApi(newlySelectedList.listType), refreshState)
-      }
+  useEffect(() => {
+    fetchListsContainingItem();
+  }, [])
 
-      setSelectedOptions(selected);
-    };
 
-    const customStyles = {
-      control: (provided, state) => ({
-        ...provided,
-        backgroundColor: 'var(--background_color)',
-        border: '2px solid transparent',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        boxShadow: state.isFocused ? 'none' : provided.boxShadow,
-        '&:hover': {},
-        '&:focus': {},
-      }),
-      multiValue: (provided) => ({
-        ...provided,
-        border: '2px solid transparent',
-        borderRadius: '5px',
-        backgroundColor: 'var(--light_gray)',
-        padding: '4px 1px 4px 4px'
-      }),
-      multiValueLabel: (provided) => ({
-        ...provided,
-        fontSize: '14px',
-        color: 'var(--my_blue)',
-      }),
-      option: (provided, state) => ({
-        ...provided,
-        color: 'var(--almost_white)',
-        fontSize: '12px',
-        backgroundColor: 'var(--some_gray)',
-        '&:hover': {
-          backgroundColor: 'var(--primary_blue)',
-        },
-      }),
-      multiValueRemove: (provided) => ({
-        ...provided,
-        color: 'var(--almost_white)',
-        transition: 'background-color 0.3s ease, color 0.3s ease'
-      }),
-      menu: (provided) => ({
-        ...provided,
-        backgroundColor: 'var(--light_gray)',
-      }),
-    };
-
-    return (
-      <div className="item-toolbar">
-        <Select
+  return (
+    <div className="item-toolbar">
+      {(renderDropdownButton) && 
+        (<DropdownButton 
+          options={listMappedToOptions}
+          initialOptions={initDropdownLists}
+          placeholder='Wybierz liste'
           isMulti={true}
-          value={selectedOptions}
-          onChange={handleOptionChange}
-          placeholder="Wybierz listę"
-          isClearable={false}
-          isSearchable={false}
-          styles={customStyles}
-          options={options}
-        />
-        <RegularButton text='Ukończ' icon={<MdDone/>} />
-      </div>
-    );
+          onSelected={addItemToListFunc}
+          onDeselected={removeItemFromListFunc}
+          />)
+        }
+      <RegularButton text='Ukończ' icon={<MdDone/>} />
+    </div>
+  );
 };
 
 export default ItemToolbar;
