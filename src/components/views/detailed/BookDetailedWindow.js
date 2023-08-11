@@ -21,7 +21,6 @@ const BookDetailedWindow = ({ book, tabLists, refreshState }) => {
         <DetailedField description="Wydawnictwo" value={book.publisher} />
         {(book.series) && (<DetailedField description="Seria" value={`${book.series.name} (tom ${book.series.position})`} />)}
         {(book.readOn) && (<DetailedField description="Przeczytano" value={formatDate(book.readOn)} />)}
-        {(book.bookFormat) && (<DetailedField description="Format" value={book.bookFormat === 'Paper'? 'Papier' : 'E-book'} />)}
       </div>
       <DetailedField description="Opis" value={book.description} justified={true} />
     </div>

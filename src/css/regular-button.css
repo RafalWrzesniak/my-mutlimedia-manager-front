@@ -21,7 +21,6 @@
     border: solid 2px var(--light_gray);
     border-radius: 5px;
     cursor: pointer;
-    margin-right: 10px;
     transition: border-color 0.3s ease, color 0.3s ease;
   }  
 
@@ -36,7 +35,7 @@
     cursor: default;
   }
   
-  .regular-button:active {
+  .regular-button:active:not(:disabled) {
     color: var(--my_green);
     border-color: var(--my_green);
   }

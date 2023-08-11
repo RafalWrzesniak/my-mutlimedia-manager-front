@@ -29,7 +29,7 @@
   
   .image {
     width: 100%;
-    max-width: 270px;
+    max-width: 240px;
     height: auto;
     object-fit: cover;
     margin-bottom: 20px;

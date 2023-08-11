@@ -17,3 +17,102 @@
     gap: 10px;
     margin-bottom: 20px;
   }
+
+.finish-date-input {
+  background-color: transparent;
+  border: solid 2px var(--light_gray);
+  border-radius: 5px 0px 0px 5px;
+  height: 35px;
+  color: var(--almost_white);
+  cursor: pointer;
+  transition: border-color 0.3s ease, color 0.3s ease;
+  padding: 0px 5px 0px 5px;
+  outline: none;
+}
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+.finish-date-input:hover:not(:disabled)  {
+  color: var(--my_blue);
+  border-color: var(--my_blue);
+}
+
+.finish-date-input:active:not(:disabled) {
+  color: var(--my_green);
+  border-color: var(--my_green);
+}
+
+.finish-icon {
+  background-color: transparent;
+  border: solid 2px var(--light_gray);
+  border-radius: 0px 5px 5px 0px;
+  height: 35px;
+  font-size: 20px;
+  padding: 0px 5px 0px 5px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, color 0.3s ease;
+  color: var(--my_blue);
+  outline: none;
+}
+
+.finish-icon:hover:not(:disabled)  {
+  color: var(--my_blue);
+  border-color: var(--my_blue);
+}
+
+.finish-icon:active:not(:disabled) {
+  color: var(--my_green);
+  border-color: var(--my_green);
+}
+
+.horizontal-container-small {  
+  display: flex;
+  align-items: center;
+}
+
+.finish-date-time {
+  height: 35px;
+  width: 45px;
+  padding: 0px 5px 0px 5px;
+  background-color: transparent;
+  border: solid 2px var(--light_gray);
+  color: var(--almost_white);
+  outline: none;
+}
+
+.finish-date-time:hover:not(:disabled)  {
+  color: var(--my_blue);
+  border-color: var(--my_blue);
+}
+
+.finish-date-time:active:not(:disabled) {
+  color: var(--my_green);
+  border-color: var(--my_green);
+}
+
+.finish-hours {
+  background-color: transparent;
+  border: solid 2px var(--light_gray);
+  margin-left: -9px;
+  height: 35px;
+  min-width: 35px;
+  padding: 0px 5px 0px 5px;
+  font-size: 14px;
+  border-radius: 5px;  
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  cursor: pointer;
+}
+
+.finish-hours:hover:not(:disabled)  {
+  color: var(--my_blue);
+  border-color: var(--my_blue);
+}
+
+.finish-hours:active:not(:disabled) {
+  color: var(--my_green);
+  border-color: var(--my_green);
+}

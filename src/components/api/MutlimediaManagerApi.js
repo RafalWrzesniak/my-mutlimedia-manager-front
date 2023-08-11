@@ -31,6 +31,16 @@ const getListByName = async (listName, apiType, page, direction, sortKey, pageSi
       console.error('Error fetching recently done:', error);
       return null;
     }
+  };  
+
+  const getItemById = async (itemId, apiType) => {
+    try {
+      const response = await axios.get(`${URL}/${apiType}/${itemId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching item:', error);
+      return null;
+    }
   };
 
   const createBookFromUrl = async (bookUrl, listName, bookFormat, refreshState) => {
@@ -103,7 +113,7 @@ const getListByName = async (listName, apiType, page, direction, sortKey, pageSi
     }
   }
 
-  const removeItemFromList = async (itemId, listName, apiType, onSucces) => {
+  const removeItemFromList = async (itemId, listName, apiType, onSucces = () => {}) => {
     try {
       await axios.delete(`${URL}/${apiType}/list/remove?listName=${listName}&productId=${itemId}`);
       onSucces();
@@ -112,5 +122,39 @@ const getListByName = async (listName, apiType, page, direction, sortKey, pageSi
     }
   }
   
+  const setBookFormat = async (bookId, bookFormat, onSuccess) => {
+    try {
+      await axios.post(`${URL}/book/${bookId}/format?bookFormat=${bookFormat}`);
+      onSuccess();
+    } catch (error) {
+      console.error('Error setting book format:', error);
+    }
+  }  
+
+  const setGamePlatform = async (gameId, gamePlatform, onSuccess) => {
+    try {
+      await axios.post(`${URL}/game/${gameId}/platform?gamePlatform=${gamePlatform}`);
+      onSuccess();
+    } catch (error) {
+      console.error('Error setting game platform:', error);
+    }
+  }
+
+  const finishItem = async (itemId, finishDate, spentTime, apiType, onSuccess) => {
+    let url = '';
+    if(apiType !== 'game') {
+      url = `${URL}/${apiType}/${itemId}/finish?finishDate=${finishDate}`;
+    } else {
+      url = `${URL}/${apiType}/${itemId}/finishGame?finishDate=${finishDate}&playedHours=${spentTime}`;
+    }
+    try {
+      await axios.post(url);
+      onSuccess();
+    } catch (error) {
+      console.error('Error finishing item:', error);
+    }
+  }
+
 export { getUserListInfo, getListByName, getRecentlyDone, createBookFromUrl, createGameFromUrl, 
-  createMovieFromUrl, findProductsByProperty, createNewList, findListsContainingProduct, addItemToList, removeItemFromList };
+  createMovieFromUrl, findProductsByProperty, createNewList, findListsContainingProduct, 
+  addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem };

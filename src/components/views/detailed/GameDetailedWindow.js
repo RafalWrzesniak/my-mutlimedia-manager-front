@@ -21,9 +21,6 @@ const GameDetailedWindow = ({ game, tabLists, refreshState }) => {
         <DetailedField description="Ocena" value={`${game.ratingValue} / ${game.ratingCount}`} /> 
         <DetailedField description="Platformy" value={listToString(game.gamePlatform)} />
         <DetailedField description="Gatunek" value={listToString(game.genreList)} />
-        {(game.finishedOn) && (<DetailedField description="Ukończono" value={formatDate(game.finishedOn)} />)}
-        {(game.playedHours) && (<DetailedField description="Czas grania" value={`${game.playedHours}h`} />)}
-        {(game.userGamePlatform) && (<DetailedField description="Platforma gracza" value={game.userGamePlatform} />)}
       </div>
       <DetailedField description="Opis" value={game.description} justified={true}/>
     </div>

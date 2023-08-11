@@ -4,7 +4,7 @@ import Sidebar from './components/views/Sidebar';
 import TabMenu from './components/views/TabMenu';
 import Content from './components/views/Content';
 import Paginator from './components/views/Paginator';
-import { getListByName, getUserListInfo, getRecentlyDone, findProductsByProperty } from './components/api/MutlimediaManagerApi';
+import { getListByName, getUserListInfo, getRecentlyDone, findProductsByProperty, getItemById } from './components/api/MutlimediaManagerApi';
 import { tabToApi, tabToListObjects, getListsForTab } from './components/utils/Utils';
 import AddItemDialog from './components/views/AddItemDialog';
 import ReactModal from 'react-modal';
@@ -92,7 +92,6 @@ const App = () => {
     let currentList = tabLists.filter(listFromTab => listFromTab.id === listId)[0];
     console.log("Changing list to: " + currentList.name)
     let listDetailes = await getListByName(currentList.name, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize);
-    console.log(listDetailes)
     setDisplayedItems(tabToListObjects(listDetailes, activeTab))
     setCurrentPage(0);
     setTotalPages(Math.ceil((listDetailes.booksNumber | listDetailes.gamesNumber | listDetailes.moviesNumber)/pageSize));
@@ -101,9 +100,11 @@ const App = () => {
 
   };
 
-  const refreshAppState = () => {
+  const refreshAppState = async () => {
     refreshSideBarList();
     handleListChange(activeList);
+    let updatedItem = await getItemById(activeItem.id, tabToApi(activeTab));
+    setActiveItem(updatedItem);
   }
 
   const handleItemChange = (item) => {

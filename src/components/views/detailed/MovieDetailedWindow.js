@@ -21,7 +21,6 @@ const MovieDetailedWindow = ({ movie, tabLists, refreshState }) => {
         <DetailedField description="Ocena" value={`${movie.imDbRating} / ${movie.imDbRatingVotes}`} />
         <DetailedField description="Gatunek" value={listToString(movie.genreList)} />
         <DetailedField description="Produkcja" value={listToString(movie.countryList)} />
-        {(movie.watchedOn) && (<DetailedField description="Oglądnięto" value={formatDate(movie.watchedOn)} />)}
       </div>
       <DetailedField description="Opis" value={movie.plotLocal} justified={true}/>
     </div>

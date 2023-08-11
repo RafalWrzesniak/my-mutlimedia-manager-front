@@ -56,4 +56,30 @@ import moment from 'moment';
     return string;
   }
 
-  export { tabToApi, tabToListObjects, getListsForTab, formatDate, formatTime, listToString }
+  function isBook(item) {
+    return item.lubimyCzytacUrl || item.numberOfPages;
+  }
+
+  function isGame(item) {
+    return item.gryOnlineUrl || item.studio;
+  }
+
+  function getFinishedOn(item) {
+    return item.readOn ? item.readOn : item.watchedOn ? item.watchedOn : item.finishedOn;
+  }
+
+  function itemToApi(item) {
+    if(item.lubimyCzytacUrl) {
+      return 'book';
+    } 
+    if(item.filmwebUrl) {
+      return 'movie';
+    }
+    if(item.gryOnlineUrl) {
+      return 'game';
+    }
+    return '';
+  }
+
+  export { tabToApi, tabToListObjects, getListsForTab, formatDate, formatTime, listToString,
+     isBook, isGame, getFinishedOn, itemToApi }

@@ -158,11 +158,11 @@ const Toolbar = forwardRef((props, ref) => {
 
   
   return (
-    <div className="toolbar">
-      <RegularButton text='Dodaj' icon={<AiOutlineAppstoreAdd/>} onClick={handleAddItem} />
+    <div className="toolbar" >
+      <RegularButton text='Dodaj' icon={<AiOutlineAppstoreAdd/>} onClick={handleAddItem} disabled={recentlyDoneIsActive} />
       <RegularButton text='Ostatnie' icon={<AiOutlineFileDone/>} onClick={handleRecentlyDone} isActive={recentlyDoneIsActive} />
       
-      <select className="select-wrapper" value={selectedSortingOption} onChange={handleSortChange} disabled={recentlyDoneIsActive}>
+      <select className="select-wrapper" value={selectedSortingOption} onChange={handleSortChange} disabled={recentlyDoneIsActive} >
         {sortingOptions}
       </select>
 

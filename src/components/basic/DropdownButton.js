@@ -76,7 +76,7 @@ const DropdownButton = ({ options, initialOptions, placeholder, isMulti, onSelec
         multiValueLabel: (provided) => ({
         ...provided,
         fontSize: '14px',
-        color: 'var(--my_blue)',
+        color: 'var(--my_green)',
         }),
         option: (provided) => ({
         ...provided,
