@@ -15,10 +15,9 @@ const AddListDialog = ({ isOpen, onClose, activeApi, refreshSideBarList }) => {
 
   const onAddItem = async () => {
     console.log("Dodaje nową listę: " + inputListName + " do: " + activeApi);
-    createNewList(inputListName, tabToApi(activeApi))
+    createNewList(inputListName, tabToApi(activeApi), refreshSideBarList())
     setInputListName('');
     onClose();
-    refreshSideBarList();
   };
 
   return (

@@ -34,7 +34,7 @@ const Sidebar = ({ lists, activeList, onListChange, activeApi, refreshSideBarLis
             key={list.id}
             className={list.id === activeList ? 'active' : ''}
             onClick={() => handleListChange(list)}>
-            <button>{`${list.name} (${list.items})`}</button>
+            <button>{`${list.name}${list.items ? ' (' + list.items + ')' : ''}`}</button>
           </li>
         ))}
       </ul>

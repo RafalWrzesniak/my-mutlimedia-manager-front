@@ -42,7 +42,7 @@ const ItemToolbar = ({ lists, item, refreshState }) => {
     setRenderDropDownButton(false);
     setShowingFinishButton(false);
     setFinishedOnDate(getFinishedOn(item) ? getFinishedOn(item) : moment().format("YYYY-MM-DD"))
-    setTimeSpent(item.playedHours)
+    setTimeSpent(item.playedHours ? item.playedHours : '')
     fetchListsContainingItem();
     setSelectedBookFormat(item.bookFormat ? item.bookFormat : '')
     setSelectedGamePlatform(item.userGamePlatform ? item.userGamePlatform : '')
@@ -109,7 +109,7 @@ const ItemToolbar = ({ lists, item, refreshState }) => {
 
           {(showingFinishButton) && (
             <div className='horizontal-container-small'>
-              <input class='finish-date-input' maxLength={10} type="date" value={finishedOnDate} onChange={handleFinishOnChange} />
+              <input className='finish-date-input' maxLength={10} type="date" value={finishedOnDate} onChange={handleFinishOnChange} />
               {(isGame(item)) && (
                 <input className='finish-date-time' placeholder='czas' type="number" value={timeSpent} onChange={handleTimeSpentChange} />                
               )}

@@ -45,7 +45,7 @@ const getListByName = async (listName, apiType, page, direction, sortKey, pageSi
 
   const createBookFromUrl = async (bookUrl, listName, bookFormat, refreshState) => {
     try {
-      const response = await axios.post(`${URL}/book/createBookUrl?bookUrl=${bookUrl}&listName=${listName}&bookFormat=${bookFormat}`);
+      const response = await axios.post(`${URL}/book/createBookUrl?bookUrl=${bookUrl}${listName ? '&listName=' + listName : ''}${bookFormat ? '&bookFormat=' + bookFormat : ''}`);
       console.log('Book added:', response.data);
       refreshState();
     } catch (error) {
@@ -55,7 +55,7 @@ const getListByName = async (listName, apiType, page, direction, sortKey, pageSi
 
   const createGameFromUrl = async (url, listName, platform, refreshState) => {
     try {
-      const response = await axios.post(`${URL}/game/createGameUrl?url=${url}&listName=${listName}&gamePlatform=${platform}`);
+      const response = await axios.post(`${URL}/game/createGameUrl?url=${url}${listName ? '&listName=' + listName : ''}${platform ? '&gamePlatform=' + platform : ''}`);
       console.log('Game added:', response.data);
       refreshState();
     } catch (error) {
@@ -65,7 +65,7 @@ const getListByName = async (listName, apiType, page, direction, sortKey, pageSi
 
   const createMovieFromUrl = async (url, listName, refreshState) => {
     try {
-      const response = await axios.post(`${URL}/movie/create?url=${url}&listName=${listName}`);
+      const response = await axios.post(`${URL}/movie/create?url=${url}${listName ? '&listName=' + listName : ''}`);
       console.log('Movie added:', response.data);
       refreshState();
     } catch (error) {
@@ -84,9 +84,10 @@ const getListByName = async (listName, apiType, page, direction, sortKey, pageSi
     }
   }
 
-  const createNewList = async (listName, apiType) => {
+  const createNewList = async (listName, apiType, onSuccess = () => {}) => {
     try {
       const response = await axios.post(`${URL}/${apiType}/list?listName=${listName}`);
+      onSuccess();
       console.log('Created list: ', response.data);
     } catch (error) {
       console.error('Error adding list:', error);
