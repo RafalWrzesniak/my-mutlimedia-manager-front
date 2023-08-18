@@ -64,22 +64,26 @@ import moment from 'moment';
     return item.gryOnlineUrl || item.studio;
   }
 
+  function isMovie(item) {
+    return item.filmwebUrl || item.plotLocal;
+  }
+
   function getFinishedOn(item) {
     return item.readOn ? item.readOn : item.watchedOn ? item.watchedOn : item.finishedOn;
   }
 
   function itemToApi(item) {
-    if(item.lubimyCzytacUrl) {
+    if(isBook(item)) {
       return 'book';
     } 
-    if(item.filmwebUrl) {
+    if(isMovie(item)) {
       return 'movie';
     }
-    if(item.gryOnlineUrl) {
+    if(isGame(item)) {
       return 'game';
     }
     return '';
   }
 
   export { tabToApi, tabToListObjects, getListsForTab, formatDate, formatTime, listToString,
-     isBook, isGame, getFinishedOn, itemToApi }
+     isBook, isGame, getFinishedOn, itemToApi, isMovie}

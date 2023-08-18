@@ -5,7 +5,7 @@ import TabMenu from './components/views/TabMenu';
 import Content from './components/views/Content';
 import Paginator from './components/views/Paginator';
 import { getListByName, getUserListInfo, getRecentlyDone, findProductsByProperty, getItemById } from './components/api/MutlimediaManagerApi';
-import { tabToApi, tabToListObjects, getListsForTab } from './components/utils/Utils';
+import { tabToApi, tabToListObjects, getListsForTab, isBook, isGame, isMovie } from './components/utils/Utils';
 import AddItemDialog from './components/views/AddItemDialog';
 import ReactModal from 'react-modal';
 import BookDetailedWindow from './components/views/detailed/BookDetailedWindow';
@@ -213,9 +213,9 @@ const App = () => {
             />
           </div>
         </div>
-        {(activeItem && activeTab==='BOOK_LIST' && activeItem.numberOfPages) && (<BookDetailedWindow book={activeItem} tabLists={tabLists} refreshState={refreshAppState} />)}
-        {(activeItem && activeTab==='MOVIE_LIST' && activeItem.imdbId) && (<MovieDetailedWindow movie={activeItem} tabLists={tabLists} refreshState={refreshAppState} />)}
-        {(activeItem && activeTab==='GAME_LIST' && activeItem.studio) && (<GameDetailedWindow game={activeItem} tabLists={tabLists} refreshState={refreshAppState} />)}
+        {(activeItem && activeTab==='BOOK_LIST' && isBook(activeItem)) && (<BookDetailedWindow book={activeItem} tabLists={tabLists} refreshState={refreshAppState} />)}
+        {(activeItem && activeTab==='MOVIE_LIST' && isMovie(activeItem)) && (<MovieDetailedWindow movie={activeItem} tabLists={tabLists} refreshState={refreshAppState} />)}
+        {(activeItem && activeTab==='GAME_LIST' && isGame(activeItem)) && (<GameDetailedWindow game={activeItem} tabLists={tabLists} refreshState={refreshAppState} />)}
       </div>
     </div>
   );
