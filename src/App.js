@@ -11,6 +11,7 @@ import ReactModal from 'react-modal';
 import BookDetailedWindow from './components/views/detailed/BookDetailedWindow';
 import GameDetailedWindow from './components/views/detailed/GameDetailedWindow';
 import MovieDetailedWindow from './components/views/detailed/MovieDetailedWindow';
+import Login from './components/credentials/Login';
 
 ReactModal.setAppElement('#root');
 
@@ -31,6 +32,7 @@ const App = () => {
   const [sortDirection, setSortDirection] = useState('DESC');
   const [searchInputData, setSearchInputData] = useState({});
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handlePageChange = async (page) => {
     console.log("Zmieniam na strone: ", page + 1)
@@ -58,13 +60,6 @@ const App = () => {
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
   };
-
-  const refreshSideBarList = async () => {
-    let userListsData = await getUserListInfo();
-    setAllUserLists(userListsData);
-    let updatedLists = getListsForTab(userListsData, activeTab);  
-    setTabLists(updatedLists);
-  }
 
   const handleTabChange = async (tab) => {
     console.log("Changing tab to: " + tab)
@@ -100,8 +95,16 @@ const App = () => {
 
   };
 
+  const refreshSideBarList = async () => {
+    console.log('HALO')
+    let userListsData = await getUserListInfo();
+    setAllUserLists(userListsData);
+    let updatedLists = getListsForTab(userListsData, activeTab);  
+    setTabLists(updatedLists);
+  }
+
   const refreshAppState = async () => {
-    refreshSideBarList();
+    await refreshSideBarList();
     handleListChange(activeList);
     if(activeItem) {
       let updatedItem = await getItemById(activeItem.id, tabToApi(activeTab));
@@ -155,25 +158,28 @@ const App = () => {
     }
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let userListsData = await getUserListInfo();
-        setAllUserLists(userListsData);
-        let updatedLists = getListsForTab(userListsData, activeTab);  
-        setTabLists(updatedLists);
-        let activeList = updatedLists.length > 0 ? updatedLists[0] : -1;
-        setActiveList(activeList.id);
-        let listDetailes = await getListByName(activeList.name, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize);
-        setDisplayedItems(listDetailes.bookWithUserDetailsDtos);
-        toolbarRef.current.restartSorting(activeTab);
-      } catch (error) {
-        console.error('Error fetching user lists:', error);
-      }
-    };
 
-    fetchData();
-  }, []);
+  const fetchInitialData = async () => {
+    setIsLoggedIn(true);
+    console.log("Fetching init data")
+    try {
+      let userListsData = await getUserListInfo();
+      setAllUserLists(userListsData);
+      let updatedLists = getListsForTab(userListsData, activeTab);  
+      setTabLists(updatedLists);
+      let activeList = updatedLists.length > 0 ? updatedLists[0] : -1;
+      setActiveList(activeList.id);
+      let listDetailes = await getListByName(activeList.name, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize);
+      setDisplayedItems(listDetailes.bookWithUserDetailsDtos);
+      toolbarRef.current.restartSorting(activeTab);
+    } catch (error) {
+      console.error('Error fetching user lists:', error);
+    }
+  };
+
+  if (!isLoggedIn) {
+    return <Login onSuccessfulLogin={fetchInitialData} />;
+  }
 
   return (
     <div className="app">

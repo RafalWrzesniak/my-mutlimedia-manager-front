@@ -12,7 +12,6 @@ const Sidebar = ({ lists, activeList, onListChange, activeApi, refreshSideBarLis
   };
 
   const handleOpenDialog = () => {
-    console.log("adding list")
     setIsDialogOpen(true);
   };
 
