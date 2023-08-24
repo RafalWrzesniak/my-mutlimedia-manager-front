@@ -19,7 +19,7 @@ import axios from 'axios';
         return response;
     } catch (error) {
         console.log(error)
-        onFailure();
+        onFailure(error);
         return error;
     }
   }

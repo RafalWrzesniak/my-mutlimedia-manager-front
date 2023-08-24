@@ -1,0 +1,52 @@
+.login-container {
+    width: 300px;
+    max-width: 300px;
+    margin: auto;
+    margin-top: 100px;
+    padding: 20px;
+    border: 2px solid var(--almost_white);
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input {
+    margin: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .button {
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .toggleText {
+    margin-top: 10px;
+  }
+  
+  .toggleLink {
+    color: #007bff;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+  
+  .messageClass {
+    margin-top: 10px;
+    color: var(--almost_white);
+  }
+
+  .messageClassError {
+    margin-top: 10px;
+    color: orangered;
+  }
