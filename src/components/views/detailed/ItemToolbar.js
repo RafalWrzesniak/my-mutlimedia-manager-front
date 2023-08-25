@@ -46,11 +46,12 @@ const ItemToolbar = ({ lists, item, refreshState }) => {
     fetchListsContainingItem();
     setSelectedBookFormat(item.bookFormat ? item.bookFormat : '')
     setSelectedGamePlatform(item.userGamePlatform ? item.userGamePlatform : '')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item])
 
   useEffect(() => {
     fetchListsContainingItem();
-  }, [])
+  })
 
   
   const changeBookFormat = (event) => {

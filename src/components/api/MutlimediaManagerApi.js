@@ -14,7 +14,7 @@ const login = async (username, password, onSuccess = () => {}, onFailure = () =>
 
   post(`${URL}/login`, credentials, (response) => {
     localStorage.setItem('authorizationBearer', response.headers['authorization']);
-    onSuccess();  
+    onSuccess(username);  
   }, onFailure)
 }
 

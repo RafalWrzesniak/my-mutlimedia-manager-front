@@ -19,6 +19,7 @@ const App = () => {
   const toolbarRef = useRef(null);  
   const [pageSize] = useState(30);
   const [activeTab, setActiveTab] = useState('BOOK_LIST');
+  const [username, setUsername] = useState('');
   const [activeList, setActiveList] = useState(null);
   const [allUserLists, setAllUserLists] = useState([]);
   const [tabLists, setTabLists] = useState([]);
@@ -51,6 +52,7 @@ const App = () => {
   useEffect(() => {
     console.log("Zmieniam sortowania na: " + sortKey + " " + sortDirection)
     handleListChange(activeList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortKey, sortDirection]);
 
   const handleOpenDialog = () => {
@@ -158,9 +160,14 @@ const App = () => {
     }
   }
 
+  const moveToDefaultView = () => {
+    handleTabChange('BOOK_LIST')
+  }
 
-  const fetchInitialData = async () => {
+
+  const fetchInitialData = async (username) => {
     setIsLoggedIn(true);
+    setUsername(username);
     console.log("Fetching init data")
     try {
       let userListsData = await getUserListInfo();
@@ -183,6 +190,15 @@ const App = () => {
 
   return (
     <div className="app">
+      <div className='top-menu'>
+        <div className='logo-placement' onClick={moveToDefaultView}>
+            <img className='logo' src='logo.png' alt="Logo" />
+            My Multimedia Manager
+        </div>
+        <div className='user-menu'>
+          {username}
+        </div>
+      </div>
       <div className="container">
         <Sidebar 
         lists={tabLists} 
@@ -206,16 +222,8 @@ const App = () => {
             activeTab={activeTab}
             />
             <AddItemDialog isOpen={isDialogOpen} onClose={handleCloseDialog} lists={tabLists} activeApi={tabToApi(activeTab)} refreshState={refreshAppState} />            
-            <div className="content">
-              <Content 
-              items={displayedItems} 
-              activeItem={activeItem} 
-              onItemChange={handleItemChange} />
-            </div>
-            <Paginator
-              totalPages={totalPages}
-              currentPage={currentPage}
-              onPageChange={handlePageChange}
+            <Content items={displayedItems} activeItem={activeItem} onItemChange={handleItemChange} />
+            <Paginator totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange}
             />
           </div>
         </div>

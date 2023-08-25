@@ -33,7 +33,8 @@ const DropdownButton = ({ options, initialOptions, placeholder, isMulti, onSelec
     useEffect(() => {
         if(!isMulti) {
             setSelectedOptions('');
-        }
+        }    
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [options])
 
     const DropdownIndicator = (props) => {

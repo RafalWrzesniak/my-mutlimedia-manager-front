@@ -19,8 +19,8 @@ const Login = ({ onSuccessfulLogin }) => {
   }
 
   const onFailedLoginOrRegister = (responseData) => {
-    if(responseData.response.data != '') {
-      if(responseData.response.data.messages[0] == 'UserAlreadyExistException') {
+    if(responseData.response.data !== '') {
+      if(responseData.response.data.messages[0] === 'UserAlreadyExistException') {
         setMessageText("Ta nazwa konta jest już zajęta")
       } else {
         setMessageText(responseData.response.data.messages[0])
