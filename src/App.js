@@ -12,6 +12,7 @@ import BookDetailedWindow from './components/views/detailed/BookDetailedWindow';
 import GameDetailedWindow from './components/views/detailed/GameDetailedWindow';
 import MovieDetailedWindow from './components/views/detailed/MovieDetailedWindow';
 import Login from './components/credentials/Login';
+import { CgProfile } from 'react-icons/cg';
 
 ReactModal.setAppElement('#root');
 
@@ -196,6 +197,7 @@ const App = () => {
             My Multimedia Manager
         </div>
         <div className='user-menu'>
+          <CgProfile className='icon-user-menu'/>
           {username}
         </div>
       </div>

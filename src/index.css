@@ -30,6 +30,11 @@
   align-items: center;
 }
 
+.icon-user-menu {
+  margin-right: 5px;
+  color: var(--my_green)
+}
+
 .logo-placement {
   min-width: 140px;
   max-width: 230px;
