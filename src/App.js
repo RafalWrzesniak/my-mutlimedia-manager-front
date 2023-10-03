@@ -108,7 +108,7 @@ const App = () => {
 
   const refreshAppState = async () => {
     await refreshSideBarList();
-    handleListChange(activeList);
+    handleListChange(activeList > 0 ? activeList : rememeredList);
     if(activeItem) {
       let updatedItem = await getItemById(activeItem.id, tabToApi(activeTab));
       setActiveItem(updatedItem);
