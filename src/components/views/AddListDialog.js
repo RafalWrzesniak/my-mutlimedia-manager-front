@@ -5,7 +5,7 @@ import { createNewList } from '../api/MutlimediaManagerApi';
 import RegularButton from '../basic/RegularButton';
 import { tabToApi } from '../utils/Utils';
 
-const AddListDialog = ({ isOpen, onClose, activeApi, refreshSideBarList }) => {
+const AddListDialog = ({ isOpen, onClose, activeApi, addNewList }) => {
 
   const [inputListName, setInputListName] = useState('');
 
@@ -15,7 +15,7 @@ const AddListDialog = ({ isOpen, onClose, activeApi, refreshSideBarList }) => {
 
   const onAddItem = async () => {
     console.log("Dodaje nową listę: " + inputListName + " do: " + activeApi);
-    createNewList(inputListName, tabToApi(activeApi), refreshSideBarList)
+    createNewList(inputListName, tabToApi(activeApi), response => addNewList(response.data))
     setInputListName('');
     onClose();
   };

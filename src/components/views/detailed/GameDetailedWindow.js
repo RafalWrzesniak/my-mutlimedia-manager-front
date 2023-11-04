@@ -4,11 +4,11 @@ import { formatDate, listToString } from '../../utils/Utils';
 import DetailedField from './DetailedField';
 import ItemToolbar from './ItemToolbar';
 
-const GameDetailedWindow = ({ game, tabLists, refreshState }) => {
+const GameDetailedWindow = ({ game, tabLists, updateItem, addItemToListId, removeItemFromListId }) => {
   return (
     <div className="detailed-window">
-    <ItemToolbar item={game} lists={tabLists} refreshState={refreshState} />
-      <img className="image" src={game.imagePath} alt="game cover" />
+    <ItemToolbar item={game} lists={tabLists} updateItem={updateItem} addItemToListId={addItemToListId} removeItemFromListId={removeItemFromListId} />
+      <img className="image" src={game.webImageUrl} alt="game cover" />
       <div className="title">
         <a href={game.gryOnlineUrl} target="_blank" rel="noopener noreferrer">
           {game.title}

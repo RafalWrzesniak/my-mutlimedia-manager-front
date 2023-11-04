@@ -3,8 +3,9 @@ import Modal from 'react-modal';
 import '../../css/add-item-dialog.css';
 import { createBookFromUrl, createGameFromUrl, createMovieFromUrl } from '../api/MutlimediaManagerApi';
 import RegularButton from '../basic/RegularButton';
+import { isBook, isGame, isMovie } from '../utils/Utils';
 
-const AddItemDialog = ({ isOpen, onClose, lists, activeApi, refreshState }) => {
+const AddItemDialog = ({ isOpen, onClose, lists, activeApi, addItemToListId }) => {
 
   const [inputUrl, setInputUrl] = useState('');
   const [platformOrVersion, setPlatformOrVersion] = useState('');
@@ -22,16 +23,34 @@ const AddItemDialog = ({ isOpen, onClose, lists, activeApi, refreshState }) => {
     setPlatformOrVersion(event.target.value);
   };
 
+  const addItemToLists = (item) => {
+    if(selectedList) {
+      addItemToListId(item, selectedList)
+    }
+    if(isBook(item)) {
+      console.log(lists)
+      let allBooks = lists.filter(list => list.listType === 'BOOK_LIST' && list.allContentList)[0]
+      addItemToListId(item, allBooks.id)
+    } else if(isGame(item)) {      
+      let allGames = lists.filter(list => list.listType === 'GAME_LIST' && list.allContentList)[0]
+      addItemToListId(item, allGames.id)
+    } else if(isMovie(item)) {      
+      let allMovies = lists.filter(list => list.listType === 'MOVIE_LIST' && list.allContentList)[0]
+      addItemToListId(item, allMovies.id)
+    }
+    
+  };
+
   const onAddItem = () => {
     console.log("Dodaje: " + inputUrl);
     console.log("Wybrana lista: " + selectedList);
     console.log("Wybrana zakładka: " + activeApi);
     if(activeApi === 'book') {
-      createBookFromUrl(inputUrl, selectedList, platformOrVersion, refreshState)
+      createBookFromUrl(inputUrl, selectedList, platformOrVersion, response => addItemToLists(response.data))
     } else if(activeApi === 'game') {
-      createGameFromUrl(inputUrl, selectedList, platformOrVersion, refreshState)
+      createGameFromUrl(inputUrl, selectedList, platformOrVersion, response => addItemToLists(response.data))
     } else if(activeApi === 'movie') {
-      createMovieFromUrl(inputUrl, selectedList, refreshState)
+      createMovieFromUrl(inputUrl, selectedList, response => addItemToLists(response.data))
     }
     setInputUrl('');
     setSelectedList('');
@@ -81,8 +100,8 @@ const AddItemDialog = ({ isOpen, onClose, lists, activeApi, refreshState }) => {
               {lists.map((list) => (
                 <option 
                   key={list.id} 
-                  value={list.name} 
-                  disabled={list.name === 'Wszystkie książki' || list.name === 'Wszystkie filmy' || list.name === 'Wszystkie gry'}
+                  value={list.id} 
+                  disabled={list.allContentList}
                   className="select-option">
                   {list.name}
                 </option>

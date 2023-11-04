@@ -1,6 +1,12 @@
 import { get, post, deleteCall } from './AxiosApi';
 
-let URL = "http://localhost:8080"
+let URL;
+
+if (process.env.NODE_ENV === 'production') {
+  URL = "http://localhost:2137"
+} else {
+  URL = "http://localhost:8080"
+}
 
 function getResponseData(response) {
   return response ? response.data : null;
@@ -28,8 +34,8 @@ const getUserListInfo = async () => {
   return getResponseData(response);
 };
 
-const getListByName = async (listName, apiType, page, direction, sortKey, pageSize) => {
-  const finalUrl = `${URL}/${apiType}/list?listName=${listName}&direction=${direction ? direction : 'ASC'}&sortKey=${sortKey ? sortKey : 'id'}&page=${page ? page : 0}&pageSize=${pageSize ? pageSize : 20}`;
+const getListById = async (listId, apiType, page, direction, sortKey, pageSize) => {
+  const finalUrl = `${URL}/${apiType}/list?listId=${listId}&direction=${direction ? direction : 'ASC'}&sortKey=${sortKey ? sortKey : 'id'}&page=${page ? page : 0}&pageSize=${pageSize ? pageSize : 20}`;
   const response = await get(finalUrl);
   return getResponseData(response);
   };
@@ -39,68 +45,72 @@ const getRecentlyDone = async (apiType) => {
   return getResponseData(response);
 };  
 
-const getItemById = async (itemId, apiType) => {
-  const response = await get(`${URL}/${apiType}/${itemId}`);
+const getItemById = async (itemId, apiType, onSuccess = () => {}) => {
+  const response = await get(`${URL}/${apiType}?id=${encodeURIComponent(itemId)}`, onSuccess);
   return getResponseData(response);
 };
 
-const createBookFromUrl = (bookUrl, listName, bookFormat, refreshState) => {
-  let url = `${URL}/book/createBookUrl?bookUrl=${bookUrl}${listName ? '&listName=' + listName : ''}${bookFormat ? '&bookFormat=' + bookFormat : ''}`
+const createBookFromUrl = (bookUrl, listId, bookFormat, refreshState) => {
+  let url = `${URL}/book/createBookUrl?url=${bookUrl}${listId ? '&listId=' + listId : ''}${bookFormat ? '&bookFormat=' + bookFormat : ''}`
   post(url, {}, refreshState);
 }
 
-const createGameFromUrl = (gameUrl, listName, platform, refreshState) => {
-  let url = `${URL}/game/createGameUrl?url=${gameUrl}${listName ? '&listName=' + listName : ''}${platform ? '&gamePlatform=' + platform : ''}`
+const createGameFromUrl = (gameUrl, listId, platform, refreshState) => {
+  let url = `${URL}/game/createGameUrl?url=${gameUrl}${listId ? '&listId=' + listId : ''}${platform ? '&gamePlatform=' + platform : ''}`
   post(url, {}, refreshState);
 }
 
-const createMovieFromUrl = (movieUrl, listName, refreshState) => {
-  let url = `${URL}/movie/create?url=${movieUrl}${listName ? '&listName=' + listName : ''}`;
+const createMovieFromUrl = (movieUrl, listId, refreshState) => {
+  let url = `${URL}/movie/create?url=${movieUrl}${listId ? '&listId=' + listId : ''}`;
   post(url, {}, refreshState);
 }
 
-const findProductsByProperty = async (propertyName, valueToFind, apiType, page, direction, sortKey, pageSize) => {
-  const finalUrl = `${URL}/${apiType}/property?propertyName=${propertyName}&value=${valueToFind}&direction=${direction ? direction : 'ASC'}&sortKey=${sortKey ? sortKey : 'id'}&page=${page ? page : 0}&pageSize=${pageSize ? pageSize : 20}`;
+const findProductsByProperty = async (listId, propertyName, valueToFind, apiType, page, direction, sortKey, pageSize) => {
+  const finalUrl = `${URL}/${apiType}/property?listId=${listId}&propertyName=${propertyName}&value=${valueToFind}&direction=${direction ? direction : 'ASC'}&sortKey=${sortKey ? sortKey : 'id'}&page=${page ? page : 0}&pageSize=${pageSize ? pageSize : 20}`;
   const response = await get(finalUrl);
   return getResponseData(response);
 }
 
-const createNewList = (listName, apiType, onSuccess = () => {}) => {
+const createNewList = async (listName, apiType, onSuccess = () => {}) => {
   post(`${URL}/${apiType}/list?listName=${listName}`, {}, onSuccess);
 }
 
 const findListsContainingProduct = async (productId, apiType) => {
-  const finalUrl = `${URL}/${apiType}/list/with/${productId}`;
+  const finalUrl = `${URL}/${apiType}/list/with?productId=${productId}`;
   const response = await get(finalUrl);
   return getResponseData(response);
 }
 
-const addItemToList = (itemId, listName, apiType, onSuccess = () => {}) => {
-  post(`${URL}/${apiType}/list/add?listName=${listName}&productId=${itemId}`, {}, onSuccess);      
+const addItemToList = async (itemId, listId, apiType, onSuccess = () => {}) => {
+  post(`${URL}/${apiType}/list/add?listId=${listId}&productId=${itemId}`, {}, onSuccess);      
 }
 
-const removeItemFromList = async (itemId, listName, apiType, onSucces = () => {}) => {
-  deleteCall(`${URL}/${apiType}/list/remove?listName=${listName}&productId=${itemId}`, onSucces);
+const removeItemFromList = async (itemId, listId, apiType, onSucces = () => {}) => {
+  deleteCall(`${URL}/${apiType}/list/remove?listId=${listId}&productId=${itemId}`, onSucces);
 }
 
-const setBookFormat = (bookId, bookFormat, onSuccess = () => {}) => {
-  post(`${URL}/book/${bookId}/format?bookFormat=${bookFormat}`, {}, onSuccess);
+const setBookFormat = async (bookId, bookFormat, onSuccess = () => {}) => {
+  post(`${URL}/book/format?bookId=${bookId}&bookFormat=${bookFormat}`, {}, onSuccess);
 }  
 
-const setGamePlatform = (gameId, gamePlatform, onSuccess = () => {}) => {
-  post(`${URL}/game/${gameId}/platform?gamePlatform=${gamePlatform}`, {}, onSuccess);
+const setGamePlatform = async (gameId, gamePlatform, onSuccess = () => {}) => {
+  post(`${URL}/game/platform?gameId=${gameId}&gamePlatform=${gamePlatform}`, {}, onSuccess);
 }
 
-const finishItem = (itemId, finishDate, spentTime, apiType, onSuccess = () => {}) => {
+const getDetailsForItems = async (items, apiType, onSuccess = () => {}) => {
+  post(`${URL}/${apiType}/details`, items, onSuccess);
+}
+
+const finishItem = async (itemId, finishDate, spentTime, apiType, onSuccess = () => {}) => {
   let url = '';
   if(apiType !== 'game') {
-    url = `${URL}/${apiType}/${itemId}/finish?finishDate=${finishDate}`;
+    url = `${URL}/${apiType}/finish?id=${itemId}&finishDate=${finishDate}`;
   } else {
-    url = `${URL}/${apiType}/${itemId}/finishGame?finishDate=${finishDate}&playedHours=${spentTime}`;
+    url = `${URL}/${apiType}/finishGame?gameId=${itemId}&finishDate=${finishDate}&playedHours=${spentTime}`;
   }
   post(url, {}, onSuccess);
 }
 
-export { getUserListInfo, getListByName, getRecentlyDone, createBookFromUrl, createGameFromUrl, 
-  createMovieFromUrl, findProductsByProperty, createNewList, findListsContainingProduct, 
+export { getUserListInfo, getListById, getRecentlyDone, createBookFromUrl, createGameFromUrl, 
+  createMovieFromUrl, findProductsByProperty, createNewList, findListsContainingProduct, getDetailsForItems, 
   addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, login, register };

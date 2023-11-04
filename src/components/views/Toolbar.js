@@ -19,21 +19,30 @@ const Toolbar = forwardRef((props, ref) => {
         { value: 'id', label: 'ID' },
         { value: 'title', label: 'Tytuł' },
         { value: 'datePublished', label: 'Premiera' },
-        { value: 'numberOfPages', label: 'Strony' }
+        { value: 'readOn', label: 'Przeczytano' },
+        { value: 'numberOfPages', label: 'Strony' },
+        { value: 'createdOn', label: 'Utworzono' },
+        { value: 'updatedOn', label: 'Zmodyfikowano' }
       ],
       'MOVIE_LIST': [       
         { value: 'id', label: 'ID' },
         { value: 'polishTitle', label: 'Tytuł' },
+        { value: 'runtimeMins', label: 'Długość' },
         { value: 'releaseDate', label: 'Premiera' },
         { value: 'imDbRating', label: 'Ocena' },
-        { value: 'imDbRatingVotes', label: 'Popularność' }
+        { value: 'imDbRatingVotes', label: 'Popularność' },
+        { value: 'watchedOn', label: 'Oglądnięto' },
+        { value: 'createdOn', label: 'Utworzono' },
+        { value: 'updatedOn', label: 'Zmodyfikowano' }
       ],
       'GAME_LIST': [
         { value: 'id', label: 'ID' },
         { value: 'title', label: 'Tytuł' },
         { value: 'releaseDate', label: 'Premiera' },
         { value: 'ratingValue', label: 'Ocena' },
-        { value: 'ratingCount', label: 'Popularność' }
+        { value: 'ratingCount', label: 'Popularność' },
+        { value: 'createdOn', label: 'Utworzono' },
+        { value: 'updatedOn', label: 'Zmodyfikowano' }
       ]
     }
     return fieldsForTab[activeTab];
@@ -46,7 +55,10 @@ const Toolbar = forwardRef((props, ref) => {
         { value: 'title', label: 'Tytuł' },
         { value: 'description', label: 'Opis' },
         { value: 'publisher', label: 'Wydawca' },
-        { value: 'category', label: 'Kategoria' }
+        { value: 'category', label: 'Kategoria' },
+        { value: 'author', label: 'Autor' },
+        { value: 'bookFormat', label: 'Format' },
+        { value: 'series', label: 'Seria' }
       ],
       'MOVIE_LIST': [       
         { value: 'polishTitle', label: 'Tytuł' },
@@ -62,6 +74,7 @@ const Toolbar = forwardRef((props, ref) => {
         { value: 'studio', label: 'Studio' },
         { value: 'playModes', label: 'Tryb gry' },
         { value: 'gamePlatform', label: 'Platforma' },
+        { value: 'userGamePlatform', label: 'Grano na' },
         { value: 'genreList', label: 'Gatunek' }
       ]
     }

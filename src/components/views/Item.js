@@ -12,7 +12,7 @@ const Item = ({ product, isActive, onItemClick }) => {
   };
 
   const getFinishedOn = () => {
-    const date = product.readOn || product.watchedOn || product.finishedOn;
+    const date = product.finishedOn || product.readOn || product.watchedOn;
     if (date) {
       return formatDate(date);
     }
@@ -23,7 +23,7 @@ const Item = ({ product, isActive, onItemClick }) => {
     <div className='wholeItem'>
       <div className="item-button-wrapper">
         <button className={`item-button ${isActive ? 'active' : ''}`} onClick={handleClick}>
-          <div className="item-image" style={{ backgroundImage: `url(${product.imagePath})` }}>
+          <div className="item-image" style={{ backgroundImage: `url(${product.webImageUrl})` }}>
             <div className={`item-overlay${product.polishTitle || product.studio ? '-static' : ''}`}>
               <span className="item-title">
                 {product.polishTitle ? product.polishTitle : product.title}
@@ -31,7 +31,7 @@ const Item = ({ product, isActive, onItemClick }) => {
             </div>
           </div>
         </button>
-        {(product.readOn || product.watchedOn || product.finishedOn) && (
+        {(product.finishedOn || product.readOn || product.watchedOn) && (
           <div className="item-info">
             <div className="item-finished-icon">
               <IoCheckmarkDoneSharp />

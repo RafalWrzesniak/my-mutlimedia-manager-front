@@ -1,7 +1,7 @@
 import '../../../css/item-toolbar.css';
 import React, { useState, useEffect } from 'react';
-import { addItemToList, findListsContainingProduct, finishItem, removeItemFromList, setBookFormat, setGamePlatform } from '../../api/MutlimediaManagerApi';
-import { formatDate, getFinishedOn, isBook, isGame, itemToApi, tabToApi } from '../../utils/Utils';
+import { addItemToList, finishItem, removeItemFromList, setBookFormat, setGamePlatform } from '../../api/MutlimediaManagerApi';
+import { formatDate, getFinishedOn, isBook, isGame, isMovie, itemToApi, tabToApi } from '../../utils/Utils';
 import RegularButton from '../../basic/RegularButton';
 import { MdDone } from 'react-icons/md';
 import DropdownButton from '../../basic/DropdownButton';
@@ -9,7 +9,7 @@ import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import moment from 'moment';
 
 
-const ItemToolbar = ({ lists, item, refreshState }) => {
+const ItemToolbar = ({ lists, item, addItemToListId, removeItemFromListId, updateItem }) => {
   
   const [initDropdownLists, setInitDropdownLists] = useState([]);
   const [selectedBookFormat, setSelectedBookFormat] = useState('');
@@ -19,53 +19,43 @@ const ItemToolbar = ({ lists, item, refreshState }) => {
   const [renderDropdownButton, setRenderDropDownButton] = useState(false);
   const [showingFinishButton, setShowingFinishButton] = useState(false);
   
-  const listMappedToOptions = lists.map((list) => ({ value: list.name, label: list.name, listType: list.listType }));
+  const listMappedToOptions = lists.map((list) => ({ value: list.id, label: list.name, listType: list.listType }));
 
   const addItemToListFunc = (list) => {
     console.log(`Dodaję do listy: '${list.value}' obiekt '${item.title}'`);
-    addItemToList(item.id, list.value, tabToApi(list.listType), refreshState)
+    addItemToList(item.id, list.value, tabToApi(list.listType))
+    addItemToListId(item, list.value)
   };
 
   const removeItemFromListFunc = (list) => {
     console.log(`Usuwam z listy: '${list.value}' obiekt '${item.title}'`);
-    removeItemFromList(item.id, list.value, tabToApi(list.listType), refreshState)
+    removeItemFromList(item.id, list.value, tabToApi(list.listType))
+    removeItemFromListId(item, list.value)
   };
-  
-  const fetchListsContainingItem = async () => {
-    let foundLists = await findListsContainingProduct(item.id, tabToApi(lists[0].listType));
-    let mappedLists = foundLists.map((list) => ({ value: list.name, label: list.name, listType: list.listType }));
-    setInitDropdownLists(mappedLists);
-    setRenderDropDownButton(true);
-  }
-  
+    
   useEffect(() => {
     setRenderDropDownButton(false);
     setShowingFinishButton(false);
     setFinishedOnDate(getFinishedOn(item) ? getFinishedOn(item) : moment().format("YYYY-MM-DD"))
     setTimeSpent(item.playedHours ? item.playedHours : '')
-    fetchListsContainingItem();
+    setListsThatContainsItem();
     setSelectedBookFormat(item.bookFormat ? item.bookFormat : '')
     setSelectedGamePlatform(item.userGamePlatform ? item.userGamePlatform : '')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item])
-
-  useEffect(() => {
-    fetchListsContainingItem();
-  })
-
-  
+ 
   const changeBookFormat = (event) => {
     let newBookFormat = event.target.value;
     console.log(`Zmieniam format książki '${item.title}' na ${newBookFormat}`);
     setSelectedBookFormat(newBookFormat);
-    setBookFormat(item.id, newBookFormat, refreshState)
+    setBookFormat(item.id, newBookFormat)
   }
 
   const changeGamePlatform = (event) => {
     let newGamePlatform = event.target.value;
     console.log(`Zmieniam platformę gry '${item.title}' na ${newGamePlatform}`);
     setSelectedGamePlatform(newGamePlatform);
-    setGamePlatform(item.id, newGamePlatform, refreshState)
+    setGamePlatform(item.id, newGamePlatform)
   }
 
   const showFinishingButton = () => {
@@ -86,10 +76,32 @@ const ItemToolbar = ({ lists, item, refreshState }) => {
   const acceptFinishedOn = () => {
     if(finishedOnDate !== getFinishedOn(item) || timeSpent !== item.playedHours) {
       console.log(`Setting item '${item.title}' as finished on ${finishedOnDate}${timeSpent ? ` in ${timeSpent} hours` : ''}`)
-      finishItem(item.id, finishedOnDate, timeSpent, itemToApi(item), refreshState);
+      finishItem(item.id, finishedOnDate, timeSpent, itemToApi(item));
+      item.finishedOn = finishedOnDate;
+      if(isBook(item)) {
+        item.readOn = finishedOnDate;
+      } else if(isMovie(item)) {
+        item.watchedOn = finishedOnDate;
+      }
+      if(timeSpent && timeSpent !== item.playedHours) {
+        item.playedHours = timeSpent;
+      }
+      updateItem(item);
     }    
     setShowingFinishButton(false)
   }
+
+  const setListsThatContainsItem = () => {
+    let foundLists = lists.filter(list => list.allItems.map(listItem => listItem.id).includes(item.id))
+    let mappedLists = foundLists.map((list) => ({ value: list.id, label: list.name, listType: list.listType }));
+    setInitDropdownLists(mappedLists);
+    setRenderDropDownButton(true);
+  }
+
+  if(initDropdownLists.length === 0) {
+    // fetchListsContainingItem();
+    setListsThatContainsItem();
+  }  
 
   return (
     <div className="item-toolbar">

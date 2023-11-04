@@ -13,7 +13,7 @@ const Content = ({ items, activeItem, onItemChange }) => {
         <div key={item.id} className="item">
           <Item
             product={item}
-            isActive={item === activeItem}
+            isActive={activeItem ? item.id === activeItem.id : false}
             onItemClick={() => handleItemClick(item)}
           />
         </div>

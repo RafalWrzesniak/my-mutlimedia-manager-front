@@ -25,8 +25,10 @@ import moment from 'moment';
         return {
           id: list.id,
           name: list.name,
-          items: list.booksNumber ? list.booksNumber : list.gamesNumber ? list.gamesNumber : list.moviesNumber,
-          listType: list.listType
+          items: list.items.length,
+          allItems: list.items,
+          listType: list.listType,
+          allContentList: list.allContentList
         };
       }) : [];
   }
