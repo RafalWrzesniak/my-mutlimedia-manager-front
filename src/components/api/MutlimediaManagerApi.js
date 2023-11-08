@@ -3,7 +3,7 @@ import { get, post, deleteCall } from './AxiosApi';
 let URL;
 
 if (process.env.NODE_ENV === 'production') {
-  URL = "http://localhost:2137"
+  URL = "https://edttv3298g.execute-api.eu-central-1.amazonaws.com/Prod/"
 } else {
   URL = "http://localhost:8080"
 }
