@@ -37,7 +37,12 @@ import axios from 'axios';
   function headers() {
     return {
       headers: {
-        Authorization: localStorage.getItem('authorizationBearer')
+        Authorization: localStorage.getItem('authorizationBearer'),
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        'Access-Control-Allow-Credentials': true,
       }
     }
   }
