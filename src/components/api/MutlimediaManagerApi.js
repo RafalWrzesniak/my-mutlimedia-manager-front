@@ -3,10 +3,11 @@ import { get, post, deleteCall } from './AxiosApi';
 let URL;
 
 if (process.env.NODE_ENV === 'production') {
-  URL = "https://1mu67inv7k.execute-api.eu-central-1.amazonaws.com/Prod"
+  URL = "https://1mu67inv7k.execute-api.eu-central-1.amazonaws.com/prod"
 } else {
   URL = "http://localhost:8080"
 }
+
 
 function getResponseData(response) {
   return response ? response.data : null;
