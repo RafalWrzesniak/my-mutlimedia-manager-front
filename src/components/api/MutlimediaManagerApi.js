@@ -8,7 +8,6 @@ if (process.env.NODE_ENV === 'production') {
   URL = "http://localhost:8080"
 }
 
-
 function getResponseData(response) {
   return response ? response.data : null;
 };
