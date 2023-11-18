@@ -101,6 +101,11 @@ const getDetailsForItems = async (items, apiType, onSuccess = () => {}) => {
   post(`${URL}/${apiType}/details`, items, onSuccess);
 }
 
+const getDetailsForItem = async (item, apiType, onSuccess = () => {}) => {
+  const response = await post(`${URL}/${apiType}/detailed`, item, onSuccess);
+  return getResponseData(response);
+}
+
 const finishItem = async (itemId, finishDate, spentTime, apiType, onSuccess = () => {}) => {
   let url = '';
   if(apiType !== 'game') {
@@ -113,4 +118,4 @@ const finishItem = async (itemId, finishDate, spentTime, apiType, onSuccess = ()
 
 export { getUserListInfo, getListById, getRecentlyDone, createBookFromUrl, createGameFromUrl, 
   createMovieFromUrl, findProductsByProperty, createNewList, findListsContainingProduct, getDetailsForItems, 
-  addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, login, register };
+  addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, login, register, getDetailsForItem };

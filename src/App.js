@@ -4,7 +4,7 @@ import Sidebar from './components/views/Sidebar';
 import TabMenu from './components/views/TabMenu';
 import Content from './components/views/Content';
 import Paginator from './components/views/Paginator';
-import { getListById, getUserListInfo, getDetailsForItems, getRecentlyDone, findProductsByProperty, getItemById } from './components/api/MutlimediaManagerApi';
+import { getListById, getUserListInfo, getDetailsForItem, getRecentlyDone, findProductsByProperty, getItemById } from './components/api/MutlimediaManagerApi';
 import { tabToApi, tabToListObjects, getListsForTab, isBook, isGame, isMovie } from './components/utils/Utils';
 import AddItemDialog from './components/views/AddItemDialog';
 import ReactModal from 'react-modal';
@@ -50,8 +50,18 @@ const App = () => {
       endIndex = items.length;
     }
     let finalItems = items.slice(startIndex, endIndex);
-    getDetailsForItems(finalItems, tabToApi(activeTab), response => setDisplayedItemsFunc(response.data));
+    // getDetailsForItems(finalItems, tabToApi(activeTab), response => setDisplayedItemsFunc(response.data));
     setDisplayedItemsFunc(finalItems);
+    setDetailsAfterFetching(finalItems);
+  }
+
+  const setDetailsAfterFetching = async (items) => {
+    let fetchedItems = [];
+    for (let i = 0; i < items.length; i++) {
+      let response = await getDetailsForItem(items[i], tabToApi(activeTab))
+      fetchedItems.push(response)
+    }
+    setDisplayedItemsFunc(fetchedItems);
   }
 
   const setDisplayedItems = (items) => {
