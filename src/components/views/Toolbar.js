@@ -39,6 +39,8 @@ const Toolbar = forwardRef((props, ref) => {
         { value: 'id', label: 'ID' },
         { value: 'title', label: 'Tytuł' },
         { value: 'releaseDate', label: 'Premiera' },
+        { value: 'finishedOn', label: 'Ukończono' },
+        { value: 'playedHours', label: 'Czas gry' },
         { value: 'ratingValue', label: 'Ocena' },
         { value: 'ratingCount', label: 'Popularność' },
         { value: 'createdOn', label: 'Utworzono' },
