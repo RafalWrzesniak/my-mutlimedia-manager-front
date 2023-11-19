@@ -79,6 +79,8 @@ body {
 }
 
 .container {
+  padding-left: 140px;
+  padding-right: 140px;
   display: flex;
   gap: 20px;
 }

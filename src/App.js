@@ -18,7 +18,7 @@ ReactModal.setAppElement('#root');
 
 const App = () => {
   const toolbarRef = useRef(null);  
-  const [pageSize] = useState(20);
+  const [pageSize] = useState(36);
   const [activeTab, setActiveTab] = useState('BOOK_LIST');
   const [username, setUsername] = useState('');
   const [activeList, setActiveList] = useState(null);
@@ -50,7 +50,9 @@ const App = () => {
       endIndex = items.length;
     }
     let finalItems = items.slice(startIndex, endIndex);
-    getDetailsForItems(finalItems, tabToApi(activeTab), response => setDisplayedItemsFunc(response.data));
+    if(finalItems.length > 0 && !finalItems[0].createdOn) {
+      getDetailsForItems(finalItems, tabToApi(activeTab), response => setDisplayedItemsFunc(response.data));
+    }    
     setDisplayedItemsFunc(finalItems);
   }
 
