@@ -102,6 +102,7 @@ const getDetailsForItems = async (items, apiType, onSuccess = () => {}) => {
 }
 
 const getDetailsForItem = async (item, apiType, onSuccess = () => {}) => {
+  item.title = encodeURIComponent(item.title)
   const response = await post(`${URL}/${apiType}/detailed`, item, onSuccess);
   return getResponseData(response);
 }
