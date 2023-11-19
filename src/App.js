@@ -59,7 +59,9 @@ const App = () => {
     let fetchedItems = [];
     for (let i = 0; i < items.length; i++) {
       let response = await getDetailsForItem(items[i], tabToApi(activeTab))
-      fetchedItems.push(response)
+      if(response) {
+        fetchedItems.push(response)
+      }
     }
     setDisplayedItemsFunc(fetchedItems);
   }
