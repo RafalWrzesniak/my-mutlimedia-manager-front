@@ -1,3 +1,4 @@
+import { isEncoded } from '../utils/Utils';
 import { get, post, deleteCall } from './AxiosApi';
 
 let URL;
@@ -98,13 +99,15 @@ const setGamePlatform = async (gameId, gamePlatform, onSuccess = () => {}) => {
 }
 
 const getDetailsForItems = async (items, apiType, onSuccess = () => {}) => {
-  post(`${URL}/${apiType}/details`, items, onSuccess);
+  let encodedItems = items.map(item => encodeItem(item));
+  post(`${URL}/${apiType}/details`, encodedItems, onSuccess);
 }
 
-const getDetailsForItem = async (item, apiType, onSuccess = () => {}) => {
-  item.title = encodeURIComponent(item.title)
-  const response = await post(`${URL}/${apiType}/detailed`, item, onSuccess);
-  return getResponseData(response);
+const encodeItem = (item) => {
+  if(!isEncoded(item.title)) {
+    item.title = encodeURIComponent(item.title)
+  } 
+  return item;
 }
 
 const finishItem = async (itemId, finishDate, spentTime, apiType, onSuccess = () => {}) => {
@@ -119,4 +122,4 @@ const finishItem = async (itemId, finishDate, spentTime, apiType, onSuccess = ()
 
 export { getUserListInfo, getListById, getRecentlyDone, createBookFromUrl, createGameFromUrl, 
   createMovieFromUrl, findProductsByProperty, createNewList, findListsContainingProduct, getDetailsForItems, 
-  addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, login, register, getDetailsForItem };
+  addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, login, register };

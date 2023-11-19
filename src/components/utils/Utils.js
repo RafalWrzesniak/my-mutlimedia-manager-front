@@ -87,5 +87,13 @@ import moment from 'moment';
     return '';
   }
 
+  function isEncoded(text) {
+    try {
+      return decodeURIComponent(text) !== text;
+    } catch (e) {
+      return true;
+    }
+  }
+
   export { tabToApi, tabToListObjects, getListsForTab, formatDate, formatTime, listToString,
-     isBook, isGame, getFinishedOn, itemToApi, isMovie}
+     isBook, isGame, getFinishedOn, itemToApi, isMovie, isEncoded}
