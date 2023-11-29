@@ -51,7 +51,7 @@ const App = () => {
     }
     let finalItems = items.slice(startIndex, endIndex);
     if(finalItems.length > 0 && !finalItems[0].createdOn) {
-      getDetailsForItems(finalItems, tabToApi(activeTab), response => setDisplayedItemsFunc(response.data));
+      getDetailsForItems(finalItems, username, tabToApi(activeTab), response => setDisplayedItemsFunc(response.data));
     }    
     setDisplayedItemsFunc(finalItems);
   }
