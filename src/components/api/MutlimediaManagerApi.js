@@ -100,7 +100,7 @@ const setGamePlatform = async (gameId, gamePlatform, onSuccess = () => {}) => {
 
 const getDetailsForItems = async (items, username, apiType, onSuccess = () => {}) => {
   let encodedItems = items.map(item => encodeItem(item));
-  post(`${URL}/${apiType}/details?username=${username}`, encodedItems, onSuccess);
+  post(`${URL}/${apiType}/details`, encodedItems, onSuccess);
 }
 
 const encodeItem = (item) => {

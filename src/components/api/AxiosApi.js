@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
+
   async function get(url, onSuccess = () => {}, onFailure = () => {}) {
     try {
         const response = await axios.get(url, headers());
@@ -38,7 +40,8 @@ import axios from 'axios';
     return {
       headers: {
         Authorization: localStorage.getItem('authorizationBearer'),
-        'Content-Type': 'application/json'
+        'Content-Type': 'text/plain',
+        'X-XSRF-TOKEN': csrfToken
       }
     }
   }
