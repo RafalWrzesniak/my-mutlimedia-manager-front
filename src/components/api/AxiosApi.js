@@ -42,6 +42,7 @@ const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;
         'Authorization': localStorage.getItem('authorizationBearer'),
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
         'X-XSRF-TOKEN': csrfToken
       }
     }
