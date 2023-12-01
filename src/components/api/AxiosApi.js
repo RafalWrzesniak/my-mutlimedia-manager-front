@@ -39,8 +39,9 @@ const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;
   function headers() {
     return {
       headers: {
-        Authorization: localStorage.getItem('authorizationBearer'),
-        'Content-Type': 'text/plain',
+        'Authorization': localStorage.getItem('authorizationBearer'),
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
         'X-XSRF-TOKEN': csrfToken
       }
     }
