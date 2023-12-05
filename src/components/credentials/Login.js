@@ -40,8 +40,8 @@ const Login = ({ onSuccessfulLogin }) => {
       };  
       const authenticationDetails = new AuthenticationDetails(authenticationData);
       let cognitoPool = {
-        UserPoolId: process.env.AMPLIFY_IDENTITYPOOL_ID,
-        ClientId: process.env.AMPLIFY_WEBCLIENT_ID
+        UserPoolId: process.env.REACT_APP_USER_POOL_ID,
+        ClientId: process.env.REACT_APP_CLIENT_ID
       }
       console.log(cognitoPool)
       const userData = {
