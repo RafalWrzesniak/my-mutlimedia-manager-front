@@ -40,7 +40,6 @@ const Login = ({ onSuccessfulLogin }) => {
       };  
       const authenticationDetails = new AuthenticationDetails(authenticationData);
       let cognitoPool = await getCognitoData();
-      console.log(cognitoPool)
       const userData = {
         Username: username,
         Pool: new CognitoUserPool(cognitoPool),

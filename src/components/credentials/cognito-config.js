@@ -4,7 +4,8 @@ AWS.config.update({
   region: 'eu-central-1',
   apiVersion: 'latest'
 });
-const secretsManager = new AWS.SecretsManager();
+const config = { region : 'eu-central-1' }
+const secretsManager = new AWS.SecretsManager(config);
 const secretName = 'prod/cognito/data';
 
 
