@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+AWS.config.logger = console;
 AWS.config.update({ 
   region: 'eu-central-1',
   apiVersion: 'latest'
