@@ -22,92 +22,53 @@ const Login = ({ onSuccessfulLogin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(isRegistering) {
-      if(password === repeatedPassword) {   
-        handleRegister();
-      } else {
-        setPassword('');
-        setRepeatedPassword('');
-        setShouldShowMessage(true);
-        setIsMessageError(true);
-        setMessageText('Hasła muszą być takie same!')
-      }      
+    if(isRegistering) {   
+      handleRegister();   
     } else {
-      const authenticationData = {
-        Username: username,
-        Password: password,
-      };  
-      const authenticationDetails = new AuthenticationDetails(authenticationData);
-      let cognitoPool = {
-        UserPoolId: process.env.REACT_APP_USER_POOL_ID,
-        ClientId: process.env.REACT_APP_CLIENT_ID
-      }
-      console.log(cognitoPool)
-      const userData = {
-        Username: username,
-        Pool: new CognitoUserPool(cognitoPool),
-      };
-  
-      const cognitoUser = new CognitoUser(userData);
-      cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: (session) => {
-          let usernameToDisplay = session.idToken.payload.preferred_username;
-          console.log('Zalogowano pomyślnie: ', usernameToDisplay);
-          localStorage.setItem('authorizationBearer', session.idToken.jwtToken);
-          onSuccessfulLogin(usernameToDisplay)
-        },
-        onFailure: (err) => {
-          console.error('Błąd logowania:', err.message, username);
-          let message = err.message;
-          if(message === 'User does not exist.') {
-            setMessageText('Nie znaleziono użytkownika z mailem: ' + username)
-          } else if(message === 'Incorrect username or password.') {
-            setMessageText('Niepoprawny login lub hasło dla użytkownika: ' + username)
-          } else if(message === 'Missing required parameter USERNAME') {
-            setMessageText('Podaj adres email do zalogowania')
-          }
-          clearInputs();
-          setShouldShowMessage(true);
-          setIsMessageError(true);
-          
-        },
-      });
+      handleLogin();
     }    
   };
 
+  const handleLogin = async () => {
+    const authenticationData = {
+      Username: username,
+      Password: password,
+    };  
+    const authenticationDetails = new AuthenticationDetails(authenticationData);
+    const userData = {
+      Username: username,
+      Pool: getCognitoUserPool(),
+    };
+
+    const cognitoUser = new CognitoUser(userData);
+    cognitoUser.authenticateUser(authenticationDetails, {
+      onSuccess: (session) => {
+        let usernameToDisplay = session.idToken.payload.preferred_username;
+        console.log('Zalogowano pomyślnie: ', usernameToDisplay);
+        localStorage.setItem('authorizationBearer', session.idToken.jwtToken);
+        onSuccessfulLogin(usernameToDisplay)
+      },
+      onFailure: (err) => {
+        console.error('Błąd logowania:', err.message, username);
+        handleErrorMessage(err.message);
+        clearInputs();          
+      },
+    });
+  }
+
   const handleRegister = async () => {
-    let cognitoPool = {
-      UserPoolId: process.env.REACT_APP_USER_POOL_ID,
-      ClientId: process.env.REACT_APP_CLIENT_ID
+    if(!isPassingRegistrationInitialValidation()) {
+      return;
     }
-    const userPool = new CognitoUserPool(cognitoPool);
+    const userPool = getCognitoUserPool();
     const attributeList = [
       new CognitoUserAttribute({ Name: 'email', Value: email }),
       new CognitoUserAttribute({ Name: 'preferred_username', Value: username })
     ];
-    if(!(new RegExp("^([\\w\\.@_\\- ]{4,32})$").test(username))) {
-      setMessageText('Nazwa użytkownika musi mieć między 4-32 znaki i zawierać tylko litery, cyfry, spacje, podkreślenia i myślniki')
-      setShouldShowMessage(true);
-      setIsMessageError(true);
-      return;
-    }
     userPool.signUp(email, password, attributeList, null, (err, result) => {
       if (err) {
-        let message = err.message;
-        console.error('Błąd rejestracji:', message);
-        if(message.includes('Password did not conform with policy')) {
-          setMessageText('Hasło zbyt proste. Minimum 8 znaków, cyfra, mała i duża litera oraz znak specjalny są wymagane')
-          setPassword('');
-          setRepeatedPassword('');
-        } else if(message === 'Invalid email address format.') {
-          setMessageText('Nieprawidłowy adres email')
-          setEmail('')
-        } else if(message.includes('An account with the given email already exists')) {
-          setMessageText('Ten adres email jest już zajęty')
-          setEmail('')
-        }
-        setShouldShowMessage(true);
-        setIsMessageError(true);
+        console.error('Błąd rejestracji:', err.message);
+        handleErrorMessage(err.message);
         return;
       }
       setIsRegistering(false);
@@ -115,9 +76,57 @@ const Login = ({ onSuccessfulLogin }) => {
       setShouldShowMessage(true);
       setIsMessageError(false);
       setMessageText('Konto utworzone. Zweryfikuj konto klikając link w wysłanym mailu.')
-      console.log('Rejestracja powiodła się:', result);
+      console.log('Rejestracja powiodła się');
     });
   };
+
+  const isPassingRegistrationInitialValidation = () => {
+    if(password !== repeatedPassword) {
+      setPassword('');
+      setRepeatedPassword('');
+      setShouldShowMessage(true);
+      setIsMessageError(true);
+      setMessageText('Hasła muszą być takie same!')
+      return false;
+    }
+    if(!(new RegExp("^([\\w\\.@_\\- ]{4,32})$").test(username))) {
+      setMessageText('Nazwa użytkownika musi mieć między 4-32 znaki i zawierać tylko litery, cyfry, spacje, podkreślenia i myślniki')
+      setShouldShowMessage(true);
+      setIsMessageError(true);
+      return false;
+    }
+    return true;
+  }
+
+  const handleErrorMessage = (message) => {
+    if(message.includes('Password did not conform with policy')) {
+      setMessageText('Hasło zbyt proste. Minimum 8 znaków, cyfra, mała i duża litera oraz znak specjalny są wymagane')
+      setPassword('');
+      setRepeatedPassword('');
+    } else if(message === 'Invalid email address format.') {
+      setMessageText('Nieprawidłowy adres email')
+      setEmail('')
+    } else if(message.includes('An account with the given email already exists')) {
+      setMessageText('Ten adres email jest już zajęty')
+      setEmail('')
+    } else if(message === 'User does not exist.') {
+      setMessageText('Nie znaleziono użytkownika z mailem: ' + username)
+    } else if(message === 'Incorrect username or password.') {
+      setMessageText('Niepoprawny login lub hasło dla użytkownika: ' + username)
+    } else if(message === 'Missing required parameter USERNAME') {
+      setMessageText('Podaj adres email do zalogowania')
+    }
+    setShouldShowMessage(true);
+    setIsMessageError(true);
+  }
+
+  const getCognitoUserPool = () => {
+    let cognitoPool = {
+      UserPoolId: process.env.REACT_APP_USER_POOL_ID,
+      ClientId: process.env.REACT_APP_CLIENT_ID
+    }
+    return new CognitoUserPool(cognitoPool);
+  }
 
   return (
     <div className='login-container'>
