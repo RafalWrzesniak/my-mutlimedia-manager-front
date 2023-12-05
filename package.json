@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "amazon-cognito-identity-js": "^6.3.7",
+    "aws-sdk": "^2.1510.0",
     "axios": "^1.4.0",
     "dummy-component": "git+https://github.com/recraftrelic/dummy-react-npm-module.git",
     "moment": "^2.29.4",
