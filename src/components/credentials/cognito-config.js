@@ -1,5 +1,8 @@
 const AWS = require('aws-sdk');
-AWS.config.update({ region: 'eu-central-1' });
+AWS.config.update({ 
+  region: 'eu-central-1',
+  RoleArn: 'amplify-role'
+});
 const secretsManager = new AWS.SecretsManager();
 const secretName = 'prod/cognito/data';
 
