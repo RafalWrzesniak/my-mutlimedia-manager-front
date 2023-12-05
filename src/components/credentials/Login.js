@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import '../../css/login.css';
 import { AuthenticationDetails, CognitoUser, CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
-import getCognitoData from './cognito-config';
 
 const Login = ({ onSuccessfulLogin }) => {
   
@@ -54,7 +53,7 @@ const Login = ({ onSuccessfulLogin }) => {
         onSuccess: (session) => {
           let usernameToDisplay = session.idToken.payload.preferred_username;
           console.log('Zalogowano pomyślnie: ', usernameToDisplay);
-          localStorage.setItem('authorizationBearer', session.accessToken.jwtToken);
+          localStorage.setItem('authorizationBearer', session.idToken.jwtToken);
           onSuccessfulLogin(usernameToDisplay)
         },
         onFailure: (err) => {
@@ -77,7 +76,10 @@ const Login = ({ onSuccessfulLogin }) => {
   };
 
   const handleRegister = async () => {
-    let cognitoPool = await getCognitoData();
+    let cognitoPool = {
+      UserPoolId: process.env.REACT_APP_USER_POOL_ID,
+      ClientId: process.env.REACT_APP_CLIENT_ID
+    }
     const userPool = new CognitoUserPool(cognitoPool);
     const attributeList = [
       new CognitoUserAttribute({ Name: 'email', Value: email }),
