@@ -39,7 +39,10 @@ const Login = ({ onSuccessfulLogin }) => {
         Password: password,
       };  
       const authenticationDetails = new AuthenticationDetails(authenticationData);
-      let cognitoPool = await getCognitoData();
+      let cognitoPool = {
+        UserPoolId: process.ENV.UserPoolId,
+        ClientId: process.ENV.ClientId,
+      }
       const userData = {
         Username: username,
         Pool: new CognitoUserPool(cognitoPool),
