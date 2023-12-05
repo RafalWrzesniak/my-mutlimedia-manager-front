@@ -220,15 +220,7 @@ const App = () => {
   }
 
   const updateItem = (item) => {
-    for(let i in tabLists) {
-      let list = tabLists[i]
-      let index = list.allItems.map(listItem => listItem.id).indexOf(item.id);
-      if (index > -1) {
-        list.allItems.splice(index, 1, item);
-      }
-    }
-    let list = tabLists.filter(appList => appList.id === activeList)[0];
-    setDisplayedItems(list.allItems);
+    handleListChange(activeList);
   }
 
   const addNewList = (list) => {

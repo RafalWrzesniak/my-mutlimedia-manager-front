@@ -117,7 +117,7 @@ const finishItem = async (itemId, finishDate, spentTime, apiType, onSuccess = ()
   } else {
     url = `${URL}/${apiType}/finishGame?gameId=${itemId}&finishDate=${finishDate}&playedHours=${spentTime}`;
   }
-  post(url, {}, onSuccess);
+  await post(url, {}, onSuccess);
 }
 
 export { getUserListInfo, getListById, getRecentlyDone, createBookFromUrl, createGameFromUrl, 

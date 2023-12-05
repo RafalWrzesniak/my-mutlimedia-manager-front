@@ -73,10 +73,10 @@ const ItemToolbar = ({ lists, item, addItemToListId, removeItemFromListId, updat
     }
   }  
   
-  const acceptFinishedOn = () => {
+  const acceptFinishedOn = async () => {
     if(finishedOnDate !== getFinishedOn(item) || timeSpent !== item.playedHours) {
       console.log(`Setting item '${item.title}' as finished on ${finishedOnDate}${timeSpent ? ` in ${timeSpent} hours` : ''}`)
-      finishItem(item.id, finishedOnDate, timeSpent, itemToApi(item));
+      await finishItem(item.id, finishedOnDate, timeSpent, itemToApi(item));
       item.finishedOn = finishedOnDate;
       if(isBook(item)) {
         item.readOn = finishedOnDate;
