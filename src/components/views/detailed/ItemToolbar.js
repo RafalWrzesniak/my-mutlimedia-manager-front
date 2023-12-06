@@ -99,7 +99,6 @@ const ItemToolbar = ({ lists, item, addItemToListId, removeItemFromListId, updat
   }
 
   if(initDropdownLists.length === 0) {
-    // fetchListsContainingItem();
     setListsThatContainsItem();
   }  
 
