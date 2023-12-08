@@ -59,15 +59,15 @@ import moment from 'moment';
   }
 
   function isBook(item) {
-    return item.lubimyCzytacUrl || item.numberOfPages;
+    return item.id.includes('lubimyczytac') || item.lubimyCzytacUrl || item.numberOfPages;
   }
 
   function isGame(item) {
-    return item.gryOnlineUrl || item.studio;
+    return item.id.includes('gry-online') || item.gryOnlineUrl || item.studio;
   }
 
   function isMovie(item) {
-    return item.filmwebUrl || item.plotLocal;
+    return item.id.includes('filmweb') || item.filmwebUrl || item.plotLocal;
   }
 
   function getFinishedOn(item) {

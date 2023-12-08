@@ -51,7 +51,16 @@ const App = () => {
     }
     let finalItems = items.slice(startIndex, endIndex);
     if(finalItems.length > 0 && !finalItems[0].createdOn) {
-      getDetailsForItems(finalItems, username, tabToApi(activeTab), response => setDisplayedItemsFunc(response.data));
+      getDetailsForItems(finalItems, username, tabToApi(activeTab), response => {
+        let item = response.data[0]
+        if(!item) {
+          return;
+        }
+        if((isBook(item) && activeTab === 'BOOK_LIST') || (isGame(item) && activeTab === 'GAME_LIST') || (isMovie(item) && activeTab === 'MOVIE_LIST')) {
+          console.log('ustawiam dla ' + activeTab)
+          setDisplayedItemsFunc(response.data)
+        }        
+      });
     }    
     setDisplayedItemsFunc(finalItems);
   }
