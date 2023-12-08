@@ -56,7 +56,8 @@ const App = () => {
         if(!item) {
           return;
         }
-        if((isBook(item) && activeTab === 'BOOK_LIST') || (isGame(item) && activeTab === 'GAME_LIST') || (isMovie(item) && activeTab === 'MOVIE_LIST')) {
+        
+        if(JSON.stringify(finalItems.map(arrayTtem => arrayTtem.id)) === JSON.stringify(response.data.map(arrayTtem => arrayTtem.id))) {
           console.log('ustawiam dla ' + activeTab)
           setDisplayedItemsFunc(response.data)
         }        
