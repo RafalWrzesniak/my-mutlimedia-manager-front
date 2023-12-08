@@ -49,7 +49,7 @@ const Login = ({ onSuccessfulLogin }) => {
         onSuccessfulLogin(usernameToDisplay)
       },
       onFailure: (err) => {
-        console.error('Błąd logowania:', err.message, username);
+        console.error('Błąd logowania:', err.message);
         handleErrorMessage(err.message);
         clearInputs();          
       },
