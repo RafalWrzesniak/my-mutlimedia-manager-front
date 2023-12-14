@@ -11,18 +11,6 @@ if (process.env.NODE_ENV === 'production') {
 
 function getResponseData(response) {
   return response ? response.data : null;
-};
-
-const login = async (username, password, onSuccess = () => {}, onFailure = () => {}) => {
-  let credentials = {
-    'username': username,
-    'password': password
-  }
-
-  post(`${URL}/login`, credentials, (response) => {
-    localStorage.setItem('authorizationBearer', response.headers['authorization']);
-    onSuccess(username);  
-  }, onFailure)
 }
 
 const register = async (username, password, onSuccess = () => {}, onFailure = () => {}) => {
@@ -122,4 +110,4 @@ const finishItem = async (itemId, finishDate, spentTime, apiType, onSuccess = ()
 
 export { getUserListInfo, getListById, getRecentlyDone, createBookFromUrl, createGameFromUrl, 
   createMovieFromUrl, findProductsByProperty, createNewList, findListsContainingProduct, getDetailsForItems, 
-  addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, login, register };
+  addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, register };

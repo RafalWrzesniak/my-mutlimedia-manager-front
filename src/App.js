@@ -6,6 +6,7 @@ import Content from './components/views/Content';
 import Paginator from './components/views/Paginator';
 import { getListById, getUserListInfo, getDetailsForItems, getRecentlyDone, findProductsByProperty, getItemById } from './components/api/MutlimediaManagerApi';
 import { tabToApi, tabToListObjects, getListsForTab, isBook, isGame, isMovie } from './components/utils/Utils';
+import InitLoader from './components/utils/InitLoader';
 import AddItemDialog from './components/views/AddItemDialog';
 import ReactModal from 'react-modal';
 import BookDetailedWindow from './components/views/detailed/BookDetailedWindow';
@@ -26,14 +27,14 @@ const App = () => {
   const [tabLists, setTabLists] = useState([]);
   const [displayedItems, setDisplayedItemsFunc] = useState([]);
   const [activeItem, setActiveItem] = useState();
-  const [rememeredList, setRememberedList] = useState();  
+  const [rememberedList, setRememberedList] = useState();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [sortKey, setSortKey] = useState('id');
   const [sortDirection, setSortDirection] = useState('DESC');
   const [searchInputData, setSearchInputData] = useState({});
-
+  const [initLoading, setInitInitLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handlePageChange = async (page) => {
@@ -58,7 +59,6 @@ const App = () => {
         }
         
         if(JSON.stringify(finalItems.map(arrayTtem => arrayTtem.id)) === JSON.stringify(response.data.map(arrayTtem => arrayTtem.id))) {
-          console.log('ustawiam dla ' + activeTab)
           setDisplayedItemsFunc(response.data)
         }        
       });
@@ -133,7 +133,6 @@ const App = () => {
     setTotalPages(Math.ceil((list.items)/pageSize));
     toolbarRef.current.turnOffRecentlyDoneButton();
     toolbarRef.current.clearSearchInput();
-    console.log('Lista zmieniona')
   }
 
   const handleItemChange = (item) => {
@@ -157,13 +156,13 @@ const App = () => {
       setCurrentPage(0);
       setTotalPages(1)
     } else if(activeList) {
-      handleListChange(rememeredList)
+      handleListChange(rememberedList)
     }
   }
 
   const handleInputSearch = async (propertyName, valueToFind) => {
     if(searchInputData.valueToFind && valueToFind.length === 0) {
-      console.log(rememeredList)
+      console.log(rememberedList)
       setSearchInputData({})
       handleListChange(activeList);
       return;
@@ -191,6 +190,7 @@ const App = () => {
     setUsername(username);
     console.log("Fetching init data")
     try {
+      setInitInitLoading(true);
       let userListsData = await getUserListInfo();
       setAllUserLists(userListsData);
       let updatedLists = getListsForTab(userListsData, activeTab);
@@ -201,8 +201,10 @@ const App = () => {
       toolbarRef.current.restartSorting(activeTab);
       toolbarRef.current.turnOffRecentlyDoneButton();
       toolbarRef.current.clearSearchInput();
+      setInitInitLoading(false);
     } catch (error) {
       console.error('Error fetching user lists:', error);
+      setInitInitLoading(false);
     }
   };
 
@@ -256,6 +258,7 @@ const App = () => {
         </div>
       </div>
       <div className="container">
+        <InitLoader loading={initLoading} />
         <Sidebar 
         lists={tabLists} 
         activeList={activeList}
