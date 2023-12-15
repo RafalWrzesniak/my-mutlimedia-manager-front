@@ -2,8 +2,7 @@ import React from 'react';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import '../../css/item.css';
-import { formatDate } from '../utils/Utils';
-
+import { formatDate, isEncoded } from '../utils/Utils';
 
 const Item = ({ product, isActive, onItemClick, showTitle }) => {
 
@@ -26,7 +25,7 @@ const Item = ({ product, isActive, onItemClick, showTitle }) => {
           <div className="item-image" style={{ backgroundImage: `url(${product.webImageUrl})` }}>
             <div className={`item-overlay${showTitle ? '-static' : ''}`}>
               <span className="item-title">
-                {product.polishTitle ? product.polishTitle : product.title}
+                {decodeURIComponent(product.polishTitle ? product.polishTitle : product.title)}
               </span>
             </div>
           </div>
