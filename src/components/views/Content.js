@@ -1,7 +1,7 @@
 import React from 'react';
 import Item from './Item';
 
-const Content = ({ items, activeItem, onItemChange }) => {
+const Content = ({ items, activeItem, onItemChange, showTitle }) => {
   
   const handleItemClick = (item) => {
     onItemChange(item);
@@ -15,6 +15,7 @@ const Content = ({ items, activeItem, onItemChange }) => {
             product={item}
             isActive={activeItem ? item.id === activeItem.id : false}
             onItemClick={() => handleItemClick(item)}
+            showTitle={showTitle}
           />
         </div>
       ))}

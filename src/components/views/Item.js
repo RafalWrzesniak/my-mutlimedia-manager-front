@@ -5,7 +5,7 @@ import '../../css/item.css';
 import { formatDate } from '../utils/Utils';
 
 
-const Item = ({ product, isActive, onItemClick }) => {
+const Item = ({ product, isActive, onItemClick, showTitle }) => {
 
   const handleClick = () => {
     onItemClick();
@@ -24,7 +24,7 @@ const Item = ({ product, isActive, onItemClick }) => {
       <div className="item-button-wrapper">
         <button className={`item-button ${isActive ? 'active' : ''}`} onClick={handleClick}>
           <div className="item-image" style={{ backgroundImage: `url(${product.webImageUrl})` }}>
-            <div className={`item-overlay${product.polishTitle || product.studio ? '-static' : ''}`}>
+            <div className={`item-overlay${showTitle ? '-static' : ''}`}>
               <span className="item-title">
                 {product.polishTitle ? product.polishTitle : product.title}
               </span>

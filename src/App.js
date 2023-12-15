@@ -36,6 +36,7 @@ const App = () => {
   const [searchInputData, setSearchInputData] = useState({});
   const [initLoading, setInitInitLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showTitle, setShowTitle] = useState(false);
 
   const handlePageChange = async (page) => {
     console.log("Zmieniam na strone: ", page + 1)
@@ -278,10 +279,11 @@ const App = () => {
             handleSortChange={setSortKey}
             handleSortDirectionChange={setSortDirection}
             handleSearchInputChange={handleInputSearch}
+            switchShowTitle={setShowTitle}
             activeTab={activeTab}
             />
             <AddItemDialog isOpen={isDialogOpen} onClose={handleCloseDialog} lists={tabLists} activeApi={tabToApi(activeTab)} addItemToListId={addItemToList} />            
-            <Content items={displayedItems} activeItem={activeItem} onItemChange={handleItemChange} />
+            <Content items={displayedItems} activeItem={activeItem} onItemChange={handleItemChange} showTitle={showTitle} />
             <Paginator totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange}
             />
           </div>

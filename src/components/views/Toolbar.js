@@ -3,6 +3,7 @@ import { AiOutlineAppstoreAdd, AiOutlineFileDone } from 'react-icons/ai';
 import { BsSortDownAlt, BsSortDown } from 'react-icons/bs';
 import '../../css/toolbar.css';
 import RegularButton from '../basic/RegularButton';
+import Switch from "react-switch";
 
 const Toolbar = forwardRef((props, ref) => {
 
@@ -12,6 +13,7 @@ const Toolbar = forwardRef((props, ref) => {
   const [propertyToFind, setPropertyToFind] = useState('');
   const [searchInputValue, setSearchInputValue] = useState('');
   const [sortingDirection, setSortingDirection] = useState('DESC');
+  const [showTitle, setShowTitle] = useState(false);
 
   const chooseProperSortKeys = (activeTab) => {
     const fieldsForTab = {
@@ -171,7 +173,14 @@ const Toolbar = forwardRef((props, ref) => {
     setSortingOptions(sortingOptions)
   }
 
-  
+
+  const switchShowTitle = function (state) {
+    if(props.switchShowTitle) {
+      props.switchShowTitle(state);
+      setShowTitle(state)
+    }
+  };
+
   return (
     <div className="toolbar" >
       <RegularButton text='Dodaj' icon={<AiOutlineAppstoreAdd/>} onClick={handleAddItem} disabled={recentlyDoneIsActive} />
@@ -196,7 +205,12 @@ const Toolbar = forwardRef((props, ref) => {
             ))}
           </select>
       </div>
-      
+
+      <div className={'title-switch'}>
+        <Switch onChange={switchShowTitle} checked={showTitle} offColor={'#3b3b3b'} onColor={'#21d810'} height={15} width={35} offHandleColor={'#ebebeb'} onHandleColor={'#ebebeb'} />
+        Tytuły
+      </div>
+
     </div>
   );
 });

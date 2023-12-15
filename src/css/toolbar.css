@@ -65,3 +65,11 @@
     color: var(--light_gray);
     border-color: var(--light_gray);
   }
+
+  .title-switch {
+    align-items: center;
+    margin-left: 10px;
+    font-size: 14px;
+    height: max-content;
+    width: min-content;
+  }
