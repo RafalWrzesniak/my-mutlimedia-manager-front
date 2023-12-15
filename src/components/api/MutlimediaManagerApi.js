@@ -50,7 +50,7 @@ const createGameFromUrl = (gameUrl, listId, platform, refreshState) => {
 }
 
 const createMovieFromUrl = (movieUrl, listId, refreshState) => {
-  let url = `${URL}/movie/create?url=${movieUrl}${listId ? '&listId=' + listId : ''}`;
+  let url = `${URL}/movie/create?url=${encodeURIComponent(movieUrl)}${listId ? '&listId=' + listId : ''}`;
   post(url, {}, refreshState);
 }
 
