@@ -40,12 +40,12 @@ const getItemById = async (itemId, apiType, onSuccess = () => {}) => {
 };
 
 const createBookFromUrl = (bookUrl, listId, bookFormat, refreshState) => {
-  let url = `${URL}/book/createBookUrl?url=${bookUrl}${listId ? '&listId=' + listId : ''}${bookFormat ? '&bookFormat=' + bookFormat : ''}`
+  let url = `${URL}/book/createBookUrl?url=${encodeURIComponent(bookUrl)}${listId ? '&listId=' + listId : ''}${bookFormat ? '&bookFormat=' + bookFormat : ''}`
   post(url, {}, refreshState);
 }
 
 const createGameFromUrl = (gameUrl, listId, platform, refreshState) => {
-  let url = `${URL}/game/createGameUrl?url=${gameUrl}${listId ? '&listId=' + listId : ''}${platform ? '&gamePlatform=' + platform : ''}`
+  let url = `${URL}/game/createGameUrl?url=${encodeURIComponent(gameUrl)}${listId ? '&listId=' + listId : ''}${platform ? '&gamePlatform=' + platform : ''}`
   post(url, {}, refreshState);
 }
 

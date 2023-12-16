@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import { AiOutlineAppstoreAdd, AiOutlineFileDone } from 'react-icons/ai';
 import { BsSortDownAlt, BsSortDown } from 'react-icons/bs';
 import '../../css/toolbar.css';
@@ -177,9 +177,18 @@ const Toolbar = forwardRef((props, ref) => {
   const switchShowTitle = function (state) {
     if(props.switchShowTitle) {
       props.switchShowTitle(state);
-      setShowTitle(state)
+      setShowTitle(state);
+      localStorage.setItem('savedShowTitle', state);
     }
   };
+
+
+  useEffect(() => {
+    let savedShowTitle = localStorage.getItem('savedShowTitle');
+    if(savedShowTitle) {
+      setShowTitle(savedShowTitle === 'true');
+    }
+  }, [])
 
   return (
     <div className="toolbar" >

@@ -88,8 +88,8 @@ const App = () => {
   
   useEffect(() => {
     if(username) {
-      handleTabChange(activeTab);  
-    }    
+      handleTabChange(activeTab);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab])
 
@@ -193,6 +193,10 @@ const App = () => {
     try {
       setInitInitLoading(true);
       let userListsData = await getUserListInfo();
+      let savedShowTitle = localStorage.getItem('savedShowTitle');
+      if(savedShowTitle) {
+        setShowTitle(savedShowTitle === 'true');
+      }
       setAllUserLists(userListsData);
       let updatedLists = getListsForTab(userListsData, activeTab);
       setTabLists(updatedLists);
