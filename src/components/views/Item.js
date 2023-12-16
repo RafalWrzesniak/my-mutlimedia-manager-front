@@ -23,8 +23,11 @@ const Item = ({ product, isActive, onItemClick, showTitle }) => {
       <div className="item-button-wrapper">
         <button className={`item-button ${isActive ? 'active' : ''}`} onClick={handleClick}>
           <div className="item-image" style={{ backgroundImage: `url(${product.webImageUrl})` }}>
+            {(product.id.includes('serial')) && (
+            <div className={`serial-info${isActive ? '-active' : ''}`}>SERIAL</div>
+            )}
             <div className={`item-overlay${showTitle ? '-static' : ''}`}>
-              <span className="item-title">
+              <span className={"item-title"}>
                 {decodeURIComponent(product.polishTitle ? product.polishTitle : product.title)}
               </span>
             </div>

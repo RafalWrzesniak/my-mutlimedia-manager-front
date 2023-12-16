@@ -25,8 +25,8 @@
     border-color: var(--my_blue);
   }
   
-  .item-button:hover .item-overlay { 
-    transition-delay: 500ms;
+  .item-button:hover .item-overlay {
+    transition-delay: 200ms;
     opacity: 1;
   }
   
@@ -104,5 +104,23 @@
   .item-finished-on {
     color: var(--almost_white);
     font-size: 14px;
+  }
+
+  .serial-info {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 0px 0px 15px 0px;
+    font-size: 16px;
+    color: var(--my_blue);
+    width: min-content;
+    padding: 8px 10px 10px 8px;
+  }
+
+  .serial-info-active {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 0px 0px 15px 0px;
+    font-size: 16px;
+    color: var(--my_green);
+    width: min-content;
+    padding: 8px 10px 10px 8px;
   }
   

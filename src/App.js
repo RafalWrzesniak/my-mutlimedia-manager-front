@@ -58,12 +58,11 @@ const App = () => {
         if(!item) {
           return;
         }
-        
         if(JSON.stringify(finalItems.map(arrayTtem => arrayTtem.id)) === JSON.stringify(response.data.map(arrayTtem => arrayTtem.id))) {
           setDisplayedItemsFunc(response.data)
-        }        
+        }
       });
-    }    
+    }
     setDisplayedItemsFunc(finalItems);
   }
 
