@@ -30,7 +30,7 @@ const getListById = async (listId, apiType, page, direction, sortKey, pageSize) 
   };
   
 const getRecentlyDone = async (apiType) => {
-  const response = await get(`${URL}/${apiType}/lastFinished`);
+  const response = await get(`${URL}/${apiType}/lastFinished?productType=${apiType}`);
   return getResponseData(response);
 };  
 
