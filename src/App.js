@@ -45,25 +45,24 @@ const App = () => {
     setDisplayedItemsWithPage(currentList.allItems, page)
   };
 
-  const setDisplayedItemsWithPage = (items, pageNumber) => {    
+  const setDisplayedItemsWithPage = (items, pageNumber) => {
     let startIndex = pageNumber * pageSize;
     let endIndex = startIndex + pageSize;
     if (endIndex > items.length) {
       endIndex = items.length;
     }
     let finalItems = items.slice(startIndex, endIndex);
+    setDisplayedItemsFunc(finalItems);
     if(finalItems.length > 0 && !finalItems[0].createdOn) {
       getDetailsForItems(finalItems, username, tabToApi(activeTab), response => {
-        let item = response.data[0]
-        if(!item) {
-          return;
-        }
-        if(JSON.stringify(finalItems.map(arrayTtem => arrayTtem.id)) === JSON.stringify(response.data.map(arrayTtem => arrayTtem.id))) {
-          setDisplayedItemsFunc(response.data)
-        }
+        setDisplayedItemsFunc((currentItems) => {
+          if(JSON.stringify(currentItems.map(arrayItem => arrayItem.id)) === JSON.stringify(response.data.map(arrayItem => arrayItem.id))) {
+            return response.data;
+          }
+          return currentItems;
+        })
       });
     }
-    setDisplayedItemsFunc(finalItems);
   }
 
   const setDisplayedItems = (items) => {
