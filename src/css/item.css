@@ -10,8 +10,10 @@
   }
   
   .item-button {
-    width: 140px;
-    height: 200px;
+    min-width: 130px;
+    min-height: 185px;
+    width: 6.5vw;
+    height: 19vh;
     padding: 0;
     background-color: transparent;
     cursor: pointer;
@@ -88,7 +90,8 @@
   }
   
   .item-info {
-    width: 140px;
+    min-width: 130px;
+    width: 6vw;
     display: flex;
     align-items: center;
     text-align: center;

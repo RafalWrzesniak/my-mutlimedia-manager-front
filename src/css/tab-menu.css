@@ -16,7 +16,7 @@
   
   .tab-menu {
     display: flex;
-    gap: 3px;
+    gap: 10px;
   }
   
   .tab {

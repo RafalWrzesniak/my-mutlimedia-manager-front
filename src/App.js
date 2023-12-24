@@ -262,13 +262,7 @@ const App = () => {
       </div>
       <div className="container">
         <InitLoader loading={initLoading} />
-        <Sidebar 
-        lists={tabLists} 
-        activeList={activeList}
-        onListChange={handleListChange}
-        activeApi={activeTab}
-        addNewList={addNewList}
-        />
+        <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} />
         <div className='content-with-menu'>
           <div className="tab-menu-container">
             <TabMenu activeTab={activeTab} onTabChange={setActiveTab} />
@@ -286,14 +280,14 @@ const App = () => {
             />
             <AddItemDialog isOpen={isDialogOpen} onClose={handleCloseDialog} lists={tabLists} activeApi={tabToApi(activeTab)} addItemToListId={addItemToList} />            
             <Content items={displayedItems} activeItem={activeItem} onItemChange={handleItemChange} showTitle={showTitle} />
-            <Paginator totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange}
-            />
+            <Paginator totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
           </div>
         </div>
         {(activeItem && activeTab==='BOOK_LIST' && isBook(activeItem)) && (<BookDetailedWindow book={activeItem} tabLists={tabLists} updateItem={updateItem} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
         {(activeItem && activeTab==='MOVIE_LIST' && isMovie(activeItem)) && (<MovieDetailedWindow movie={activeItem} tabLists={tabLists} updateItem={updateItem} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
         {(activeItem && activeTab==='GAME_LIST' && isGame(activeItem)) && (<GameDetailedWindow game={activeItem} tabLists={tabLists} updateItem={updateItem} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
       </div>
+      <div className='bottom-menu' />
     </div>
   );
 };

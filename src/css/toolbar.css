@@ -1,9 +1,10 @@
 .toolbar {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     margin-top: 10px;
     margin-left: 11px;
     padding: 10px;
-    align-items: center;
     gap: 10px;
     background-color: var(--background_color);
   }

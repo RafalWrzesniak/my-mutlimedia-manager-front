@@ -30,6 +30,11 @@
     padding: 10px;
     cursor: pointer;
   }
+
+  .button:active {
+    transition: opacity 0.5s ease;
+    background-color: var(--my_blue);
+  }
   
   .toggleText {
     margin-top: 10px;
