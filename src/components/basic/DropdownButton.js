@@ -96,7 +96,7 @@ const DropdownButton = ({ options, initialOptions, placeholder, isMulti, onSelec
         multiValueRemove: (provided) => ({
         ...provided,
         color: 'var(--almost_white)',
-        transition: 'background-color 0.3s ease, color 0.3s ease'
+        transition: 'background-color 0.5s ease, color 0.5s ease'
         }),  
         menu: (provided) => ({
         ...provided,

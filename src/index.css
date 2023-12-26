@@ -152,7 +152,7 @@ body {
 
 .select-wrapper {
   position: relative;
-  transition: border-color 0.3s ease, color 0.3s ease;
+  transition: border-color 0.5s ease, color 0.5s ease;
   background: transparent;
   border: solid 2px var(--almost_white);
   border-radius: 5px;

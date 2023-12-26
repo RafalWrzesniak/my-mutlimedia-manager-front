@@ -21,7 +21,7 @@
     border: solid 2px var(--light_gray);
     border-radius: 5px;
     cursor: pointer;
-    transition: border-color 0.3s ease, color 0.3s ease;
+    transition: border-color 0.5s ease, color 0.5s ease;
   }  
 
   .regular-button:hover:not(:disabled)  {
@@ -54,7 +54,7 @@
     border-color: var(--my_green);
     cursor: pointer;
     margin-right: 10px;
-    transition: border-color 0.3s ease, color 0.3s ease;
+    transition: border-color 0.5s ease, color 0.5s ease;
   }  
 
   .regular-button-small {
@@ -67,7 +67,7 @@
     border: solid 2px var(--light_gray);
     border-radius: 5px;
     cursor: pointer;
-    transition: border-color 0.3s ease, color 0.3s ease;
+    transition: border-color 0.5s ease, color 0.5s ease;
   }  
 
   .regular-button-small:hover:not(:disabled)  {
