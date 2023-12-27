@@ -23,12 +23,12 @@
   }
   
   .add-item-dialog-content {
-    position: fixed;
-    top: 140px;
-    left: 300px;
+    position: absolute;
+    top: 17vh;
+    left: 30vh;
     width: 500px;
     background-color: var(--background_color);
-    border-radius: 8px;
+    border-radius: 0px 8px 8px 8px;
     border: solid;
     border-color: var(--my_blue);
     border-width: 2px;

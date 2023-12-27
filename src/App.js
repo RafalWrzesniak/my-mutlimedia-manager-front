@@ -7,7 +7,7 @@ import Paginator from './components/views/Paginator';
 import { getListById, getUserListInfo, getDetailsForItems, getRecentlyDone, findProductsByProperty, getItemById } from './components/api/MutlimediaManagerApi';
 import { tabToApi, tabToListObjects, getListsForTab, isBook, isGame, isMovie } from './components/utils/Utils';
 import InitLoader from './components/utils/InitLoader';
-import AddItemDialog from './components/views/AddItemDialog';
+import AddItemDialog from './components/views/dialog/AddItemDialog';
 import ReactModal from 'react-modal';
 import BookDetailedWindow from './components/views/detailed/BookDetailedWindow';
 import GameDetailedWindow from './components/views/detailed/GameDetailedWindow';
@@ -181,7 +181,9 @@ const App = () => {
   }
 
   const moveToDefaultView = () => {
-    handleTabChange('BOOK_LIST')
+    if(isLoggedIn) {
+      handleTabChange('BOOK_LIST');
+    }
   }
 
   const fetchInitialData = async (username) => {
@@ -244,8 +246,16 @@ const App = () => {
     setTabLists(updatedTabLists);
   }
 
-  if (!isLoggedIn) {
-    return <Login onSuccessfulLogin={fetchInitialData} />;
+  const refreshListsInApp = async () => {
+    let userListsData = await getUserListInfo();
+    setAllUserLists(userListsData);
+    let updatedLists = getListsForTab(userListsData, activeTab);
+    setTabLists(updatedLists);
+    if(!updatedLists.map(list => list.id).includes(activeList) && updatedLists.length > 0) {
+      setActiveList(updatedLists[0].id)
+      setDisplayedItems(updatedLists[0].allItems);
+    }
+
   }
 
   return (
@@ -260,9 +270,11 @@ const App = () => {
           {username}
         </div>
       </div>
+      {(!isLoggedIn) && <Login onSuccessfulLogin={fetchInitialData} />}
+      {(isLoggedIn) && (
       <div className="container">
         <InitLoader loading={initLoading} />
-        <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} />
+        <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} refreshListsInApp={refreshListsInApp} />
         <div className='content-with-menu'>
           <div className="tab-menu-container">
             <TabMenu activeTab={activeTab} onTabChange={setActiveTab} />
@@ -278,7 +290,7 @@ const App = () => {
             switchShowTitle={setShowTitle}
             activeTab={activeTab}
             />
-            <AddItemDialog isOpen={isDialogOpen} onClose={handleCloseDialog} lists={tabLists} activeApi={tabToApi(activeTab)} addItemToListId={addItemToList} />            
+            <AddItemDialog isOpen={isDialogOpen} onClose={handleCloseDialog} lists={tabLists} activeApi={tabToApi(activeTab)} addItemToListId={addItemToList} />
             <Content items={displayedItems} activeItem={activeItem} onItemChange={handleItemChange} showTitle={showTitle} />
             <Paginator totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
           </div>
@@ -287,6 +299,7 @@ const App = () => {
         {(activeItem && activeTab==='MOVIE_LIST' && isMovie(activeItem)) && (<MovieDetailedWindow movie={activeItem} tabLists={tabLists} updateItem={updateItem} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
         {(activeItem && activeTab==='GAME_LIST' && isGame(activeItem)) && (<GameDetailedWindow game={activeItem} tabLists={tabLists} updateItem={updateItem} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
       </div>
+      )}
       <div className='bottom-menu' />
     </div>
   );

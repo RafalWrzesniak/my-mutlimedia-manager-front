@@ -1,42 +1,65 @@
 import React, { useState } from 'react';
-import { RiPlayListAddFill } from 'react-icons/ri';
+import { MdPlaylistRemove, MdPlaylistAdd, MdDriveFileRenameOutline } from "react-icons/md";
 import '../../css/sidebar.css';
-import AddListDialog from './AddListDialog';
+import AddListDialog from './dialog/AddListDialog';
+import RenameListDialog from './dialog/RenameListDialog';
+import ConfirmationDialog from './dialog/ConfirmationDialog';
+import RegularButton from '../basic/RegularButton';
+import { removeListFromUser } from '../api/MutlimediaManagerApi';
+import { tabToApi } from '../utils/Utils';
 
-const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList }) => {
+const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList, refreshListsInApp }) => {
   
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isAddListDialogOpen, setIsAddListDialogOpen] = useState(false);
+  const [isRenameListDialogOpen, setIsRenameListDialogOpen] = useState(false);
+  const [isDeleteListDialogOpen, setIsDeleteListDialogOpen] = useState(false);
+  const [bottomRightOfActiveList, setBottomRightOfActiveList] = useState()
 
-  const handleListChange = (list) => {
+  const handleListChange = (event, list) => {
+    const divRect = event.target.getBoundingClientRect();
+    const x = divRect.right;
+    const y = divRect.bottom;
+    const position = {
+      content: {
+        left: Math.round(x)+'px',
+        top: Math.round(y)+'px'
+      }
+    };
+    setBottomRightOfActiveList(position)
     onListChange(list.id);
   };
 
-  const handleOpenDialog = () => {
-    setIsDialogOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-  };
+  const removeList = () => {
+    console.log("Usuwam liste z id: ", activeList);
+    removeListFromUser(activeList, tabToApi(activeApi), refreshListsInApp);
+  }
 
   return (
     <div className="sidebar">
-      <div className="sidebar-header">
-        <span className="sidebar-title"><h2>Moje listy</h2></span>
-        <span onClick={handleOpenDialog} className="sidebar-icon"><RiPlayListAddFill /></span>
-        <AddListDialog isOpen={isDialogOpen} onClose={handleCloseDialog} activeApi={activeApi} addNewList={addNewList} />
+      <div>
+        <div className="sidebar-header">
+          <span className="sidebar-title"><h2>Moje listy</h2></span>
+        </div>
+        <hr className="divider" />
+        <ul>
+          {lists.map((list) => (
+            <li
+              key={list.id}
+              className={list.id === activeList ? 'active' : ''}
+              onClick={(event) => handleListChange(event, list)}>
+              <button>{`${list.name}${list.items ? ' (' + list.items + ')' : ''}`}</button>
+            </li>
+          ))}
+        </ul>
       </div>
-      <hr className="divider" />
-      <ul>
-        {lists.map((list) => (
-          <li
-            key={list.id}
-            className={list.id === activeList ? 'active' : ''}
-            onClick={() => handleListChange(list)}>
-            <button>{`${list.name}${list.items ? ' (' + list.items + ')' : ''}`}</button>
-          </li>
-        ))}
-      </ul>
+      <div className="sidebar-menu">
+        <RegularButton text='Dodaj' icon={<MdPlaylistAdd/>} onClick={() => setIsAddListDialogOpen(true)} extraStyle='small' />
+        <AddListDialog isOpen={isAddListDialogOpen} onClose={() => setIsAddListDialogOpen(false)} activeApi={activeApi} addNewList={addNewList} />
+        <RegularButton text='Usuń' icon={<MdPlaylistRemove/>} onClick={() => setIsDeleteListDialogOpen(true)} extraStyle='small' />
+        <ConfirmationDialog isOpen={isDeleteListDialogOpen} onClose={() => setIsDeleteListDialogOpen(false)} onUserConfirm={removeList} dialogTitle="Czy na pewno chcesz usunąć tę listę?" position={bottomRightOfActiveList} />
+        <RegularButton text='Edytuj' icon={<MdDriveFileRenameOutline/>} onClick={() => setIsRenameListDialogOpen(true)} extraStyle='small' />
+        <RenameListDialog isOpen={isRenameListDialogOpen} onClose={() => setIsRenameListDialogOpen(false)} activeApi={activeApi} activeList={activeList} refreshListsInApp={refreshListsInApp} position={bottomRightOfActiveList} />
+      </div>
     </div>
   );
 };

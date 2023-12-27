@@ -74,8 +74,8 @@ const addItemToList = async (itemId, listId, apiType, onSuccess = () => {}) => {
   post(`${URL}/${apiType}/list/add?listId=${listId}&productId=${itemId}`, {}, onSuccess);      
 }
 
-const removeItemFromList = async (itemId, listId, apiType, onSucces = () => {}) => {
-  deleteCall(`${URL}/${apiType}/list/remove?listId=${listId}&productId=${itemId}`, onSucces);
+const removeItemFromList = async (itemId, listId, apiType, onSuccess = () => {}) => {
+  deleteCall(`${URL}/${apiType}/list/remove?listId=${listId}&productId=${itemId}`, onSuccess);
 }
 
 const setBookFormat = async (bookId, bookFormat, onSuccess = () => {}) => {
@@ -108,6 +108,15 @@ const finishItem = async (itemId, finishDate, spentTime, apiType, onSuccess = ()
   await post(url, {}, onSuccess);
 }
 
-export { getUserListInfo, getListById, getRecentlyDone, createBookFromUrl, createGameFromUrl, 
+const renameList = async (newListName, listId, apiType, onSuccess = () => {}) => {
+  post(`${URL}/${apiType}/list/rename?listId=${listId}&newListName=${encodeURIComponent(newListName)}`, {}, onSuccess);
+}
+
+const removeListFromUser = async(listId, apiType, onSuccess = () => {}) => {
+  deleteCall(`${URL}/${apiType}/list?listId=${listId}`, onSuccess);
+}
+
+
+export { getUserListInfo, getListById, getRecentlyDone, createBookFromUrl, createGameFromUrl, removeListFromUser,
   createMovieFromUrl, findProductsByProperty, createNewList, findListsContainingProduct, getDetailsForItems, 
-  addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, register };
+  addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, register, renameList };

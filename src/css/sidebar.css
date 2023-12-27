@@ -17,6 +17,9 @@
     height: 45vh;
     overflow: auto;
     background-color: var(--light_gray);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding-left: 20px;
     padding-right: 20px;
     padding-bottom: 20px;
@@ -57,7 +60,7 @@
     font-size: 16px;
     cursor: pointer;
     color: var(--almost_white);
-    transition: border-color 0.3s ease, color 0.3s ease;
+    transition: border-color 0.5s ease, color 0.5s ease;
   }
   
   .sidebar li button:hover {
@@ -77,12 +80,10 @@
     align-items: center;
     margin-top: 2px;
   }
-  
+
   .sidebar-icon {
-    margin-left: 85px;
     font-size: 24px;
-    margin-top: 5px;
-    transition: color 0.3s ease;
+    transition: color 0.5s ease;
     position: relative;
     cursor: pointer;
   }
@@ -111,4 +112,8 @@
   .sidebar::-webkit-scrollbar-thumb:hover {
     background-color: #555;
   }
-  
+
+  .sidebar-menu {
+    display: flex;
+    margin-left: -10px;
+  }

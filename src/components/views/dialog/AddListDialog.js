@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-import '../../css/add-item-dialog.css';
-import { createNewList } from '../api/MutlimediaManagerApi';
-import RegularButton from '../basic/RegularButton';
-import { tabToApi } from '../utils/Utils';
+import '../../../css/add-item-dialog.css';
+import { createNewList } from '../../api/MutlimediaManagerApi';
+import RegularButton from '../../basic/RegularButton';
+import { tabToApi } from '../../utils/Utils';
 
 const AddListDialog = ({ isOpen, onClose, activeApi, addNewList }) => {
 
@@ -27,7 +27,7 @@ const AddListDialog = ({ isOpen, onClose, activeApi, addNewList }) => {
         <label>
           Nazwa listy:
           <div className="select-container">
-            <input autoFocus={true} maxLength={15} type="text" value={inputListName} onChange={handleInputChange} />
+            <input autoFocus={true} maxLength={25} type="text" value={inputListName} onChange={handleInputChange} />
           </div>
         </label>
         <div className="horizontal-container-right">
