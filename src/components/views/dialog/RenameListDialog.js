@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import '../../../css/add-item-dialog.css';
 import { renameList } from '../../api/MutlimediaManagerApi';
 import RegularButton from '../../basic/RegularButton';
 import { tabToApi } from '../../utils/Utils';
 
-const RenameListDialog = ({ isOpen, onClose, activeApi, activeList, refreshListsInApp, position }) => {
+const RenameListDialog = ({ isOpen, onClose, activeApi, activeList, refreshListsInApp, position, currentName }) => {
 
   const [newListName, setNewListName] = useState('');
 
@@ -19,6 +19,10 @@ const RenameListDialog = ({ isOpen, onClose, activeApi, activeList, refreshLists
     setNewListName('');
     onClose();
   };
+
+  useEffect(() => {
+    setNewListName(currentName)
+  }, [currentName]);
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} className="add-item-dialog-content" overlayClassName="add-item-dialog-overlay" style={position} >

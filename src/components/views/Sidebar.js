@@ -34,6 +34,10 @@ const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList, refre
     removeListFromUser(activeList, tabToApi(activeApi), refreshListsInApp);
   }
 
+  const getCurrentList = () => {
+    return lists.filter(list => list.id === activeList)[0]
+  }
+
   return (
     <div className="sidebar">
       <div>
@@ -55,10 +59,10 @@ const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList, refre
       <div className="sidebar-menu">
         <RegularButton text='Dodaj' icon={<MdPlaylistAdd/>} onClick={() => setIsAddListDialogOpen(true)} extraStyle='small' />
         <AddListDialog isOpen={isAddListDialogOpen} onClose={() => setIsAddListDialogOpen(false)} activeApi={activeApi} addNewList={addNewList} />
-        <RegularButton text='Usuń' icon={<MdPlaylistRemove/>} onClick={() => setIsDeleteListDialogOpen(true)} extraStyle='small' />
-        <ConfirmationDialog isOpen={isDeleteListDialogOpen} onClose={() => setIsDeleteListDialogOpen(false)} onUserConfirm={removeList} dialogTitle="Czy na pewno chcesz usunąć tę listę?" position={bottomRightOfActiveList} />
         <RegularButton text='Edytuj' icon={<MdDriveFileRenameOutline/>} onClick={() => setIsRenameListDialogOpen(true)} extraStyle='small' />
-        <RenameListDialog isOpen={isRenameListDialogOpen} onClose={() => setIsRenameListDialogOpen(false)} activeApi={activeApi} activeList={activeList} refreshListsInApp={refreshListsInApp} position={bottomRightOfActiveList} />
+        <RenameListDialog isOpen={isRenameListDialogOpen} onClose={() => setIsRenameListDialogOpen(false)} activeApi={activeApi} activeList={activeList} refreshListsInApp={refreshListsInApp} position={bottomRightOfActiveList} currentName={getCurrentList() && getCurrentList().name} />
+        <RegularButton text='Usuń' icon={<MdPlaylistRemove/>} onClick={() => setIsDeleteListDialogOpen(true)} extraStyle='small' disabled={getCurrentList() && getCurrentList().allContentList === true} />
+        <ConfirmationDialog isOpen={isDeleteListDialogOpen} onClose={() => setIsDeleteListDialogOpen(false)} onUserConfirm={removeList} secondaryText="Czy na pewno chcesz ją usunąć? Tego nie da się cofnąć!" dialogTitle={`Lista: ${getCurrentList() && getCurrentList().name}`} position={bottomRightOfActiveList} />
       </div>
     </div>
   );

@@ -14,7 +14,7 @@
     min-width: 220px;
     width: 220px;
     min-height: 350px;
-    height: 45vh;
+    height: max-content;
     overflow: auto;
     background-color: var(--light_gray);
     display: flex;
@@ -116,4 +116,5 @@
   .sidebar-menu {
     display: flex;
     margin-left: -10px;
+    margin-top: 10px;
   }

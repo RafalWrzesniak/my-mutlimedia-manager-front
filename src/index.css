@@ -30,7 +30,7 @@
   bottom: 0;
   left: 0;
   height: 50px;
-  width: 100%;
+  width: 350px;
 }
 
 .user-menu {
@@ -92,8 +92,7 @@ body {
   margin-top: 8vh;
   padding-left: 10vh;
   padding-right: 10vh;
-  height: 85vh;
-  max-height: 85vh;
+  max-height: 90vh;
 }
 
 .horizontal-container {  
@@ -124,7 +123,7 @@ body {
 
 .content {
   min-width: 200px;
-  max-height: 70vh;
+  max-height: 75vh;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
