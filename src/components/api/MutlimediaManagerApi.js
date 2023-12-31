@@ -65,17 +65,17 @@ const createNewList = async (listName, apiType, onSuccess = () => {}) => {
 }
 
 const findListsContainingProduct = async (productId, apiType) => {
-  const finalUrl = `${URL}/${apiType}/list/with?productId=${productId}`;
+  const finalUrl = `${URL}/${apiType}/list/with?productId=${encodeURIComponent(productId)}`;
   const response = await get(finalUrl);
   return getResponseData(response);
 }
 
 const addItemToList = async (itemId, listId, apiType, onSuccess = () => {}) => {
-  post(`${URL}/${apiType}/list/add?listId=${listId}&productId=${itemId}`, {}, onSuccess);      
+  post(`${URL}/${apiType}/list/add?listId=${listId}&productId=${encodeURIComponent(itemId)}`, {}, onSuccess);
 }
 
 const removeItemFromList = async (itemId, listId, apiType, onSuccess = () => {}) => {
-  deleteCall(`${URL}/${apiType}/list/remove?listId=${listId}&productId=${itemId}`, onSuccess);
+  deleteCall(`${URL}/${apiType}/list/remove?listId=${listId}&productId=${encodeURIComponent(itemId)}`, onSuccess);
 }
 
 const setBookFormat = async (bookId, bookFormat, onSuccess = () => {}) => {
@@ -101,9 +101,9 @@ const encodeItem = (item) => {
 const finishItem = async (itemId, finishDate, spentTime, apiType, onSuccess = () => {}) => {
   let url = '';
   if(apiType !== 'game') {
-    url = `${URL}/${apiType}/finish?id=${itemId}&finishDate=${finishDate}`;
+    url = `${URL}/${apiType}/finish?id=${encodeURIComponent(itemId)}&finishDate=${finishDate}`;
   } else {
-    url = `${URL}/${apiType}/finishGame?gameId=${itemId}&finishDate=${finishDate}&playedHours=${spentTime}`;
+    url = `${URL}/${apiType}/finishGame?gameId=${encodeURIComponent(itemId)}&finishDate=${finishDate}&playedHours=${spentTime}`;
   }
   await post(url, {}, onSuccess);
 }
