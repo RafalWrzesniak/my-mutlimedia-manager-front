@@ -12,7 +12,7 @@ const BookDetailedWindow = ({ book, tabLists, updateItem, addItemToListId, remov
       <img className="image" src={book.webImageUrl} alt="Book cover" />
       <div className="title">
         <a href={book.lubimyCzytacUrl} target="_blank" rel="noopener noreferrer">
-          {book.title}
+          {decodeURIComponent(book.title)}
         </a>
       </div>
       <div className="detailed-fields">

@@ -8,7 +8,7 @@ import RegularButton from '../basic/RegularButton';
 import { removeListFromUser } from '../api/MutlimediaManagerApi';
 import { tabToApi } from '../utils/Utils';
 
-const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList, refreshListsInApp }) => {
+const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList, refreshListsInApp, taskService }) => {
   
   const [isAddListDialogOpen, setIsAddListDialogOpen] = useState(false);
   const [isRenameListDialogOpen, setIsRenameListDialogOpen] = useState(false);
@@ -31,6 +31,7 @@ const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList, refre
 
   const removeList = () => {
     console.log("Usuwam liste z id: ", activeList);
+    taskService.setTask('Usuwam listę "'+getCurrentList.name+'"', true)
     removeListFromUser(activeList, tabToApi(activeApi), refreshListsInApp);
   }
 
@@ -58,9 +59,9 @@ const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList, refre
       </div>
       <div className="sidebar-menu">
         <RegularButton text='Dodaj' icon={<MdPlaylistAdd/>} onClick={() => setIsAddListDialogOpen(true)} extraStyle='small' />
-        <AddListDialog isOpen={isAddListDialogOpen} onClose={() => setIsAddListDialogOpen(false)} activeApi={activeApi} addNewList={addNewList} />
+        <AddListDialog isOpen={isAddListDialogOpen} onClose={() => setIsAddListDialogOpen(false)} activeApi={activeApi} addNewList={addNewList} taskService={taskService} />
         <RegularButton text='Edytuj' icon={<MdDriveFileRenameOutline/>} onClick={() => setIsRenameListDialogOpen(true)} extraStyle='small' />
-        <RenameListDialog isOpen={isRenameListDialogOpen} onClose={() => setIsRenameListDialogOpen(false)} activeApi={activeApi} activeList={activeList} refreshListsInApp={refreshListsInApp} position={bottomRightOfActiveList} currentName={getCurrentList() && getCurrentList().name} />
+        <RenameListDialog isOpen={isRenameListDialogOpen} onClose={() => setIsRenameListDialogOpen(false)} activeApi={activeApi} activeList={activeList} refreshListsInApp={refreshListsInApp} position={bottomRightOfActiveList} currentName={getCurrentList() && getCurrentList().name} taskService={taskService} />
         <RegularButton text='Usuń' icon={<MdPlaylistRemove/>} onClick={() => setIsDeleteListDialogOpen(true)} extraStyle='small' disabled={getCurrentList() && getCurrentList().allContentList === true} />
         <ConfirmationDialog isOpen={isDeleteListDialogOpen} onClose={() => setIsDeleteListDialogOpen(false)} onUserConfirm={removeList} secondaryText="Czy na pewno chcesz ją usunąć? Tego nie da się cofnąć!" dialogTitle={`Lista: ${getCurrentList() && getCurrentList().name}`} position={bottomRightOfActiveList} />
       </div>

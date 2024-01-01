@@ -95,5 +95,19 @@ import moment from 'moment';
     }
   }
 
+  function decodeItem(item) {
+     if(isEncoded(item.title)) {
+       item.title = decodeURIComponent(item.title)
+     }
+     return item;
+   }
+
+  function encodeItem(item) {
+     if(!isEncoded(item.title)) {
+       item.title = encodeURIComponent(item.title)
+     }
+     return item;
+   }
+
   export { tabToApi, tabToListObjects, getListsForTab, formatDate, formatTime, listToString,
-     isBook, isGame, getFinishedOn, itemToApi, isMovie, isEncoded}
+     isBook, isGame, getFinishedOn, itemToApi, isMovie, isEncoded, encodeItem, decodeItem}

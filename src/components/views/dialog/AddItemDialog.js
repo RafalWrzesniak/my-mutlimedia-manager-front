@@ -5,7 +5,7 @@ import { createBookFromUrl, createGameFromUrl, createMovieFromUrl } from '../../
 import RegularButton from '../../basic/RegularButton';
 import { isBook, isGame, isMovie } from '../../utils/Utils';
 
-const AddItemDialog = ({ isOpen, onClose, lists, activeApi, addItemToListId }) => {
+const AddItemDialog = ({ isOpen, onClose, lists, activeApi, addItemToListId, taskService }) => {
 
   const [inputUrl, setInputUrl] = useState('');
   const [platformOrVersion, setPlatformOrVersion] = useState('');
@@ -45,17 +45,26 @@ const AddItemDialog = ({ isOpen, onClose, lists, activeApi, addItemToListId }) =
     console.log("Dodaje: " + inputUrl);
     console.log("Wybrana lista: " + selectedList);
     console.log("Wybrana zakładka: " + activeApi);
+    let task = 'Dodaję obiekt z linku: ' + inputUrl;
+    taskService.setTask(task, true);
     if(activeApi === 'book') {
-      createBookFromUrl(inputUrl, selectedList, platformOrVersion, response => addItemToLists(response.data))
+      createBookFromUrl(inputUrl, selectedList, platformOrVersion, onSuccessAddItem, () => taskService.setTask('Nie udało utworzyć się obiektu z podanego linku :('))
     } else if(activeApi === 'game') {
-      createGameFromUrl(inputUrl, selectedList, platformOrVersion, response => addItemToLists(response.data))
+      createGameFromUrl(inputUrl, selectedList, platformOrVersion, onSuccessAddItem, () => taskService.setTask('Nie udało utworzyć się obiektu z podanego linku :('))
     } else if(activeApi === 'movie') {
-      createMovieFromUrl(inputUrl, selectedList, response => addItemToLists(response.data))
+      createMovieFromUrl(inputUrl, selectedList, onSuccessAddItem, () => taskService.setTask('Nie udało utworzyć się obiektu z podanego linku :('))
     }
     setInputUrl('');
     setSelectedList('');
     onClose();
   };
+
+  const onSuccessAddItem = (response) => {
+    addItemToLists(response.data);
+    let title = response.data.polishTitle ? response.data.polishTitle : response.data.title;
+    let task = '"' + decodeURIComponent(title) + '" dodane do aplikacji';
+    taskService.setTask(task);
+  }
 
   const getPlaceHolder = () => {
     if(activeApi === 'book') {

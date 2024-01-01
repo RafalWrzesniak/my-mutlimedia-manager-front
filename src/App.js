@@ -5,8 +5,10 @@ import TabMenu from './components/views/TabMenu';
 import Content from './components/views/Content';
 import Paginator from './components/views/Paginator';
 import { getListById, getUserListInfo, getDetailsForItems, getRecentlyDone, findProductsByProperty, getItemById } from './components/api/MutlimediaManagerApi';
-import { tabToApi, tabToListObjects, getListsForTab, isBook, isGame, isMovie } from './components/utils/Utils';
+import { tabToApi, tabToListObjects, getListsForTab, isBook, isGame, isMovie, decodeItem } from './components/utils/Utils';
 import InitLoader from './components/utils/InitLoader';
+import TaskServiceDisplay from './components/utils/TaskServiceDisplay';
+import TaskService from './components/utils/TaskService';
 import AddItemDialog from './components/views/dialog/AddItemDialog';
 import ReactModal from 'react-modal';
 import BookDetailedWindow from './components/views/detailed/BookDetailedWindow';
@@ -37,6 +39,8 @@ const App = () => {
   const [initLoading, setInitInitLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
+
+  const taskService = TaskService();
 
   const handlePageChange = async (page) => {
     console.log("Zmieniam na strone: ", page + 1)
@@ -75,8 +79,10 @@ const App = () => {
         return;
       }
       let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
+      taskService.setTask('Sortuję listę...', true);
       let sortedList = await getListById(currentList.id, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize);
       setDisplayedItemsWithPage(tabToListObjects(sortedList, activeTab), currentPage);
+      taskService.clearTask();
     }
     console.log("Zmieniam sortowania na: " + sortKey + " " + sortDirection)
     fetchSortedData();
@@ -144,10 +150,12 @@ const App = () => {
 
   const recentlyDoneHandler = async () => {
     if((activeList && activeList !== -1) || searchInputData.propertyName) {
+      taskService.setTask('Szukam ostatnio ukończonych..', true);
       toolbarRef.current.clearSearchInput();
       setSearchInputData({})
       let recentlyDoneItems = await getRecentlyDone(tabToApi(activeTab))
       setDisplayedItems(recentlyDoneItems)
+      taskService.clearTask();
       if(activeList !== -1) {
         setRememberedList(activeList)
       }
@@ -172,8 +180,9 @@ const App = () => {
         propertyName: propertyName,
         valueToFind: valueToFind})
       let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
+      taskService.setTask('Szukam na tej liście: ' + valueToFind, true);
       const allFoundItems = await findProductsByProperty(currentList.id, propertyName, valueToFind, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize)
-      console.log(allFoundItems)
+      taskService.clearTask();
       setCurrentPage(0);
       setTotalPages(Math.ceil(allFoundItems.length / pageSize));
       setDisplayedItems(allFoundItems);
@@ -183,12 +192,14 @@ const App = () => {
   const moveToDefaultView = () => {
     if(isLoggedIn) {
       handleTabChange('BOOK_LIST');
+      taskService.setTask('Miłego dzionka i smacznej kawusi! :-)');
     }
   }
 
   const fetchInitialData = async (username) => {
     setIsLoggedIn(true);
     setUsername(username);
+    taskService.setTask('Uruchamiam funkcję lambda..', true);
     console.log("Fetching init data")
     try {
       setInitInitLoading(true);
@@ -207,23 +218,32 @@ const App = () => {
       toolbarRef.current.turnOffRecentlyDoneButton();
       toolbarRef.current.clearSearchInput();
       setInitInitLoading(false);
+      taskService.clearTask();
     } catch (error) {
       console.error('Error fetching user lists:', error);
+      taskService.setTask('Błąd serwera! Nie udało się pobrać danych :(');
       setInitInitLoading(false);
     }
   };
 
   const addItemToList = (item, listId) => {
-    let list = tabLists.filter(appList => appList.id === listId)[0];
+    let list = findListById(listId);
     list.allItems.push(item);
     if(listId === activeList) {
       setDisplayedItems(list.allItems);
     }
     let updatedLists = getListsForTab(allUserLists, activeTab);
     setTabLists(updatedLists);
+    let task = 'Dodałeś "' + decodeURIComponent(item.title) + '" do listy "' + list.name + '"'
+    taskService.setTask(task);
   }
 
-  const removeItemFromList = (item, listId) => {
+  const findListById = (listId) => {
+    return tabLists.filter(list => list.id === listId)[0]
+  }
+
+  const removeItemFromList = (itemToRemove, listId) => {
+    let item = decodeItem(itemToRemove);
     let list = tabLists.filter(appList => appList.id === listId)[0];
     let index = list.allItems.map(listItem => listItem.id).indexOf(item.id);
     if (index > -1) {
@@ -234,6 +254,8 @@ const App = () => {
     }
     let updatedLists = getListsForTab(allUserLists, activeTab);
     setTabLists(updatedLists);
+    let task = 'Usunąłeś "' + item.title + '" z listy "' + findListById(listId).name + '"'
+    taskService.setTask(task);
   }
 
   const updateItem = (item) => {
@@ -247,6 +269,7 @@ const App = () => {
   }
 
   const refreshListsInApp = async () => {
+    taskService.setTask('Odświeżam listy w apliakcji..', true);
     let userListsData = await getUserListInfo();
     setAllUserLists(userListsData);
     let updatedLists = getListsForTab(userListsData, activeTab);
@@ -255,7 +278,7 @@ const App = () => {
       setActiveList(updatedLists[0].id)
       setDisplayedItems(updatedLists[0].allItems);
     }
-
+    taskService.clearTask();
   }
 
   return (
@@ -265,6 +288,7 @@ const App = () => {
             <img className='logo' src='logo.png' alt="Logo" />
             My Multimedia Manager
         </div>
+        <TaskServiceDisplay loading={taskService.getLoading()} task={taskService.getTask()} />
         <div className='user-menu'>
           <CgProfile className='icon-user-menu'/>
           {username}
@@ -274,7 +298,7 @@ const App = () => {
       {(isLoggedIn) && (
       <div className="container">
         <InitLoader loading={initLoading} />
-        <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} refreshListsInApp={refreshListsInApp} />
+        <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} refreshListsInApp={refreshListsInApp} taskService={taskService} />
         <div className='content-with-menu'>
           <div className="tab-menu-container">
             <TabMenu activeTab={activeTab} onTabChange={setActiveTab} />
@@ -290,7 +314,7 @@ const App = () => {
             switchShowTitle={setShowTitle}
             activeTab={activeTab}
             />
-            <AddItemDialog isOpen={isDialogOpen} onClose={handleCloseDialog} lists={tabLists} activeApi={tabToApi(activeTab)} addItemToListId={addItemToList} />
+            <AddItemDialog isOpen={isDialogOpen} onClose={handleCloseDialog} lists={tabLists} activeApi={tabToApi(activeTab)} addItemToListId={addItemToList} taskService={taskService} />
             <Content items={displayedItems} activeItem={activeItem} onItemChange={handleItemChange} showTitle={showTitle} />
             <Paginator totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
           </div>
@@ -300,7 +324,6 @@ const App = () => {
         {(activeItem && activeTab==='GAME_LIST' && isGame(activeItem)) && (<GameDetailedWindow game={activeItem} tabLists={tabLists} updateItem={updateItem} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
       </div>
       )}
-      <div className='bottom-menu' />
     </div>
   );
 };

@@ -15,6 +15,7 @@
     width: 220px;
     min-height: 350px;
     height: max-content;
+    max-height: 80vh;
     overflow: auto;
     background-color: var(--light_gray);
     display: flex;

@@ -11,7 +11,7 @@ const MovieDetailedWindow = ({ movie, tabLists, updateItem, addItemToListId, rem
       <img className="image" src={movie.webImageUrl} alt="movie cover" />
       <div className="title">
         <a href={movie.filmwebUrl} target="_blank" rel="noopener noreferrer">
-          {movie.polishTitle}
+          {decodeURIComponent(movie.polishTitle)}
         </a>
       </div>
       <div className="detailed-fields">

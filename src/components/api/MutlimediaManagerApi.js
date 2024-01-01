@@ -1,4 +1,4 @@
-import { isEncoded } from '../utils/Utils';
+import { encodeItem } from '../utils/Utils';
 import { get, post, deleteCall } from './AxiosApi';
 
 let URL;
@@ -60,8 +60,8 @@ const findProductsByProperty = async (listId, propertyName, valueToFind, apiType
   return getResponseData(response);
 }
 
-const createNewList = async (listName, apiType, onSuccess = () => {}) => {
-  post(`${URL}/${apiType}/list?listName=${listName}`, {}, onSuccess);
+const createNewList = async (listName, apiType, onSuccess = () => {}, onFailure = () => {}) => {
+  post(`${URL}/${apiType}/list?listName=${listName}`, {}, onSuccess, onFailure);
 }
 
 const findListsContainingProduct = async (productId, apiType) => {
@@ -91,13 +91,6 @@ const getDetailsForItems = async (items, username, apiType, onSuccess = () => {}
   post(`${URL}/${apiType}/details`, encodedItems, onSuccess);
 }
 
-const encodeItem = (item) => {
-  if(!isEncoded(item.title)) {
-    item.title = encodeURIComponent(item.title)
-  } 
-  return item;
-}
-
 const finishItem = async (itemId, finishDate, spentTime, apiType, onSuccess = () => {}) => {
   let url = '';
   if(apiType !== 'game') {
@@ -108,8 +101,8 @@ const finishItem = async (itemId, finishDate, spentTime, apiType, onSuccess = ()
   await post(url, {}, onSuccess);
 }
 
-const renameList = async (newListName, listId, apiType, onSuccess = () => {}) => {
-  post(`${URL}/${apiType}/list/rename?listId=${listId}&newListName=${encodeURIComponent(newListName)}`, {}, onSuccess);
+const renameList = async (newListName, listId, apiType, onSuccess = () => {}, onFailure = () => {}) => {
+  post(`${URL}/${apiType}/list/rename?listId=${listId}&newListName=${encodeURIComponent(newListName)}`, {}, onSuccess, onFailure);
 }
 
 const removeListFromUser = async(listId, apiType, onSuccess = () => {}) => {

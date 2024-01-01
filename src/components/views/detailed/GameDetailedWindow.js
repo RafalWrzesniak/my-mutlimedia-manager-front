@@ -11,7 +11,7 @@ const GameDetailedWindow = ({ game, tabLists, updateItem, addItemToListId, remov
       <img className="image" src={game.webImageUrl} alt="game cover" />
       <div className="title">
         <a href={game.gryOnlineUrl} target="_blank" rel="noopener noreferrer">
-          {game.title}
+          {decodeURIComponent(game.title)}
         </a>
       </div>
       <div className="detailed-fields">

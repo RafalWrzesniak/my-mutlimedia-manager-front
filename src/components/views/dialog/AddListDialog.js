@@ -5,7 +5,7 @@ import { createNewList } from '../../api/MutlimediaManagerApi';
 import RegularButton from '../../basic/RegularButton';
 import { tabToApi } from '../../utils/Utils';
 
-const AddListDialog = ({ isOpen, onClose, activeApi, addNewList }) => {
+const AddListDialog = ({ isOpen, onClose, activeApi, addNewList, taskService }) => {
 
   const [inputListName, setInputListName] = useState('');
 
@@ -15,7 +15,11 @@ const AddListDialog = ({ isOpen, onClose, activeApi, addNewList }) => {
 
   const onAddItem = async () => {
     console.log("Dodaje nową listę: " + inputListName + " do: " + activeApi);
-    createNewList(inputListName, tabToApi(activeApi), response => addNewList(response.data))
+    taskService.setTask('Dodaję nową listę "'+inputListName+'"', true)
+    createNewList(inputListName, tabToApi(activeApi), response => {
+      addNewList(response.data);
+      taskService.setTask('Utworzono nową listę "'+inputListName+'"');
+    }, () => taskService.setTask('Nie udało się utworzyć listy "'+inputListName+'"'));
     setInputListName('');
     onClose();
   };

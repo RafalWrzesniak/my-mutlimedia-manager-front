@@ -1,6 +1,6 @@
 .loader-container {
     position: fixed;
-    top: 0;
+    top: 50px;
     left: 0;
     width: 100%;
     height: 100%;
@@ -18,4 +18,21 @@
 .loader-container.visible {
     opacity: 1;
     visibility: visible;
+}
+
+.small-loader {
+  visibility: visible;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.small-loader-visible {
+  margin-bottom: 5px;
+  margin-right: 5px;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
