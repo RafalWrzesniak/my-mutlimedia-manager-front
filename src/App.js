@@ -234,7 +234,7 @@ const App = () => {
     }
     let updatedLists = getListsForTab(allUserLists, activeTab);
     setTabLists(updatedLists);
-    let task = 'Dodałeś "' + decodeURIComponent(item.title) + '" do listy "' + list.name + '"'
+    let task = 'Dodałeś "' + decodeURIComponent(item.polishTitle ? item.polishTitle : item.title) + '" do listy "' + list.name + '"'
     taskService.setTask(task);
   }
 
@@ -254,7 +254,8 @@ const App = () => {
     }
     let updatedLists = getListsForTab(allUserLists, activeTab);
     setTabLists(updatedLists);
-    let task = 'Usunąłeś "' + item.title + '" z listy "' + findListById(listId).name + '"'
+    let title = item.polishTitle ? item.polishTitle : item.title;
+    let task = 'Usunąłeś "' + title + '" z listy "' + findListById(listId).name + '"'
     taskService.setTask(task);
   }
 

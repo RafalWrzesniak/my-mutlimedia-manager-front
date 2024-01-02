@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../../css/login.css';
 import { AuthenticationDetails, CognitoUser, CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import {registerInApp} from "../api/MutlimediaManagerApi";
 
 const Login = ({ onSuccessfulLogin }) => {
   
@@ -10,7 +11,7 @@ const Login = ({ onSuccessfulLogin }) => {
   const [repeatedPassword, setRepeatedPassword] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [shouldShowMessage, setShouldShowMessage] = useState(false);
-  const [meesageText, setMessageText] = useState('');
+  const [messageText, setMessageText] = useState('');
   const [isMessageError, setIsMessageError] = useState(false);
 
   const clearInputs = () => {
@@ -71,6 +72,7 @@ const Login = ({ onSuccessfulLogin }) => {
         handleErrorMessage(err.message);
         return;
       }
+      registerInApp(result.userSub, username, email);
       setIsRegistering(false);
       clearInputs();
       setShouldShowMessage(true);
@@ -167,7 +169,7 @@ const Login = ({ onSuccessfulLogin }) => {
         />
         )}
         {(shouldShowMessage) && (
-          <div className={`messageClass${isMessageError ? 'Error' : ''}`}>{meesageText}</div>
+          <div className={`messageClass${isMessageError ? 'Error' : ''}`}>{messageText}</div>
         )}
 
         <button type="submit" className='button'>

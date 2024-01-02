@@ -13,8 +13,8 @@ function getResponseData(response) {
   return response ? response.data : null;
 }
 
-const register = async (username, password, onSuccess = () => {}, onFailure = () => {}) => {
-  let url = `${URL}/register?username=${username}&password=${password}`
+const registerInApp = async (userId, preferredUsername, email, onSuccess = () => {}, onFailure = () => {}) => {
+  let url = `${URL}/user/register?username=${userId}&preferredUsername=${preferredUsername}&email=${email}`
   post(url, {}, onSuccess, onFailure);
 }
 
@@ -87,7 +87,7 @@ const setGamePlatform = async (gameId, gamePlatform, onSuccess = () => {}) => {
 }
 
 const getDetailsForItems = async (items, username, apiType, onSuccess = () => {}) => {
-  let encodedItems = items.map(item => encodeItem(item));
+  let encodedItems = items.map(item => item.polishTitle ? {...item, title: item.polishTitle} : item).map(item => encodeItem(item));
   post(`${URL}/${apiType}/details`, encodedItems, onSuccess);
 }
 
@@ -112,4 +112,4 @@ const removeListFromUser = async(listId, apiType, onSuccess = () => {}) => {
 
 export { getUserListInfo, getListById, getRecentlyDone, createBookFromUrl, createGameFromUrl, removeListFromUser,
   createMovieFromUrl, findProductsByProperty, createNewList, findListsContainingProduct, getDetailsForItems, 
-  addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, register, renameList };
+  addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, registerInApp, renameList };

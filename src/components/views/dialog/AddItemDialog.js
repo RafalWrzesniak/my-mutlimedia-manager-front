@@ -28,7 +28,6 @@ const AddItemDialog = ({ isOpen, onClose, lists, activeApi, addItemToListId, tas
       addItemToListId(item, selectedList)
     }
     if(isBook(item)) {
-      console.log(lists)
       let allBooks = lists.filter(list => list.listType === 'BOOK_LIST' && list.allContentList)[0]
       addItemToListId(item, allBooks.id)
     } else if(isGame(item)) {      
@@ -45,14 +44,18 @@ const AddItemDialog = ({ isOpen, onClose, lists, activeApi, addItemToListId, tas
     console.log("Dodaje: " + inputUrl);
     console.log("Wybrana lista: " + selectedList);
     console.log("Wybrana zakładka: " + activeApi);
-    let task = 'Dodaję obiekt z linku: ' + inputUrl;
-    taskService.setTask(task, true);
     if(activeApi === 'book') {
-      createBookFromUrl(inputUrl, selectedList, platformOrVersion, onSuccessAddItem, () => taskService.setTask('Nie udało utworzyć się obiektu z podanego linku :('))
+      let task = 'Dodaję książkę z linku: ' + inputUrl;
+      taskService.setTask(task, true);
+      createBookFromUrl(inputUrl, selectedList, platformOrVersion, onSuccessAddItem, () => taskService.setTask('Nie udało utworzyć się książki z podanego linku :('))
     } else if(activeApi === 'game') {
-      createGameFromUrl(inputUrl, selectedList, platformOrVersion, onSuccessAddItem, () => taskService.setTask('Nie udało utworzyć się obiektu z podanego linku :('))
+      let task = 'Dodaję grę z linku: ' + inputUrl;
+      taskService.setTask(task, true);
+      createGameFromUrl(inputUrl, selectedList, platformOrVersion, onSuccessAddItem, () => taskService.setTask('Nie udało utworzyć się gry z podanego linku :('))
     } else if(activeApi === 'movie') {
-      createMovieFromUrl(inputUrl, selectedList, onSuccessAddItem, () => taskService.setTask('Nie udało utworzyć się obiektu z podanego linku :('))
+      let task = 'Dodaję film z linku: ' + inputUrl;
+      taskService.setTask(task, true);
+      createMovieFromUrl(inputUrl, selectedList, onSuccessAddItem, () => taskService.setTask('Nie udało utworzyć się filmu z podanego linku :('))
     }
     setInputUrl('');
     setSelectedList('');
