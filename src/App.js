@@ -199,7 +199,7 @@ const App = () => {
   const fetchInitialData = async (username) => {
     setIsLoggedIn(true);
     setUsername(username);
-    taskService.setTask('Uruchamiam funkcję lambda..', true);
+    taskService.setTask('Uruchamiam funkcję lambda..');
     console.log("Fetching init data")
     try {
       setInitInitLoading(true);

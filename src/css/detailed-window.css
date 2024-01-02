@@ -43,6 +43,10 @@
     margin-bottom: 20px;
   }
 
+  .title:hover {
+    text-decoration: underline;
+  }
+
   .title a {
     transition: color 0.3s ease;
     color: var(--almost_white); 

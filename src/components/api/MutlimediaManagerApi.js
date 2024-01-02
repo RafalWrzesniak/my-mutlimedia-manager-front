@@ -39,19 +39,19 @@ const getItemById = async (itemId, apiType, onSuccess = () => {}) => {
   return getResponseData(response);
 };
 
-const createBookFromUrl = (bookUrl, listId, bookFormat, refreshState) => {
+const createBookFromUrl = (bookUrl, listId, bookFormat, onSuccess = () => {}, onFailure = () => {}) => {
   let url = `${URL}/book/createBookUrl?url=${encodeURIComponent(bookUrl)}${listId ? '&listId=' + listId : ''}${bookFormat ? '&bookFormat=' + bookFormat : ''}`
-  post(url, {}, refreshState);
+  post(url, {}, onSuccess, onFailure);
 }
 
-const createGameFromUrl = (gameUrl, listId, platform, refreshState) => {
+const createGameFromUrl = (gameUrl, listId, platform, onSuccess = () => {}, onFailure = () => {}) => {
   let url = `${URL}/game/createGameUrl?url=${encodeURIComponent(gameUrl)}${listId ? '&listId=' + listId : ''}${platform ? '&gamePlatform=' + platform : ''}`
-  post(url, {}, refreshState);
+  post(url, {}, onSuccess, onFailure);
 }
 
-const createMovieFromUrl = (movieUrl, listId, refreshState) => {
+const createMovieFromUrl = (movieUrl, listId, onSuccess = () => {}, onFailure = () => {}) => {
   let url = `${URL}/movie/create?url=${encodeURIComponent(movieUrl)}${listId ? '&listId=' + listId : ''}`;
-  post(url, {}, refreshState);
+  post(url, {}, onSuccess, onFailure);
 }
 
 const findProductsByProperty = async (listId, propertyName, valueToFind, apiType, page, direction, sortKey, pageSize) => {

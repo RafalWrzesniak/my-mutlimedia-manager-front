@@ -47,20 +47,29 @@ const AddItemDialog = ({ isOpen, onClose, lists, activeApi, addItemToListId, tas
     if(activeApi === 'book') {
       let task = 'Dodaję książkę z linku: ' + inputUrl;
       taskService.setTask(task, true);
-      createBookFromUrl(inputUrl, selectedList, platformOrVersion, onSuccessAddItem, () => taskService.setTask('Nie udało utworzyć się książki z podanego linku :('))
+      createBookFromUrl(inputUrl, selectedList, platformOrVersion, onSuccessAddItem,  (failureResponse) => onFailAddItem(failureResponse, 'książki'))
     } else if(activeApi === 'game') {
       let task = 'Dodaję grę z linku: ' + inputUrl;
       taskService.setTask(task, true);
-      createGameFromUrl(inputUrl, selectedList, platformOrVersion, onSuccessAddItem, () => taskService.setTask('Nie udało utworzyć się gry z podanego linku :('))
+      createGameFromUrl(inputUrl, selectedList, platformOrVersion, onSuccessAddItem, (failureResponse) => onFailAddItem(failureResponse, 'gry'))
     } else if(activeApi === 'movie') {
       let task = 'Dodaję film z linku: ' + inputUrl;
       taskService.setTask(task, true);
-      createMovieFromUrl(inputUrl, selectedList, onSuccessAddItem, () => taskService.setTask('Nie udało utworzyć się filmu z podanego linku :('))
+      createMovieFromUrl(inputUrl, selectedList, onSuccessAddItem, (failureResponse) => onFailAddItem(failureResponse, 'filmu'))
     }
     setInputUrl('');
     setSelectedList('');
     onClose();
   };
+
+  const onFailAddItem = (response, product) => {
+    let task = 'Nie udało utworzyć się ' + product + ' z podanego linku :(';
+    let message = response.response.data.messages[0];
+    if(message.includes('Invalid') && message.includes('url')) {
+      task = task + ' Podany link jest nieprawidłowy'
+    }
+    taskService.setTask(task);
+  }
 
   const onSuccessAddItem = (response) => {
     addItemToLists(response.data);
