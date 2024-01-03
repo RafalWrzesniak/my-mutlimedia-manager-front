@@ -1,6 +1,6 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import { AiOutlineAppstoreAdd, AiOutlineFileDone } from 'react-icons/ai';
-import { BsSortDownAlt, BsSortDown } from 'react-icons/bs';
+import { BsSortDown, BsSortUp } from 'react-icons/bs';
 import '../../css/toolbar.css';
 import RegularButton from '../basic/RegularButton';
 import Switch from "react-switch";
@@ -12,40 +12,37 @@ const Toolbar = forwardRef((props, ref) => {
   const [sortingOptions, setSortingOptions] = useState([]);
   const [propertyToFind, setPropertyToFind] = useState('');
   const [searchInputValue, setSearchInputValue] = useState('');
-  const [sortingDirection, setSortingDirection] = useState('DESC');
+  const [sortingDirection, setSortingDirection] = useState('ASC');
   const [showTitle, setShowTitle] = useState(false);
 
   const chooseProperSortKeys = (activeTab) => {
     const fieldsForTab = {
       'BOOK_LIST': [
-        { value: 'id', label: 'ID' },
+        { value: 'createdOn', label: 'Utworzono' },
         { value: 'title', label: 'Tytuł' },
         { value: 'datePublished', label: 'Premiera' },
         { value: 'readOn', label: 'Przeczytano' },
         { value: 'numberOfPages', label: 'Strony' },
-        { value: 'createdOn', label: 'Utworzono' },
         { value: 'updatedOn', label: 'Zmodyfikowano' }
       ],
       'MOVIE_LIST': [       
-        { value: 'id', label: 'ID' },
+        { value: 'createdOn', label: 'Utworzono' },
         { value: 'polishTitle', label: 'Tytuł' },
         { value: 'runtimeMins', label: 'Długość' },
         { value: 'releaseDate', label: 'Premiera' },
         { value: 'imDbRating', label: 'Ocena' },
         { value: 'imDbRatingVotes', label: 'Popularność' },
         { value: 'watchedOn', label: 'Oglądnięto' },
-        { value: 'createdOn', label: 'Utworzono' },
         { value: 'updatedOn', label: 'Zmodyfikowano' }
       ],
       'GAME_LIST': [
-        { value: 'id', label: 'ID' },
+        { value: 'createdOn', label: 'Utworzono' },
         { value: 'title', label: 'Tytuł' },
         { value: 'releaseDate', label: 'Premiera' },
         { value: 'finishedOn', label: 'Ukończono' },
         { value: 'playedHours', label: 'Czas gry' },
         { value: 'ratingValue', label: 'Ocena' },
         { value: 'ratingCount', label: 'Popularność' },
-        { value: 'createdOn', label: 'Utworzono' },
         { value: 'updatedOn', label: 'Zmodyfikowano' }
       ]
     }
@@ -91,10 +88,10 @@ const Toolbar = forwardRef((props, ref) => {
     if (props.handleSortChange) {
       props.handleSortChange(selectedOption);
     }    
-    setSortingDirection('ASC');
-    if (props.handleSortDirectionChange) {
-      props.handleSortDirectionChange('ASC');
-    }
+//    setSortingDirection('ASC');
+//    if (props.handleSortDirectionChange) {
+//      props.handleSortDirectionChange('ASC');
+//    }
   };
 
   const handleRecentlyDone = () => {
@@ -145,6 +142,8 @@ const Toolbar = forwardRef((props, ref) => {
   const restartSorting = (newTab) => {
     console.log('Restarts sorting')
     createOptionsForSortingDropdown(newTab);
+    setSelectedSortingOption('createdOn');
+    setSortingDirection('ASC');
   }
 
   const handleSortDirectionChange = () => {
@@ -201,7 +200,7 @@ const Toolbar = forwardRef((props, ref) => {
 
       {sortingDirection === 'DESC' ? 
         <RegularButton text='Malejąco' icon={<BsSortDown/>} onClick={handleSortDirectionChange} disabled={recentlyDoneIsActive} /> :
-        <RegularButton text='Rosnąco' icon={<BsSortDownAlt/>} onClick={handleSortDirectionChange} disabled={recentlyDoneIsActive} />
+        <RegularButton text='Rosnąco' icon={<BsSortUp/>} onClick={handleSortDirectionChange} disabled={recentlyDoneIsActive} />
       }
       <div className="input-with-select">
         <input type="text" className="search-input" value={searchInputValue} placeholder="Wyszukiwanie..." 

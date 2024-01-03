@@ -5,7 +5,7 @@ import '../../css/loader.css';
 const TaskServiceDisplay = ({ task, loading }) => {
 
     return (
-      <div className="horizontal-container">
+      <div className="task-display">
         <div className={`small-loader${loading ? '-visible' : ''}`}>
             <RingLoader color={'#69c5e9'} size={20} />
         </div>

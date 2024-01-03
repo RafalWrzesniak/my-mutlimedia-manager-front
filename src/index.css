@@ -22,15 +22,11 @@
   width: 100%;
 }
 
-.bottom-menu {
+.task-display {
   display: flex;
-  position: fixed;
-  justify-content: space-between;
-  background-color: var(--background_color);
-  bottom: 0;
-  left: 0;
-  height: 50px;
-  width: 350px;
+  align-items: center;
+  gap: 15px;
+  margin-left: -150px;
 }
 
 .user-menu {

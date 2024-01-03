@@ -2,11 +2,12 @@ import React from 'react';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import '../../css/item.css';
-import { formatDate, isEncoded } from '../utils/Utils';
+import { formatDate } from '../utils/Utils';
 
 const Item = ({ product, isActive, onItemClick, showTitle }) => {
 
   const handleClick = () => {
+    console.log(product)
     onItemClick();
   };
 

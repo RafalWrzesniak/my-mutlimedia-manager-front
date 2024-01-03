@@ -21,7 +21,7 @@ ReactModal.setAppElement('#root');
 
 const App = () => {
   const toolbarRef = useRef(null);  
-  const [pageSize] = useState(36);
+  const [pageSize] = useState(30);
   const [activeTab, setActiveTab] = useState('BOOK_LIST');
   const [username, setUsername] = useState('');
   const [activeList, setActiveList] = useState(null);
@@ -33,8 +33,8 @@ const App = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const [sortKey, setSortKey] = useState('id');
-  const [sortDirection, setSortDirection] = useState('DESC');
+  const [sortKey, setSortKey] = useState('createdOn');
+  const [sortDirection, setSortDirection] = useState('ASC');
   const [searchInputData, setSearchInputData] = useState({});
   const [initLoading, setInitInitLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -45,8 +45,14 @@ const App = () => {
   const handlePageChange = async (page) => {
     console.log("Zmieniam na strone: ", page + 1)
     setCurrentPage(page);
-    let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
-    setDisplayedItemsWithPage(currentList.allItems, page)
+    if(sortKey === 'createdOn' && sortDirection === 'ASC') {
+      let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
+      setDisplayedItemsWithPage(currentList.allItems, page)
+    } else {
+      let sortedList = await getListById(activeList, tabToApi(activeTab), page, sortDirection, sortKey, pageSize);
+      console.log(tabToListObjects(sortedList, activeTab))
+      setDisplayedItemsFunc(tabToListObjects(sortedList, activeTab));
+    }
   };
 
   const setDisplayedItemsWithPage = (items, pageNumber) => {
@@ -80,8 +86,9 @@ const App = () => {
       }
       let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
       taskService.setTask('Sortuję listę...', true);
+      setCurrentPage(0);
       let sortedList = await getListById(currentList.id, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize);
-      setDisplayedItemsWithPage(tabToListObjects(sortedList, activeTab), currentPage);
+      setDisplayedItemsFunc(tabToListObjects(sortedList, activeTab));
       taskService.clearTask();
     }
     console.log("Zmieniam sortowania na: " + sortKey + " " + sortDirection)
@@ -138,6 +145,9 @@ const App = () => {
     setTotalPages(Math.ceil((list.items)/pageSize));
     toolbarRef.current.turnOffRecentlyDoneButton();
     toolbarRef.current.clearSearchInput();
+    toolbarRef.current.restartSorting(activeTab);
+    setSortKey('createdOn');
+    setSortDirection('ASC');
   }
 
   const handleItemChange = (item) => {
@@ -169,7 +179,6 @@ const App = () => {
 
   const handleInputSearch = async (propertyName, valueToFind) => {
     if(searchInputData.valueToFind && valueToFind.length === 0) {
-      console.log(rememberedList)
       setSearchInputData({})
       handleListChange(activeList);
       return;
@@ -199,7 +208,7 @@ const App = () => {
   const fetchInitialData = async (username) => {
     setIsLoggedIn(true);
     setUsername(username);
-    taskService.setTask('Uruchamiam funkcję lambda..');
+    taskService.setTask('Uruchamiam funkcję lambda...');
     console.log("Fetching init data")
     try {
       setInitInitLoading(true);
