@@ -7,7 +7,6 @@ import { formatDate } from '../utils/Utils';
 const Item = ({ product, isActive, onItemClick, showTitle }) => {
 
   const handleClick = () => {
-    console.log(product)
     onItemClick();
   };
 

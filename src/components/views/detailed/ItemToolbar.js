@@ -22,13 +22,11 @@ const ItemToolbar = ({ lists, item, addItemToListId, removeItemFromListId, updat
   const listMappedToOptions = lists.map((list) => ({ value: list.id, label: list.name, listType: list.listType }));
 
   const addItemToListFunc = (list) => {
-    console.log(`Dodaję do listy: '${list.value}' obiekt '${item.title}'`);
     addItemToList(item.id, list.value, tabToApi(list.listType))
     addItemToListId(item, list.value)
   };
 
   const removeItemFromListFunc = (list) => {
-    console.log(`Usuwam z listy: '${list.value}' obiekt '${item.title}'`);
     removeItemFromList(item.id, list.value, tabToApi(list.listType))
     removeItemFromListId(item, list.value)
   };
@@ -46,14 +44,12 @@ const ItemToolbar = ({ lists, item, addItemToListId, removeItemFromListId, updat
  
   const changeBookFormat = (event) => {
     let newBookFormat = event.target.value;
-    console.log(`Zmieniam format książki '${item.title}' na ${newBookFormat}`);
     setSelectedBookFormat(newBookFormat);
     setBookFormat(item.id, newBookFormat)
   }
 
   const changeGamePlatform = (event) => {
     let newGamePlatform = event.target.value;
-    console.log(`Zmieniam platformę gry '${item.title}' na ${newGamePlatform}`);
     setSelectedGamePlatform(newGamePlatform);
     setGamePlatform(item.id, newGamePlatform)
   }
@@ -75,7 +71,6 @@ const ItemToolbar = ({ lists, item, addItemToListId, removeItemFromListId, updat
   
   const acceptFinishedOn = async () => {
     if(finishedOnDate !== getFinishedOn(item) || timeSpent !== item.playedHours) {
-      console.log(`Setting item '${item.title}' as finished on ${finishedOnDate}${timeSpent ? ` in ${timeSpent} hours` : ''}`)
       await finishItem(item.id, finishedOnDate, timeSpent, itemToApi(item));
       item.finishedOn = finishedOnDate;
       if(isBook(item)) {

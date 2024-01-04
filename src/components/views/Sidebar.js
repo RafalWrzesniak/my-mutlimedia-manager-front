@@ -30,7 +30,6 @@ const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList, refre
   };
 
   const removeList = () => {
-    console.log("Usuwam liste z id: ", activeList);
     taskService.setTask('Usuwam listę "'+getCurrentList.name+'"', true)
     removeListFromUser(activeList, tabToApi(activeApi), refreshListsInApp);
   }

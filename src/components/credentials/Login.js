@@ -45,7 +45,6 @@ const Login = ({ onSuccessfulLogin }) => {
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (session) => {
         let usernameToDisplay = session.idToken.payload.preferred_username;
-        console.log('Zalogowano pomyślnie: ', usernameToDisplay);
         localStorage.setItem('authorizationBearer', session.idToken.jwtToken);
         onSuccessfulLogin(usernameToDisplay)
       },
@@ -78,7 +77,6 @@ const Login = ({ onSuccessfulLogin }) => {
       setShouldShowMessage(true);
       setIsMessageError(false);
       setMessageText('Konto utworzone. Zweryfikuj konto klikając link w wysłanym mailu.')
-      console.log('Rejestracja powiodła się');
     });
   };
 

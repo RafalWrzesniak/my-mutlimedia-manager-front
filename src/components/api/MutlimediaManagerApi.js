@@ -23,8 +23,8 @@ const getUserListInfo = async () => {
   return getResponseData(response);
 };
 
-const getListById = async (listId, apiType, page, direction, sortKey, pageSize) => {
-  const finalUrl = `${URL}/${apiType}/list?listId=${listId}&direction=${direction ? direction : 'ASC'}&sortKey=${sortKey ? sortKey : 'id'}&page=${page ? page : 0}&pageSize=${pageSize ? pageSize : 20}`;
+const getListById = async (listId, apiType, page, direction, sortKey, pageSize, propertyName, valueToFind) => {
+  const finalUrl = `${URL}/${apiType}/list?listId=${listId}&direction=${direction ? direction : 'ASC'}&sortKey=${sortKey ? sortKey : 'id'}&page=${page ? page : 0}&pageSize=${pageSize ? pageSize : 30}${propertyName ? '&propertyName=' + propertyName : ""}${valueToFind ? '&value=' + valueToFind : ""}`;
   const response = await get(finalUrl);
   return getResponseData(response);
   };
@@ -54,20 +54,8 @@ const createMovieFromUrl = (movieUrl, listId, onSuccess = () => {}, onFailure = 
   post(url, {}, onSuccess, onFailure);
 }
 
-const findProductsByProperty = async (listId, propertyName, valueToFind, apiType, page, direction, sortKey, pageSize) => {
-  const finalUrl = `${URL}/${apiType}/property?listId=${listId}&propertyName=${propertyName}&value=${valueToFind}&direction=${direction ? direction : 'ASC'}&sortKey=${sortKey ? sortKey : 'id'}&page=${page ? page : 0}&pageSize=${pageSize ? pageSize : 20}`;
-  const response = await get(finalUrl);
-  return getResponseData(response);
-}
-
 const createNewList = async (listName, apiType, onSuccess = () => {}, onFailure = () => {}) => {
   post(`${URL}/${apiType}/list?listName=${listName}`, {}, onSuccess, onFailure);
-}
-
-const findListsContainingProduct = async (productId, apiType) => {
-  const finalUrl = `${URL}/${apiType}/list/with?productId=${encodeURIComponent(productId)}`;
-  const response = await get(finalUrl);
-  return getResponseData(response);
 }
 
 const addItemToList = async (itemId, listId, apiType, onSuccess = () => {}) => {
@@ -111,5 +99,5 @@ const removeListFromUser = async(listId, apiType, onSuccess = () => {}) => {
 
 
 export { getUserListInfo, getListById, getRecentlyDone, createBookFromUrl, createGameFromUrl, removeListFromUser,
-  createMovieFromUrl, findProductsByProperty, createNewList, findListsContainingProduct, getDetailsForItems, 
+  createMovieFromUrl, createNewList, getDetailsForItems,
   addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, registerInApp, renameList };

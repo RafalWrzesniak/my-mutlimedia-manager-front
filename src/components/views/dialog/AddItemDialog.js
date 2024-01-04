@@ -41,9 +41,6 @@ const AddItemDialog = ({ isOpen, onClose, lists, activeApi, addItemToListId, tas
   };
 
   const onAddItem = () => {
-    console.log("Dodaje: " + inputUrl);
-    console.log("Wybrana lista: " + selectedList);
-    console.log("Wybrana zakładka: " + activeApi);
     if(activeApi === 'book') {
       let task = 'Dodaję książkę z linku: ' + inputUrl;
       taskService.setTask(task, true);

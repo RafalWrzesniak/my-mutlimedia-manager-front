@@ -14,7 +14,6 @@ const AddListDialog = ({ isOpen, onClose, activeApi, addNewList, taskService }) 
   };
 
   const onAddItem = async () => {
-    console.log("Dodaje nową listę: " + inputListName + " do: " + activeApi);
     taskService.setTask('Dodaję nową listę "'+inputListName+'"', true)
     createNewList(inputListName, tabToApi(activeApi), response => {
       addNewList(response.data);

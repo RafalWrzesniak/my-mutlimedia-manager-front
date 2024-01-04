@@ -42,28 +42,23 @@
     margin-top: 10px;
     list-style-type: none;
     padding: 0;
-    margin-top: 10px;
   }
-  
-  .sidebar li {
-    margin-bottom: 10px;
-  }
-  
+
   .sidebar li button {
     display: block;
     width: 100%;
     padding: 8px 16px;
     text-align: left;
     background-color: transparent;
-    border: 1px solid var(--almost_white);
+    border: 2px solid var(--almost_white);
     border-radius: 5px;
-    border-width: 2px;
     font-size: 16px;
     cursor: pointer;
     color: var(--almost_white);
     transition: border-color 0.5s ease, color 0.5s ease;
+    margin-bottom: 15px;
   }
-  
+
   .sidebar li button:hover {
     border-color: var(--my_blue);
     color: var(--my_blue);

@@ -4,7 +4,7 @@ import Sidebar from './components/views/Sidebar';
 import TabMenu from './components/views/TabMenu';
 import Content from './components/views/Content';
 import Paginator from './components/views/Paginator';
-import { getListById, getUserListInfo, getDetailsForItems, getRecentlyDone, findProductsByProperty, getItemById } from './components/api/MutlimediaManagerApi';
+import { getListById, getUserListInfo, getDetailsForItems, getRecentlyDone, getItemById } from './components/api/MutlimediaManagerApi';
 import { tabToApi, tabToListObjects, getListsForTab, isBook, isGame, isMovie, decodeItem } from './components/utils/Utils';
 import InitLoader from './components/utils/InitLoader';
 import TaskServiceDisplay from './components/utils/TaskServiceDisplay';
@@ -43,14 +43,12 @@ const App = () => {
   const taskService = TaskService();
 
   const handlePageChange = async (page) => {
-    console.log("Zmieniam na strone: ", page + 1)
     setCurrentPage(page);
-    if(sortKey === 'createdOn' && sortDirection === 'ASC') {
+    if(sortKey === 'createdOn' && sortDirection === 'ASC' && !searchInputData.propertyName && !searchInputData.valueToFind) {
       let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
       setDisplayedItemsWithPage(currentList.allItems, page)
     } else {
-      let sortedList = await getListById(activeList, tabToApi(activeTab), page, sortDirection, sortKey, pageSize);
-      console.log(tabToListObjects(sortedList, activeTab))
+      let sortedList = await getListById(activeList, tabToApi(activeTab), page, sortDirection, sortKey, pageSize, searchInputData.propertyName, searchInputData.valueToFind);
       setDisplayedItemsFunc(tabToListObjects(sortedList, activeTab));
     }
   };
@@ -86,12 +84,12 @@ const App = () => {
       }
       let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
       taskService.setTask('Sortuję listę...', true);
-      setCurrentPage(0);
-      let sortedList = await getListById(currentList.id, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize);
+      let sortedList = await getListById(currentList.id, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize, searchInputData.propertyName, searchInputData.valueToFind);
       setDisplayedItemsFunc(tabToListObjects(sortedList, activeTab));
+      setTotalPages(Math.ceil(sortedList.productsNumber / pageSize));
+      setCurrentPage(0);
       taskService.clearTask();
     }
-    console.log("Zmieniam sortowania na: " + sortKey + " " + sortDirection)
     fetchSortedData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortKey, sortDirection]);
@@ -99,56 +97,39 @@ const App = () => {
   
   useEffect(() => {
     if(username) {
-      handleTabChange(activeTab);
+      setSearchInputData({})
+      setActiveTab(activeTab);
+      let updatedLists = getListsForTab(allUserLists, activeTab)
+      setTabLists(updatedLists);
+      let currentList = updatedLists.length > 0 ? updatedLists[0] : null;
+      setActiveItem(undefined);
+      if(currentList) {
+        setActiveList(currentList.id);
+        setCurrentPage(0);
+        setTotalPages(Math.ceil((currentList.items)/pageSize));
+        setDisplayedItemsWithPage(currentList.allItems, 0)
+      }
+      toolbarRef.current.turnOffRecentlyDoneButton();
+      toolbarRef.current.clearSearchInput();
+      toolbarRef.current.restartSorting(activeTab);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab])
 
-  const handleOpenDialog = () => {
-    setIsDialogOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-  };
-
-  const handleTabChange = async (tab) => {
-    console.log("Changing tab to: " + tab)
-    setActiveTab(tab);
-    let updatedLists = getListsForTab(allUserLists, tab)
-    setTabLists(updatedLists);
-    let currentList = updatedLists.length > 0 ? updatedLists[0] : null;
-    setActiveItem(undefined);
-    if(currentList) {
-      setActiveList(currentList.id);
-      console.log("Changing list to: " + currentList.name)
-      setCurrentPage(0);
-      setTotalPages(Math.ceil((currentList.items)/pageSize));
-      setDisplayedItems(currentList.allItems)
-    }
-    toolbarRef.current.turnOffRecentlyDoneButton();
-    toolbarRef.current.clearSearchInput();
-    toolbarRef.current.restartSorting(tab);
-    };  
-  
   const handleListChange = async (listId) => {
     if(!listId) return;
     let newList = tabLists.filter(listFromTab => listFromTab.id === listId)[0];
-    changeList(newList)
-  };
-
-  const changeList = (list) => {
-    console.log("Changing list to: " + list.name)
-    setActiveList(list.id);
-    setDisplayedItems(list.allItems)
+    setActiveList(newList.id);
+    setDisplayedItemsWithPage(newList.allItems, 0)
     setCurrentPage(0);
-    setTotalPages(Math.ceil((list.items)/pageSize));
+    setTotalPages(Math.ceil((newList.items)/pageSize));
     toolbarRef.current.turnOffRecentlyDoneButton();
     toolbarRef.current.clearSearchInput();
     toolbarRef.current.restartSorting(activeTab);
     setSortKey('createdOn');
     setSortDirection('ASC');
-  }
+    setSearchInputData({})
+  };
 
   const handleItemChange = (item) => {
     if(!activeItem || item.id !== activeItem.id) {
@@ -184,23 +165,22 @@ const App = () => {
       return;
     }
     if(valueToFind.length >= 2) {
-      console.log(propertyName + ": " + valueToFind)
       setSearchInputData({
         propertyName: propertyName,
         valueToFind: valueToFind})
       let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
       taskService.setTask('Szukam na tej liście: ' + valueToFind, true);
-      const allFoundItems = await findProductsByProperty(currentList.id, propertyName, valueToFind, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize)
+      const sortedList = await getListById(currentList.id, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize, propertyName, valueToFind);
       taskService.clearTask();
       setCurrentPage(0);
-      setTotalPages(Math.ceil(allFoundItems.length / pageSize));
-      setDisplayedItems(allFoundItems);
+      setTotalPages(Math.ceil(sortedList.productsNumber / pageSize));
+      setDisplayedItemsFunc(tabToListObjects(sortedList, activeTab));
     }
   }
 
   const moveToDefaultView = () => {
     if(isLoggedIn) {
-      handleTabChange('BOOK_LIST');
+      setActiveTab('BOOK_LIST');
       taskService.setTask('Miłego dzionka i smacznej kawusi! :-)');
     }
   }
@@ -209,7 +189,6 @@ const App = () => {
     setIsLoggedIn(true);
     setUsername(username);
     taskService.setTask('Uruchamiam funkcję lambda...');
-    console.log("Fetching init data")
     try {
       setInitInitLoading(true);
       let userListsData = await getUserListInfo();
@@ -229,7 +208,6 @@ const App = () => {
       setInitInitLoading(false);
       taskService.clearTask();
     } catch (error) {
-      console.error('Error fetching user lists:', error);
       taskService.setTask('Błąd serwera! Nie udało się pobrać danych :(');
       setInitInitLoading(false);
     }
@@ -266,10 +244,6 @@ const App = () => {
     let title = item.polishTitle ? item.polishTitle : item.title;
     let task = 'Usunąłeś "' + title + '" z listy "' + findListById(listId).name + '"'
     taskService.setTask(task);
-  }
-
-  const updateItem = (item) => {
-    handleListChange(activeList);
   }
 
   const addNewList = (list) => {
@@ -317,21 +291,21 @@ const App = () => {
             <Toolbar 
             ref={toolbarRef}
             handleRecentlyDone={recentlyDoneHandler}
-            handleAddItem={handleOpenDialog}
+            handleAddItem={() => setIsDialogOpen(true)}
             handleSortChange={setSortKey}
             handleSortDirectionChange={setSortDirection}
             handleSearchInputChange={handleInputSearch}
             switchShowTitle={setShowTitle}
             activeTab={activeTab}
             />
-            <AddItemDialog isOpen={isDialogOpen} onClose={handleCloseDialog} lists={tabLists} activeApi={tabToApi(activeTab)} addItemToListId={addItemToList} taskService={taskService} />
+            <AddItemDialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} lists={tabLists} activeApi={tabToApi(activeTab)} addItemToListId={addItemToList} taskService={taskService} />
             <Content items={displayedItems} activeItem={activeItem} onItemChange={handleItemChange} showTitle={showTitle} />
             <Paginator totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
           </div>
         </div>
-        {(activeItem && activeTab==='BOOK_LIST' && isBook(activeItem)) && (<BookDetailedWindow book={activeItem} tabLists={tabLists} updateItem={updateItem} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
-        {(activeItem && activeTab==='MOVIE_LIST' && isMovie(activeItem)) && (<MovieDetailedWindow movie={activeItem} tabLists={tabLists} updateItem={updateItem} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
-        {(activeItem && activeTab==='GAME_LIST' && isGame(activeItem)) && (<GameDetailedWindow game={activeItem} tabLists={tabLists} updateItem={updateItem} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
+        {(activeItem && activeTab==='BOOK_LIST' && isBook(activeItem)) && (<BookDetailedWindow book={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
+        {(activeItem && activeTab==='MOVIE_LIST' && isMovie(activeItem)) && (<MovieDetailedWindow movie={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
+        {(activeItem && activeTab==='GAME_LIST' && isGame(activeItem)) && (<GameDetailedWindow game={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
       </div>
       )}
     </div>

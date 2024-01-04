@@ -14,7 +14,6 @@ const RenameListDialog = ({ isOpen, onClose, activeApi, activeList, refreshLists
   };
 
   const onChangeName = async () => {
-    console.log("Zmieniam nazwę listy na: " + newListName);
       taskService.setTask(`Zmieniłeś nazwę listy z {currentName} na {newListName}`);
     renameList(newListName, activeList, tabToApi(activeApi), () => refreshListsInApp(), () => taskService.setTask(`Nie udało się zmienić nazwy listy z {currentName} na {newListName}`))
     setNewListName('');

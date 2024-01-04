@@ -140,7 +140,6 @@ const Toolbar = forwardRef((props, ref) => {
   }
 
   const restartSorting = (newTab) => {
-    console.log('Restarts sorting')
     createOptionsForSortingDropdown(newTab);
     setSelectedSortingOption('createdOn');
     setSortingDirection('ASC');
