@@ -48,8 +48,11 @@ const App = () => {
       let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
       setDisplayedItemsWithPage(currentList.allItems, page)
     } else {
-      let sortedList = await getListById(activeList, tabToApi(activeTab), page, sortDirection, sortKey, pageSize, searchInputData.propertyName, searchInputData.valueToFind);
-      setDisplayedItemsFunc(tabToListObjects(sortedList, activeTab));
+      taskService.setTask('Pobieram kolejną stronę...', true)
+      let sortedList = await getListById(activeList, tabToApi(activeTab), page, sortDirection, sortKey, pageSize, searchInputData.propertyName, searchInputData.valueToFind, () => {
+        taskService.clearTask()
+        setDisplayedItemsFunc(tabToListObjects(sortedList, activeTab));
+      }, () => taskService.setTask('Nie udało się pobrać danych :( Spróbuj odświeżyć stronę'));
     }
   };
 
@@ -84,11 +87,12 @@ const App = () => {
       }
       let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
       taskService.setTask('Sortuję listę...', true);
-      let sortedList = await getListById(currentList.id, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize, searchInputData.propertyName, searchInputData.valueToFind);
-      setDisplayedItemsFunc(tabToListObjects(sortedList, activeTab));
-      setTotalPages(Math.ceil(sortedList.productsNumber / pageSize));
-      setCurrentPage(0);
-      taskService.clearTask();
+      let sortedList = await getListById(currentList.id, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize, searchInputData.propertyName, searchInputData.valueToFind, () => {
+        setDisplayedItemsFunc(tabToListObjects(sortedList, activeTab));
+        setTotalPages(Math.ceil(sortedList.productsNumber / pageSize));
+        setCurrentPage(0);
+        taskService.clearTask();
+      }, () => taskService.setTask('Nie udało się pobrać danych :( Spróbuj odświeżyć stronę'));
     }
     fetchSortedData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -170,11 +174,12 @@ const App = () => {
         valueToFind: valueToFind})
       let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
       taskService.setTask('Szukam na tej liście: ' + valueToFind, true);
-      const sortedList = await getListById(currentList.id, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize, propertyName, valueToFind);
-      taskService.clearTask();
-      setCurrentPage(0);
-      setTotalPages(Math.ceil(sortedList.productsNumber / pageSize));
-      setDisplayedItemsFunc(tabToListObjects(sortedList, activeTab));
+      const sortedList = await getListById(currentList.id, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize, propertyName, valueToFind, () => {
+        taskService.clearTask();
+        setCurrentPage(0);
+        setTotalPages(Math.ceil(sortedList.productsNumber / pageSize));
+        setDisplayedItemsFunc(tabToListObjects(sortedList, activeTab));
+      }, () => taskService.setTask('Nie udało się pobrać danych :( Spróbuj odświeżyć stronę'));
     }
   }
 

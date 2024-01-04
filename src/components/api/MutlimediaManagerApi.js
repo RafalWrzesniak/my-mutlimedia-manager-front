@@ -23,9 +23,9 @@ const getUserListInfo = async () => {
   return getResponseData(response);
 };
 
-const getListById = async (listId, apiType, page, direction, sortKey, pageSize, propertyName, valueToFind) => {
+const getListById = async (listId, apiType, page, direction, sortKey, pageSize, propertyName, valueToFind, onSuccess = () => {}, onFailure = () => {}) => {
   const finalUrl = `${URL}/${apiType}/list?listId=${listId}&direction=${direction ? direction : 'ASC'}&sortKey=${sortKey ? sortKey : 'id'}&page=${page ? page : 0}&pageSize=${pageSize ? pageSize : 30}${propertyName ? '&propertyName=' + propertyName : ""}${valueToFind ? '&value=' + valueToFind : ""}`;
-  const response = await get(finalUrl);
+  const response = await get(finalUrl, onSuccess, onFailure);
   return getResponseData(response);
   };
   
