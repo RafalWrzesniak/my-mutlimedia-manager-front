@@ -281,7 +281,7 @@ const App = () => {
   return (
     <div className="app">
       <div className='top-menu'>
-        {!isDesktop() &&
+        {!isDesktop() && isLoggedIn &&
           <div>
             <AiOutlineMenu className='lists-menu' onClick={() => setIsMobileSideBarOpen(true)} />
             <Modal isOpen={isMobileSideBarOpen} onRequestClose={() => setIsMobileSideBarOpen(false)} className="add-item-dialog-content" overlayClassName="add-item-dialog-overlay">
