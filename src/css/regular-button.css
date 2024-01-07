@@ -22,7 +22,14 @@
     border-radius: 5px;
     cursor: pointer;
     transition: border-color 0.5s ease, color 0.5s ease;
-  }  
+  }
+
+  @media (max-width: 600px) {
+    .regular-button {
+      font-size: 0px;
+      width: min-content;
+    }
+  }
 
   .regular-button:hover:not(:disabled)  {
     color: var(--my_blue);
@@ -85,7 +92,6 @@
     color: var(--my_green);
     border-color: var(--my_green);
   }
-
 
   .button-icon {
     font-size: 20px;

@@ -23,7 +23,7 @@ const Toolbar = forwardRef((props, ref) => {
         { value: 'datePublished', label: 'Premiera' },
         { value: 'readOn', label: 'Przeczytano' },
         { value: 'numberOfPages', label: 'Strony' },
-        { value: 'updatedOn', label: 'Zmodyfikowano' }
+        { value: 'updatedOn', label: 'Edytowano' }
       ],
       'MOVIE_LIST': [       
         { value: 'createdOn', label: 'Utworzono' },
@@ -33,7 +33,7 @@ const Toolbar = forwardRef((props, ref) => {
         { value: 'imDbRating', label: 'Ocena' },
         { value: 'imDbRatingVotes', label: 'Popularność' },
         { value: 'watchedOn', label: 'Oglądnięto' },
-        { value: 'updatedOn', label: 'Zmodyfikowano' }
+        { value: 'updatedOn', label: 'Edytowano' }
       ],
       'GAME_LIST': [
         { value: 'createdOn', label: 'Utworzono' },
@@ -43,7 +43,7 @@ const Toolbar = forwardRef((props, ref) => {
         { value: 'playedHours', label: 'Czas gry' },
         { value: 'ratingValue', label: 'Ocena' },
         { value: 'ratingCount', label: 'Popularność' },
-        { value: 'updatedOn', label: 'Zmodyfikowano' }
+        { value: 'updatedOn', label: 'Edytowano' }
       ]
     }
     return fieldsForTab[activeTab];
@@ -87,11 +87,7 @@ const Toolbar = forwardRef((props, ref) => {
     setSelectedSortingOption(selectedOption);
     if (props.handleSortChange) {
       props.handleSortChange(selectedOption);
-    }    
-//    setSortingDirection('ASC');
-//    if (props.handleSortDirectionChange) {
-//      props.handleSortDirectionChange('ASC');
-//    }
+    }
   };
 
   const handleRecentlyDone = () => {
@@ -192,7 +188,7 @@ const Toolbar = forwardRef((props, ref) => {
     <div className="toolbar" >
       <RegularButton text='Dodaj' icon={<AiOutlineAppstoreAdd/>} onClick={handleAddItem} disabled={recentlyDoneIsActive} />
       <RegularButton text='Ostatnie' icon={<AiOutlineFileDone/>} onClick={handleRecentlyDone} isActive={recentlyDoneIsActive} />
-      
+
       <select className="select-wrapper" value={selectedSortingOption} onChange={handleSortChange} disabled={recentlyDoneIsActive} >
         {sortingOptions}
       </select>

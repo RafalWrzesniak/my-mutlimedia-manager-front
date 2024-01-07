@@ -132,16 +132,7 @@ body {
 
 @media (max-width: 2000px) {
   .content {
-    min-width: 400px;
     max-height: 60vh;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    padding: 20px;
-    gap: 1vw;
-    position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
   }
 }
 
