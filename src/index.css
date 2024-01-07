@@ -155,7 +155,7 @@ body {
   flex-wrap: wrap;
   justify-content: flex-start;
   padding: 20px;
-  gap: 2vw;
+  gap: 1vw;
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
@@ -165,6 +165,7 @@ body {
   .content {
     max-height: 60vh;
     padding: 10px;
+    gap: 5vw;
   }
 }
 
