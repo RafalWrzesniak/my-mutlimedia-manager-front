@@ -109,5 +109,9 @@ import moment from 'moment';
      return item;
    }
 
+   function isDesktop() {
+    return window.innerWidth > 600;
+   }
+
   export { tabToApi, tabToListObjects, getListsForTab, formatDate, formatTime, listToString,
-     isBook, isGame, getFinishedOn, itemToApi, isMovie, isEncoded, encodeItem, decodeItem}
+     isBook, isGame, getFinishedOn, itemToApi, isMovie, isEncoded, encodeItem, decodeItem, isDesktop}

@@ -18,7 +18,14 @@
     display: flex;
     gap: 15px;
   }
-  
+
+  @media (max-width: 600px) {
+    .tab-menu {
+      display: flex;
+      gap: 5px;
+    }
+  }
+
   .tab {
     cursor: pointer;
     padding: 8px 32px;
@@ -28,6 +35,13 @@
     background-color: var(--light_gray);
     border-radius: 5px 5px 0px 0px;
     font-size: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .tab {
+      padding: 8px 12px;
+      font-size: 14px;
+    }
   }
   
   .tab.active {
@@ -45,3 +59,9 @@
     margin-right: 8px;
     font-size: 24px;
   }
+
+  @media (max-width: 600px) {
+     .tab-icon {
+       font-size: 18px;
+     }
+   }

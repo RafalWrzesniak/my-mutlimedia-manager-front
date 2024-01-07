@@ -5,7 +5,7 @@ import TabMenu from './components/views/TabMenu';
 import Content from './components/views/Content';
 import Paginator from './components/views/Paginator';
 import { getListById, getUserListInfo, getDetailsForItems, getRecentlyDone, getItemById } from './components/api/MutlimediaManagerApi';
-import { tabToApi, tabToListObjects, getListsForTab, isBook, isGame, isMovie, decodeItem } from './components/utils/Utils';
+import { tabToApi, tabToListObjects, getListsForTab, isBook, isGame, isMovie, decodeItem, isDesktop } from './components/utils/Utils';
 import InitLoader from './components/utils/InitLoader';
 import TaskServiceDisplay from './components/utils/TaskServiceDisplay';
 import TaskService from './components/utils/TaskService';
@@ -16,6 +16,8 @@ import GameDetailedWindow from './components/views/detailed/GameDetailedWindow';
 import MovieDetailedWindow from './components/views/detailed/MovieDetailedWindow';
 import Login from './components/credentials/Login';
 import { CgProfile } from 'react-icons/cg';
+import { AiOutlineMenu } from "react-icons/ai";
+import Modal from 'react-modal';
 
 ReactModal.setAppElement('#root');
 
@@ -31,6 +33,7 @@ const App = () => {
   const [activeItem, setActiveItem] = useState();
   const [rememberedList, setRememberedList] = useState();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isMobileSideBarOpen, setIsMobileSideBarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [sortKey, setSortKey] = useState('createdOn');
@@ -39,6 +42,7 @@ const App = () => {
   const [initLoading, setInitInitLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
+  const [currentListName, setCurrentListName] = useState('');
 
   const taskService = TaskService();
 
@@ -127,12 +131,14 @@ const App = () => {
     setDisplayedItemsWithPage(newList.allItems, 0)
     setCurrentPage(0);
     setTotalPages(Math.ceil((newList.items)/pageSize));
+    setIsMobileSideBarOpen(false)
     toolbarRef.current.turnOffRecentlyDoneButton();
     toolbarRef.current.clearSearchInput();
     toolbarRef.current.restartSorting(activeTab);
     setSortKey('createdOn');
     setSortDirection('ASC');
     setSearchInputData({})
+    setCurrentListName(newList.name)
   };
 
   const handleItemChange = (item) => {
@@ -206,6 +212,7 @@ const App = () => {
       setTabLists(updatedLists);
       let activeList = updatedLists.length > 0 ? updatedLists[0] : -1;
       setActiveList(activeList.id);
+      setCurrentListName(activeList.name)
       setDisplayedItems(activeList.allItems);
       toolbarRef.current.restartSorting(activeTab);
       toolbarRef.current.turnOffRecentlyDoneButton();
@@ -270,14 +277,23 @@ const App = () => {
     taskService.clearTask();
   }
 
+
   return (
     <div className="app">
       <div className='top-menu'>
+        {!isDesktop() &&
+          <div>
+            <AiOutlineMenu className='lists-menu' onClick={() => setIsMobileSideBarOpen(true)} />
+            <Modal isOpen={isMobileSideBarOpen} onRequestClose={() => setIsMobileSideBarOpen(false)} className="add-item-dialog-content" overlayClassName="add-item-dialog-overlay">
+              <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} refreshListsInApp={refreshListsInApp} taskService={taskService} />
+            </Modal>
+         </div>
+         }
         <div className='logo-placement' onClick={moveToDefaultView}>
             <img className='logo' src='logo.png' alt="Logo" />
-            My Multimedia Manager
+            {isDesktop() ? 'My Multimedia Manager' : currentListName}
         </div>
-        <TaskServiceDisplay loading={taskService.getLoading()} task={taskService.getTask()} />
+        {isDesktop() && <TaskServiceDisplay loading={taskService.getLoading()} task={taskService.getTask()} />}
         <div className='user-menu'>
           <CgProfile className='icon-user-menu'/>
           {username}
@@ -287,7 +303,9 @@ const App = () => {
       {(isLoggedIn) && (
       <div className="container">
         <InitLoader loading={initLoading} />
-        <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} refreshListsInApp={refreshListsInApp} taskService={taskService} />
+        {isDesktop() &&
+          <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} refreshListsInApp={refreshListsInApp} taskService={taskService} />
+        }
         <div className='content-with-menu'>
           <div className="tab-menu-container">
             <TabMenu activeTab={activeTab} onTabChange={setActiveTab} />

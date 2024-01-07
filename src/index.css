@@ -54,6 +54,30 @@
   margin-left: 10px;
 }
 
+@media (max-width: 600px) {
+  .logo-placement {
+    font-family: 'Roboto';
+    font-size: 16px;
+    min-width: max-content;
+    max-width: max-content;
+    width: max-content;
+    gap: 10px;
+  }
+}
+
+.lists-menu {
+  margin-top: 6px;
+  margin-left: 2vw;
+  display: flex;
+  padding: 5px;
+  align-items: center;
+  font-size: 24px;
+}
+
+.lists-menu:hover {
+  cursor: pointer;
+}
+
 .logo {
   width: 100%;
   max-width: 35px;
@@ -85,10 +109,17 @@ body {
 .container {
   display: flex;
   gap: 20px;
-  margin-top: 8vh;
+  margin-top: 10vh;
   padding-left: 10vh;
   padding-right: 10vh;
   max-height: 90vh;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
 }
 
 .horizontal-container {  
@@ -133,6 +164,7 @@ body {
 @media (max-width: 2000px) {
   .content {
     max-height: 60vh;
+    padding: 10px;
   }
 }
 

@@ -32,7 +32,7 @@
     color: var(--almost_white);
     padding: 5px;
     height: 35px;
-    width: 100px;
+    width: min-content;
     border: solid 2px var(--light_gray);
     border-radius: 5px;
     font-size: 14px;
@@ -51,7 +51,7 @@
     border: solid 2px var(--light_gray);
     border-radius: 5px;
     outline: none;
-    width: 250px;
+    width: 200px;
     height: 22px;
     color: var(--almost_white);
     font-size: 14px;

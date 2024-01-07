@@ -29,12 +29,18 @@
     width: 500px;
     background-color: var(--background_color);
     border-radius: 0px 8px 8px 8px;
-    border: solid;
-    border-color: var(--my_blue);
-    border-width: 2px;
+    border: solid 2px var(--my_blue);
     padding: 20px 30px 10px 20px;
   }
 
+@media (max-width: 600px) {
+  .add-item-dialog-content {
+     top: 15vh;
+     left: 2vw;
+     width: 84vw;
+     border-radius: 8px;
+  }
+}
   
   .add-item-dialog-content:not(:focus) {
     border-color: var(--my_blue);
