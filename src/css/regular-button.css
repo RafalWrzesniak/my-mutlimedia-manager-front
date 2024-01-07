@@ -64,6 +64,13 @@
     transition: border-color 0.5s ease, color 0.5s ease;
   }  
 
+  @media (max-width: 600px) {
+    .regular-button-actived {
+      font-size: 0px;
+      width: min-content;
+    }
+  }
+
   .regular-button-small {
     padding: 4px 8px;
     align-items: center;
