@@ -165,6 +165,14 @@ body {
   .content {
     max-height: 60vh;
     padding: 10px;
+    gap: 1vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .content {
+    max-height: 60vh;
+    padding: 10px;
     gap: 5vw;
   }
 }
