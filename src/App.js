@@ -112,6 +112,7 @@ const App = () => {
       let currentList = updatedLists.length > 0 ? updatedLists[0] : null;
       setActiveItem(undefined);
       if(currentList) {
+        setCurrentListName(currentList.name)
         setActiveList(currentList.id);
         setCurrentPage(0);
         setTotalPages(Math.ceil((currentList.items)/pageSize));
