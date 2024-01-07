@@ -21,8 +21,7 @@
 
   @media (max-width: 600px) {
     .tab-menu {
-      display: flex;
-      gap: 5px;
+      gap: 10px;
     }
   }
 
@@ -39,8 +38,8 @@
 
   @media (max-width: 600px) {
     .tab {
-      padding: 8px 12px;
-      font-size: 14px;
+      padding: 8px 14px;
+      font-size: 16px;
     }
   }
   
@@ -62,6 +61,6 @@
 
   @media (max-width: 600px) {
      .tab-icon {
-       font-size: 18px;
+       font-size: 22px;
      }
    }

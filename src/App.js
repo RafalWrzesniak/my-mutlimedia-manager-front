@@ -296,7 +296,7 @@ const App = () => {
         {isDesktop() && <TaskServiceDisplay loading={taskService.getLoading()} task={taskService.getTask()} />}
         <div className='user-menu'>
           <CgProfile className='icon-user-menu'/>
-          {username}
+          {isDesktop() ? username : ''}
         </div>
       </div>
       {(!isLoggedIn) && <Login onSuccessfulLogin={fetchInitialData} />}
