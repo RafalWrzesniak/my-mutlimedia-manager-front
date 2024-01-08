@@ -10,7 +10,7 @@
   }
 
 .sidebar {
-    border-radius: 5px;
+    border-radius: 15px;
     min-width: 220px;
     width: 220px;
     min-height: 350px;
@@ -27,7 +27,7 @@
   }
 
   .sidebar-title {
-    font-family: 'Roboto';
+      font-family: 'Roboto', serif;
   }
   
   .divider {

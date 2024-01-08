@@ -95,19 +95,17 @@ body {
 .content-with-toolbar {
   background-color: var(--background_color);
   border-radius: 0px 15px 15px 15px;
-  flex: 1;
-  width: 99%;
   padding: 10px;
 }
 
 @media (max-width: 600px) {
   .content-with-toolbar {
     width: 95%;
+    border-radius: 0px 0px 15px 15px;
   }
 }
 
 .content-with-menu {
-  flex: 1;
   flex-direction: column;
   align-items: flex-start;
 }
@@ -116,7 +114,7 @@ body {
   display: flex;
   gap: 40px;
   margin-top: 10vh;
-  max-height: 90vh;
+  max-height: 85vh;
   padding-left: 10vh;
   padding-right: 10vh;
 }
@@ -156,7 +154,7 @@ body {
 
 .content {
   min-width: 200px;
-  max-height: 75vh;
+  max-height: 71vh;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -169,7 +167,7 @@ body {
 
 @media (max-width: 2000px) {
   .content {
-    max-height: 60vh;
+    max-height: 57vh;
     gap: 1vw;
   }
 }
