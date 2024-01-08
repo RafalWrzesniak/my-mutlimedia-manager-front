@@ -26,12 +26,6 @@
     padding-bottom: 20px;
   }
 
-@media (max-width: 600px) {
-  .sidebar {
-     margin-left: 10vw;
-  }
-}
-
   .sidebar-title {
     font-family: 'Roboto';
   }

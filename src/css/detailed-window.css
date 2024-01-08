@@ -24,7 +24,26 @@
     align-items: center;
     justify-content: flex-start;
   }
-  
+
+  @media (max-width: 600px) {
+    .detailed-window {
+      position: absolute;
+      left: 0;
+      top: 0;
+      min-width: 90%;
+    }
+  }
+
+  .close-detailed {
+    font-size: 22px;
+    transition: color 0.3s ease;
+  }
+
+  .close-detailed:hover {
+    color: var(--my_blue);
+    cursor: pointer;
+  }
+
   .image {
     width: auto;
     max-height: 35vh;
@@ -36,7 +55,6 @@
     font-size: 20px;
     color: var(--almost_white);
     font-weight: bold;
-    margin-bottom: 5px;
     text-align: center;
     text-decoration: none;
     transition: color 0.3s ease;

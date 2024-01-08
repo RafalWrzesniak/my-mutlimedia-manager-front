@@ -285,7 +285,7 @@ const App = () => {
         {!isDesktop() && isLoggedIn &&
           <div>
             <AiOutlineMenu className='lists-menu' onClick={() => setIsMobileSideBarOpen(true)} />
-            <Modal isOpen={isMobileSideBarOpen} onRequestClose={() => setIsMobileSideBarOpen(false)} className="add-item-dialog-content" overlayClassName="add-item-dialog-overlay">
+            <Modal isOpen={isMobileSideBarOpen} onRequestClose={() => setIsMobileSideBarOpen(false)} className="mobile-left-panel" overlayClassName="add-item-dialog-overlay">
               <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} refreshListsInApp={refreshListsInApp} taskService={taskService} />
             </Modal>
          </div>
@@ -327,9 +327,9 @@ const App = () => {
             <Paginator totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
           </div>
         </div>
-        {(activeItem && activeTab==='BOOK_LIST' && isBook(activeItem)) && (<BookDetailedWindow book={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
-        {(activeItem && activeTab==='MOVIE_LIST' && isMovie(activeItem)) && (<MovieDetailedWindow movie={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
-        {(activeItem && activeTab==='GAME_LIST' && isGame(activeItem)) && (<GameDetailedWindow game={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} />)}
+        {(activeItem && activeTab==='BOOK_LIST' && isBook(activeItem)) && (<BookDetailedWindow book={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} closeDetails={() => setActiveItem(undefined)} />)}
+        {(activeItem && activeTab==='MOVIE_LIST' && isMovie(activeItem)) && (<MovieDetailedWindow movie={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} closeDetails={() => setActiveItem(undefined)} />)}
+        {(activeItem && activeTab==='GAME_LIST' && isGame(activeItem)) && (<GameDetailedWindow game={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} closeDetails={() => setActiveItem(undefined)} />)}
       </div>
       )}
     </div>

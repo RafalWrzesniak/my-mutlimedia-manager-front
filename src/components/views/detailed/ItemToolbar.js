@@ -7,9 +7,10 @@ import { MdDone } from 'react-icons/md';
 import DropdownButton from '../../basic/DropdownButton';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import moment from 'moment';
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 
-const ItemToolbar = ({ lists, item, addItemToListId, removeItemFromListId, updateItem }) => {
+const ItemToolbar = ({ lists, item, addItemToListId, removeItemFromListId, updateItem, closeDetails }) => {
   
   const [initDropdownLists, setInitDropdownLists] = useState([]);
   const [selectedBookFormat, setSelectedBookFormat] = useState('');
@@ -99,17 +100,20 @@ const ItemToolbar = ({ lists, item, addItemToListId, removeItemFromListId, updat
 
   return (
     <div className="item-toolbar">
-      {(renderDropdownButton) && 
-        (<DropdownButton 
-          options={listMappedToOptions}
-          initialOptions={initDropdownLists}
-          placeholder='Wybierz liste'
-          isMulti={true}
-          onSelected={addItemToListFunc}
-          onDeselected={removeItemFromListFunc}
-          />)
+      <div className='horizontal-container'>
+        {(renderDropdownButton) &&
+            (<DropdownButton
+                options={listMappedToOptions}
+                initialOptions={initDropdownLists}
+                placeholder='Wybierz liste'
+                isMulti={true}
+                onSelected={addItemToListFunc}
+                onDeselected={removeItemFromListFunc}
+            />)
         }
-        <div className='horizontal-container'>
+        <IoIosCloseCircleOutline className='close-detailed' onClick={closeDetails}/>
+      </div>
+      <div className='horizontal-container'>
           {(!showingFinishButton && getFinishedOn(item)) && (<RegularButton onClick={showFinishingButton} text={formatDate(getFinishedOn(item))} icon={<IoCheckmarkDoneSharp style={ {color: 'var(--my_green)'} }/>} />)}
           {(!showingFinishButton && !getFinishedOn(item)) && (<RegularButton onClick={showFinishingButton} text='Ukończ' icon={<MdDone/>} />)}
           {(!showingFinishButton && item.playedHours) && (<div onClick={showFinishingButton} className='finish-hours'>{`${item.playedHours}h`}</div>)}  

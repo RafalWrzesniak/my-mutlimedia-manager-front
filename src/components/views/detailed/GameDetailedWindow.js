@@ -4,10 +4,10 @@ import { formatDate, listToString } from '../../utils/Utils';
 import DetailedField from './DetailedField';
 import ItemToolbar from './ItemToolbar';
 
-const GameDetailedWindow = ({ game, tabLists, updateItem, addItemToListId, removeItemFromListId }) => {
+const GameDetailedWindow = ({ game, tabLists, updateItem, addItemToListId, removeItemFromListId, closeDetails }) => {
   return (
     <div className="detailed-window">
-    <ItemToolbar item={game} lists={tabLists} updateItem={updateItem} addItemToListId={addItemToListId} removeItemFromListId={removeItemFromListId} />
+    <ItemToolbar item={game} lists={tabLists} updateItem={updateItem} addItemToListId={addItemToListId} removeItemFromListId={removeItemFromListId} closeDetails={closeDetails} />
       <img className="image" src={game.webImageUrl} alt="game cover" />
       <div className="title">
         <a href={game.gryOnlineUrl} target="_blank" rel="noopener noreferrer">

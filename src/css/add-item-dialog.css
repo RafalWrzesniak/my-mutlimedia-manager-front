@@ -40,7 +40,18 @@
      width: 80vw;
      border-radius: 8px;
   }
+  .add-item-dialog-overlay {
+    top: 50px;
+  }
 }
+
+  .mobile-left-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: var(--light_gray);
+  }
   
   .add-item-dialog-content:not(:focus) {
     border-color: var(--my_blue);
