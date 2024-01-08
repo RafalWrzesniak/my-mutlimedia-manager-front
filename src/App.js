@@ -284,7 +284,7 @@ const App = () => {
       <div className='top-menu'>
         {!isDesktop() && isLoggedIn &&
           <div>
-            <AiOutlineMenu className='lists-menu' onClick={() => setIsMobileSideBarOpen(true)} />
+            <AiOutlineMenu className='lists-menu' onClick={() => setIsMobileSideBarOpen(currentValue => !currentValue)} />
             <Modal isOpen={isMobileSideBarOpen} onRequestClose={() => setIsMobileSideBarOpen(false)} className="mobile-left-panel" overlayClassName="add-item-dialog-overlay">
               <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} refreshListsInApp={refreshListsInApp} taskService={taskService} />
             </Modal>
