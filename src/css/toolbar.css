@@ -1,13 +1,11 @@
-.toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    margin-top: 10px;
-    margin-left: 11px;
-    padding: 10px;
-    gap: 10px;
-    background-color: var(--background_color);
-  }
+  .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      padding: 10px;
+      gap: 10px;
+      background-color: var(--background_color);
+    }
 
   .input-with-select {
     position: relative;
