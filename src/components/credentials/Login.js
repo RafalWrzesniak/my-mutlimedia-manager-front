@@ -99,7 +99,7 @@ const Login = ({ onSuccessfulLogin }) => {
   }
 
   const handleErrorMessage = (message) => {
-    if(message.includes('Password did not conform with policy')) {
+    if(message.includes('Password did not conform with policy') || message.includes('Member must satisfy regular expression pattern')) {
       setMessageText('Hasło zbyt proste. Minimum 8 znaków, cyfra, mała i duża litera oraz znak specjalny są wymagane')
       setPassword('');
       setRepeatedPassword('');
