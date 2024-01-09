@@ -35,7 +35,7 @@
 
 @media (max-width: 600px) {
   .add-item-dialog-content {
-     top: 15vh;
+     top: 5vh;
      left: 2vw;
      width: 80vw;
      border-radius: 8px;

@@ -1,4 +1,4 @@
-:root {
+  :root {
     --background_color: #212121;
     --my_blue: #69c5e9;
     --my_green: #21d810;
@@ -24,16 +24,21 @@
     transition: border-color 0.5s ease, color 0.5s ease;
   }
 
-  @media (max-width: 600px) {
-    .regular-button {
-      font-size: 0px;
-      width: min-content;
-    }
-  }
-
   .regular-button:hover:not(:disabled)  {
     color: var(--my_blue);
     border-color: var(--my_blue);
+  }
+
+  @media (max-width: 600px) {
+    .regular-button {
+      font-size: 0;
+      width: min-content;
+    }
+
+    .regular-button:hover:not(:disabled)  {
+      color: var(--almost_white);
+      border-color: var(--light_gray);
+    }
   }
 
   .regular-button:disabled  {
@@ -66,7 +71,7 @@
 
   @media (max-width: 600px) {
     .regular-button-actived {
-      font-size: 0px;
+      font-size: 0;
       width: min-content;
     }
   }
@@ -104,5 +109,12 @@
     font-size: 20px;
     margin-top: 3px;
     margin-right: 5px;
+  }
+
+  @media (max-width: 600px) {
+    .button-icon {
+      margin-right: 2px;
+      margin-left: 2px;
+    }
   }
   
