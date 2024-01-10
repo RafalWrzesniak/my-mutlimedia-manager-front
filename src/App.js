@@ -140,6 +140,9 @@ const App = () => {
     setSortDirection('ASC');
     setSearchInputData({})
     setCurrentListName(newList.name)
+    if(!isDesktop()) {
+      setActiveItem(undefined);
+    }
   };
 
   const handleItemChange = (item) => {
