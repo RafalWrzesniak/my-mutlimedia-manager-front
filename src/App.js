@@ -187,17 +187,26 @@ const App = () => {
       return;
     }
     if(valueToFind.length >= 2) {
+      let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
       setSearchInputData({
         propertyName: propertyName,
-        valueToFind: valueToFind})
-      let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
-      taskService.setTask('Szukam na tej liście: ' + valueToFind, true);
-      await getListById(currentList.id, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize, propertyName, valueToFind, response => {
-        taskService.clearTask();
-        setCurrentPage(0);
-        setTotalPages(Math.ceil(response.data.productsNumber / pageSize));
-        setDisplayedItemsFunc(tabToListObjects(response.data, activeTab));
-      }, () => taskService.setTask('Nie udało się pobrać danych :( Spróbuj odświeżyć stronę'));
+        valueToFind: valueToFind
+      })
+      setTimeout(async function(){
+        taskService.setTask('Szukam na tej liście: ' + valueToFind, true);
+        await getListById(currentList.id, tabToApi(activeTab), 0, sortDirection, sortKey, pageSize, propertyName, valueToFind, response => {
+          setSearchInputData(prevState => {
+            if(valueToFind === prevState.valueToFind || !prevState.valueToFind) {
+              taskService.clearTask();
+              setCurrentPage(0);
+              setTotalPages(Math.ceil(response.data.productsNumber / pageSize));
+              setDisplayedItemsFunc(tabToListObjects(response.data, activeTab));
+            }
+            return prevState;
+          })
+        }, () => taskService.setTask('Nie udało się pobrać danych :( Spróbuj odświeżyć stronę'));
+      }, 300);
+
     }
   }
 
