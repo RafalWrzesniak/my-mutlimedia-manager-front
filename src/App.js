@@ -87,7 +87,13 @@ const App = () => {
 
   useEffect(() => {
     async function fetchSortedData() {
-      if(!activeList) {
+      if(sortKey && !sortDirection) {
+        setSortDirection('ASC');
+      }
+      if(!sortKey && sortDirection) {
+        setSortKey('createdOn');
+      }
+      if(!activeList || !(sortKey && sortDirection)) {
         return;
       }
       let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
@@ -137,8 +143,8 @@ const App = () => {
     toolbarRef.current.turnOffRecentlyDoneButton();
     toolbarRef.current.clearSearchInput();
     toolbarRef.current.restartSorting(activeTab);
-    setSortKey('createdOn');
-    setSortDirection('ASC');
+    setSortKey(undefined);
+    setSortDirection(undefined);
     setSearchInputData({})
     setCurrentListName(newList.name)
     if(!isDesktop()) {
