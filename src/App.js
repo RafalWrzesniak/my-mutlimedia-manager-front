@@ -40,7 +40,7 @@ const App = () => {
   const [sortKey, setSortKey] = useState('createdOn');
   const [sortDirection, setSortDirection] = useState('ASC');
   const [searchInputData, setSearchInputData] = useState({});
-  const [initLoading, setInitInitLoading] = useState(true);
+  const [initLoading, setInitLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
   const [currentListName, setCurrentListName] = useState('');
@@ -222,7 +222,7 @@ const App = () => {
     setUsername(username);
     taskService.setTask('Uruchamiam funkcję lambda...');
     try {
-      setInitInitLoading(true);
+      setInitLoading(true);
       let userListsData = await getUserListInfo();
       let savedShowTitle = localStorage.getItem('savedShowTitle');
       if(savedShowTitle) {
@@ -238,11 +238,11 @@ const App = () => {
       toolbarRef.current.restartSorting(activeTab);
       toolbarRef.current.turnOffRecentlyDoneButton();
       toolbarRef.current.clearSearchInput();
-      setInitInitLoading(false);
+      setInitLoading(false);
       taskService.clearTask();
     } catch (error) {
       taskService.setTask('Błąd serwera! Nie udało się pobrać danych :(');
-      setInitInitLoading(false);
+      setInitLoading(false);
     }
   };
 
@@ -326,7 +326,7 @@ const App = () => {
           {isDesktop() ? username : ''}
         </div>
       </div>
-      {(!isLoggedIn) && <Login onSuccessfulLogin={fetchInitialData} />}
+      {(!isLoggedIn) && <Login onSuccessfulLogin={fetchInitialData} taskService={taskService} initLoading={() => setInitLoading(true)} />}
       {(isLoggedIn) && (
       <div className="container">
         <InitLoader loading={initLoading} />

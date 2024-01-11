@@ -3,7 +3,7 @@ import '../../css/login.css';
 import { AuthenticationDetails, CognitoUser, CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import {registerInApp} from "../api/MutlimediaManagerApi";
 
-const Login = ({ onSuccessfulLogin }) => {
+const Login = ({ onSuccessfulLogin, taskService, initLoading }) => {
   
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -47,10 +47,13 @@ const Login = ({ onSuccessfulLogin }) => {
         let usernameToDisplay = session.idToken.payload.preferred_username;
         localStorage.setItem('authorizationBearer', session.idToken.jwtToken);
         if(shouldRegisterNewUser()) {
+          taskService.setTask('Inicjalizuje konto...', true)
+          initLoading();
           await registerInApp(localStorage.getItem('registrationDataUserId'), localStorage.getItem('registrationDataUsername'), localStorage.getItem('registrationDataEmail'));
           localStorage.removeItem('registrationDataUsername')
           localStorage.removeItem('registrationDataUserId')
           localStorage.removeItem('registrationDataEmail')
+          taskService.clearTask();
         }
         onSuccessfulLogin(usernameToDisplay)
       },
