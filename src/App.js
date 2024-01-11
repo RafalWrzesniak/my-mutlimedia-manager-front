@@ -18,6 +18,7 @@ import Login from './components/credentials/Login';
 import { CgProfile } from 'react-icons/cg';
 import { AiOutlineMenu } from "react-icons/ai";
 import Modal from 'react-modal';
+import {RingLoader} from "react-spinners";
 
 ReactModal.setAppElement('#root');
 
@@ -294,8 +295,14 @@ const App = () => {
          </div>
          }
         <div className='logo-placement' onClick={moveToDefaultView}>
-            <img className='logo' src='logo.png' alt="Logo" />
-            {isDesktop() ? 'My Multimedia Manager' : currentListName}
+          {isDesktop() && <img className='logo' src='logo.png' alt="Logo" />}
+          {!isDesktop() && !taskService.getLoading() && <img className='logo' src='logo.png' alt="Logo" />}
+          {!isDesktop() && taskService.getLoading() &&
+              <div className={'small-loader-visible'}>
+                <RingLoader color={'#69c5e9'} size={20} />
+              </div>
+          }
+          {isDesktop() ? 'My Multimedia Manager' : currentListName}
         </div>
         {isDesktop() && <TaskServiceDisplay loading={taskService.getLoading()} task={taskService.getTask()} />}
         <div className='user-menu'>

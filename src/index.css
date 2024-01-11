@@ -102,8 +102,7 @@ body {
 
 @media (max-width: 600px) {
   .content-with-toolbar {
-    width: 85vw;
-    max-height: 80vh;
+    max-height: 87vh;
     border-radius: 0 0 15px 15px;
     padding: 10px 4vw 10px 8vw;
   }
@@ -134,9 +133,11 @@ body {
 
 @media (max-width: 600px) {
   .container {
-    padding-left: 0;
-    padding-right: 0;
-    max-height: 100%;
+    margin-top: 60px;
+    margin-left: -8px;
+    margin-right: 0;
+    width: 100vw;
+    max-height: 95vh;
   }
 }
 
@@ -199,7 +200,6 @@ body {
 
 @media (max-width: 600px) {
   .content {
-    max-height: calc(100% - 160px);
     gap: 5vw;
   }
 }
