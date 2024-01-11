@@ -48,9 +48,9 @@ const Login = ({ onSuccessfulLogin }) => {
         localStorage.setItem('authorizationBearer', session.idToken.jwtToken);
         if(shouldRegisterNewUser) {
           await registerInApp(localStorage.getItem('registrationDataUserId'), localStorage.getItem('registrationDataUsername'), localStorage.getItem('registrationDataEmail'));
-          localStorage.setItem('registrationDataUsername', undefined)
-          localStorage.setItem('registrationDataUserId', undefined)
-          localStorage.setItem('registrationDataEmail', undefined)
+          localStorage.removeItem('registrationDataUsername')
+          localStorage.removeItem('registrationDataUserId')
+          localStorage.removeItem('registrationDataEmail')
         }
         onSuccessfulLogin(usernameToDisplay)
       },

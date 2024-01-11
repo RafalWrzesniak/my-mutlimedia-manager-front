@@ -92,6 +92,7 @@ const App = () => {
       }
       if(!sortKey && sortDirection) {
         setSortKey('createdOn');
+
       }
       if(!activeList || !(sortKey && sortDirection)) {
         return;
