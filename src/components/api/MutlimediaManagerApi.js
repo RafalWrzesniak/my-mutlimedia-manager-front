@@ -15,7 +15,7 @@ function getResponseData(response) {
 
 const registerInApp = async (userId, preferredUsername, email, onSuccess = () => {}, onFailure = () => {}) => {
   let url = `${URL}/user/register?username=${userId}&preferredUsername=${preferredUsername}&email=${email}`
-  post(url, {}, onSuccess, onFailure);
+  await post(url, {}, onSuccess, onFailure);
 }
 
 const getUserListInfo = async () => {

@@ -43,9 +43,15 @@ const Login = ({ onSuccessfulLogin }) => {
 
     const cognitoUser = new CognitoUser(userData);
     cognitoUser.authenticateUser(authenticationDetails, {
-      onSuccess: (session) => {
+      onSuccess: async (session) => {
         let usernameToDisplay = session.idToken.payload.preferred_username;
         localStorage.setItem('authorizationBearer', session.idToken.jwtToken);
+        if(shouldRegisterNewUser) {
+          await registerInApp(localStorage.getItem('registrationDataUserId'), localStorage.getItem('registrationDataUsername'), localStorage.getItem('registrationDataEmail'));
+          localStorage.setItem('registrationDataUsername', undefined)
+          localStorage.setItem('registrationDataUserId', undefined)
+          localStorage.setItem('registrationDataEmail', undefined)
+        }
         onSuccessfulLogin(usernameToDisplay)
       },
       onFailure: (err) => {
@@ -54,6 +60,10 @@ const Login = ({ onSuccessfulLogin }) => {
         clearInputs();          
       },
     });
+  }
+
+  const shouldRegisterNewUser = () => {
+    return localStorage.getItem('registrationDataUserId') && localStorage.getItem('registrationDataUsername') && localStorage.getItem('registrationDataEmail');
   }
 
   const handleRegister = async () => {
@@ -71,7 +81,9 @@ const Login = ({ onSuccessfulLogin }) => {
         handleErrorMessage(err.message);
         return;
       }
-      registerInApp(result.userSub, username, email);
+      localStorage.setItem('registrationDataUsername', username)
+      localStorage.setItem('registrationDataUserId', result.userSub)
+      localStorage.setItem('registrationDataEmail', email)
       setIsRegistering(false);
       clearInputs();
       setShouldShowMessage(true);
