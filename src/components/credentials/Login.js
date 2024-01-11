@@ -46,7 +46,7 @@ const Login = ({ onSuccessfulLogin }) => {
       onSuccess: async (session) => {
         let usernameToDisplay = session.idToken.payload.preferred_username;
         localStorage.setItem('authorizationBearer', session.idToken.jwtToken);
-        if(shouldRegisterNewUser) {
+        if(shouldRegisterNewUser()) {
           await registerInApp(localStorage.getItem('registrationDataUserId'), localStorage.getItem('registrationDataUsername'), localStorage.getItem('registrationDataEmail'));
           localStorage.removeItem('registrationDataUsername')
           localStorage.removeItem('registrationDataUserId')
