@@ -114,8 +114,8 @@ const ItemToolbar = ({ lists, item, addItemToListId, removeItemFromListId, updat
         <IoIosCloseCircleOutline className='close-detailed' onClick={closeDetails}/>
       </div>
       <div className='horizontal-container'>
-          {(!showingFinishButton && getFinishedOn(item)) && (<RegularButton onClick={showFinishingButton} text={formatDate(getFinishedOn(item))} icon={<IoCheckmarkDoneSharp style={ {color: 'var(--my_green)'} }/>} />)}
-          {(!showingFinishButton && !getFinishedOn(item)) && (<RegularButton onClick={showFinishingButton} text='Ukończ' icon={<MdDone/>} />)}
+          {(!showingFinishButton && getFinishedOn(item)) && (<RegularButton onClick={showFinishingButton} text={formatDate(getFinishedOn(item))} extraStyle='always-big' icon={<IoCheckmarkDoneSharp style={ {color: 'var(--my_green)'} }/>} />)}
+          {(!showingFinishButton && !getFinishedOn(item)) && (<RegularButton onClick={showFinishingButton} text='Ukończ' extraStyle='always-big' icon={<MdDone/>} />)}
           {(!showingFinishButton && item.playedHours) && (<div onClick={showFinishingButton} className='finish-hours'>{`${item.playedHours}h`}</div>)}  
 
           {(showingFinishButton) && (

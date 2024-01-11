@@ -41,6 +41,26 @@
     }
   }
 
+  .regular-button-always-big {
+    align-items: center;
+    display: flex;
+    padding: 8px 8px;
+    background: transparent;
+    width: 115px;
+    height: 38px;
+    font-size: 14px;
+    color: var(--almost_white);
+    border: solid 2px var(--light_gray);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.5s ease, color 0.5s ease;
+  }
+
+  .regular-button-always-big:hover:not(:disabled)  {
+    color: var(--my_blue);
+    border-color: var(--my_blue);
+  }
+
   .regular-button:disabled  {
     color: var(--light_gray);
     border-color: var(--light_gray);

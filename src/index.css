@@ -218,11 +218,13 @@ body {
   font-size: 14px;
   outline: none;
   cursor: pointer;
-}  
+}
 
-.select-wrapper:hover:not(:disabled) {
-  border-color: var(--my_blue);
-  color: var(--my_blue);
+@media (min-width: 600px) {
+  .select-wrapper:hover:not(:disabled) {
+    border-color: var(--my_blue);
+    color: var(--my_blue);
+  }
 }
 
 .select-wrapper:disabled  {
