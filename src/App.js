@@ -326,7 +326,7 @@ const App = () => {
           {isDesktop() ? username : ''}
         </div>
       </div>
-      {(!isLoggedIn) && <Login onSuccessfulLogin={fetchInitialData} taskService={taskService} initLoading={() => setInitLoading(true)} />}
+      {(!isLoggedIn) && <Login onSuccessfulLogin={fetchInitialData} taskService={taskService} />}
       {(isLoggedIn) && (
       <div className="container">
         <InitLoader loading={initLoading} />
