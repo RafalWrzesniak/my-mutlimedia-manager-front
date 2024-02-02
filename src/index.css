@@ -177,8 +177,7 @@ body {
 .content {
   min-width: 200px;
   max-height: calc(100% - 110px);
-  min-height: 550px;
-  height: auto;
+  min-height: 850px;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
