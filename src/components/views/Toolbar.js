@@ -107,9 +107,6 @@ const Toolbar = forwardRef((props, ref) => {
 
   const handleChangingPropertyToFind = (event) => {
     let propertyToFind = event.target.value;
-    if(propertyToFind === 'titleOrg') {
-      propertyToFind = 'title'
-    }
     setPropertyToFind(propertyToFind)
     if(props.handleSearchInputChange) {
       props.handleSearchInputChange(propertyToFind, searchInputValue);

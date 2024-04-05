@@ -188,6 +188,9 @@ const App = () => {
     }
     if(valueToFind.length >= 2) {
       let currentList = tabLists.filter(listFromTab => listFromTab.id === activeList)[0];
+      if(propertyName === 'titleOrg') {
+        propertyName = 'title'
+      }
       setSearchInputData({
         propertyName: propertyName,
         valueToFind: valueToFind
