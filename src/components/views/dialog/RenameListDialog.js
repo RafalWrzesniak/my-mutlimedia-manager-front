@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import '../../../css/add-item-dialog.css';
-import { renameList } from '../../api/MutlimediaManagerApi';
+import { renameList } from '../../api/MultimediaManagerApi';
 import RegularButton from '../../basic/RegularButton';
 import { tabToApi } from '../../utils/Utils';
 

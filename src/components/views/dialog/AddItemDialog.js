@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import '../../../css/add-item-dialog.css';
-import { createBookFromUrl, createGameFromUrl, createMovieFromUrl } from '../../api/MutlimediaManagerApi';
+import { createBookFromUrl, createGameFromUrl, createMovieFromUrl } from '../../api/MultimediaManagerApi';
 import RegularButton from '../../basic/RegularButton';
 import { isBook, isGame, isMovie } from '../../utils/Utils';
 

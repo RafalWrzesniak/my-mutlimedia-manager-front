@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../css/login.css';
 import { AuthenticationDetails, CognitoUser, CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
-import {registerInApp} from "../api/MutlimediaManagerApi";
+import {registerInApp} from "../api/MultimediaManagerApi";
 
 const Login = ({ onSuccessfulLogin, taskService }) => {
   

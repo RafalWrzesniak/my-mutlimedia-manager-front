@@ -1,6 +1,6 @@
 import '../../../css/item-toolbar.css';
 import React, { useState, useEffect } from 'react';
-import { addItemToList, finishItem, removeItemFromList, setBookFormat, setGamePlatform } from '../../api/MutlimediaManagerApi';
+import { addItemToList, finishItem, removeItemFromList, setBookFormat, setGamePlatform } from '../../api/MultimediaManagerApi';
 import { formatDate, getFinishedOn, isBook, isGame, isMovie, itemToApi, tabToApi } from '../../utils/Utils';
 import RegularButton from '../../basic/RegularButton';
 import { MdDone } from 'react-icons/md';

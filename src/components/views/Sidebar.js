@@ -5,7 +5,7 @@ import AddListDialog from './dialog/AddListDialog';
 import RenameListDialog from './dialog/RenameListDialog';
 import ConfirmationDialog from './dialog/ConfirmationDialog';
 import RegularButton from '../basic/RegularButton';
-import { removeListFromUser } from '../api/MutlimediaManagerApi';
+import { removeListFromUser } from '../api/MultimediaManagerApi';
 import { tabToApi } from '../utils/Utils';
 
 const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList, refreshListsInApp, taskService }) => {

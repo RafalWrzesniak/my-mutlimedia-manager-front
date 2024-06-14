@@ -4,7 +4,7 @@ import Sidebar from './components/views/Sidebar';
 import TabMenu from './components/views/TabMenu';
 import Content from './components/views/Content';
 import Paginator from './components/views/Paginator';
-import { getListById, getUserListInfo, getDetailsForItems, getRecentlyDone, getItemById } from './components/api/MutlimediaManagerApi';
+import { getListById, getUserListInfo, getRecentlyDone, getItemById } from './components/api/MultimediaManagerApi';
 import { tabToApi, tabToListObjects, getListsForTab, isBook, isGame, isMovie, decodeItem, isDesktop } from './components/utils/Utils';
 import InitLoader from './components/utils/InitLoader';
 import TaskServiceDisplay from './components/utils/TaskServiceDisplay';

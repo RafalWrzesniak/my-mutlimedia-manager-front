@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import '../../../css/add-item-dialog.css';
-import { createNewList } from '../../api/MutlimediaManagerApi';
+import { createNewList } from '../../api/MultimediaManagerApi';
 import RegularButton from '../../basic/RegularButton';
 import { tabToApi } from '../../utils/Utils';
 
