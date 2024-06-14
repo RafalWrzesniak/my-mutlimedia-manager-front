@@ -69,16 +69,6 @@ const App = () => {
     }
     let finalItems = items.slice(startIndex, endIndex);
     setDisplayedItemsFunc(finalItems);
-    if(finalItems.length > 0 && !finalItems[0].createdOn) {
-      getDetailsForItems(finalItems, username, tabToApi(activeTab), response => {
-        setDisplayedItemsFunc((currentItems) => {
-          if(JSON.stringify(currentItems.map(arrayItem => arrayItem.id)) === JSON.stringify(response.data.map(arrayItem => arrayItem.id))) {
-            return response.data;
-          }
-          return currentItems;
-        })
-      });
-    }
   }
 
   const setDisplayedItems = (items) => {
