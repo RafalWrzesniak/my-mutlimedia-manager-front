@@ -10,8 +10,8 @@ const InitLoader = ({ loading }) => {
         let interval;
         if (loading) {
             interval = setInterval(() => {
-                setProgress(prevProgress => (prevProgress < 100 ? prevProgress + 1 : 100));
-            }, 100);
+                setProgress(prevProgress => (prevProgress < 120 ? prevProgress + 1 : 120));
+            }, 120);
         } else {
             clearInterval(interval);
             setProgress(0);
