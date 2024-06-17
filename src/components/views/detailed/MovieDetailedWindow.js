@@ -4,10 +4,10 @@ import { formatDate, formatTime, listToString } from '../../utils/Utils';
 import DetailedField from './DetailedField';
 import ItemToolbar from './ItemToolbar';
 
-const MovieDetailedWindow = ({ movie, tabLists, updateItem, addItemToListId, removeItemFromListId, closeDetails }) => {
+const MovieDetailedWindow = ({ movie, tabLists, updateItem, addItemToListId, removeItemFromListId, closeDetails, refreshListsInApp }) => {
   return (
     <div className="detailed-window">
-    <ItemToolbar item={movie} lists={tabLists} updateItem={updateItem} addItemToListId={addItemToListId} removeItemFromListId={removeItemFromListId} closeDetails={closeDetails} />
+    <ItemToolbar item={movie} lists={tabLists} updateItem={updateItem} addItemToListId={addItemToListId} removeItemFromListId={removeItemFromListId} closeDetails={closeDetails} refreshListsInApp={refreshListsInApp}/>
       <img className="image" src={movie.webImageUrl} alt="movie cover" />
       <div className="title">
         <a href={movie.filmwebUrl} target="_blank" rel="noopener noreferrer">

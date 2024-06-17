@@ -284,6 +284,8 @@ const App = () => {
     setAllUserLists(userListsData);
     let updatedLists = getListsForTab(userListsData, activeTab);
     setTabLists(updatedLists);
+    let currentList = updatedLists.filter(list => list.id === activeList)[0]
+    setDisplayedItems(currentList.allItems)
     if(!updatedLists.map(list => list.id).includes(activeList) && updatedLists.length > 0) {
       setActiveList(updatedLists[0].id)
       setDisplayedItems(updatedLists[0].allItems);
@@ -346,9 +348,9 @@ const App = () => {
             <Paginator totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
           </div>
         </div>
-        {(activeItem && activeTab==='BOOK_LIST' && isBook(activeItem)) && (<BookDetailedWindow book={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} closeDetails={() => setActiveItem(undefined)} />)}
-        {(activeItem && activeTab==='MOVIE_LIST' && isMovie(activeItem)) && (<MovieDetailedWindow movie={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} closeDetails={() => setActiveItem(undefined)} />)}
-        {(activeItem && activeTab==='GAME_LIST' && isGame(activeItem)) && (<GameDetailedWindow game={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} closeDetails={() => setActiveItem(undefined)} />)}
+        {(activeItem && activeTab==='BOOK_LIST' && isBook(activeItem)) && (<BookDetailedWindow book={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} closeDetails={() => setActiveItem(undefined)} refreshListsInApp={refreshListsInApp} />)}
+        {(activeItem && activeTab==='MOVIE_LIST' && isMovie(activeItem)) && (<MovieDetailedWindow movie={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} closeDetails={() => setActiveItem(undefined)} refreshListsInApp={refreshListsInApp} />)}
+        {(activeItem && activeTab==='GAME_LIST' && isGame(activeItem)) && (<GameDetailedWindow game={activeItem} tabLists={tabLists} updateItem={() => handleListChange(activeList)} addItemToListId={addItemToList} removeItemFromListId={removeItemFromList} closeDetails={() => setActiveItem(undefined)} refreshListsInApp={refreshListsInApp} />)}
       </div>
       )}
     </div>

@@ -10,7 +10,7 @@ import moment from 'moment';
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 
-const ItemToolbar = ({ lists, item, addItemToListId, removeItemFromListId, updateItem, closeDetails }) => {
+const ItemToolbar = ({ lists, item, addItemToListId, removeItemFromListId, updateItem, closeDetails, refreshListsInApp }) => {
   
   const [initDropdownLists, setInitDropdownLists] = useState([]);
   const [selectedBookFormat, setSelectedBookFormat] = useState('');
@@ -83,6 +83,7 @@ const ItemToolbar = ({ lists, item, addItemToListId, removeItemFromListId, updat
         item.playedHours = timeSpent;
       }
       updateItem(item);
+      refreshListsInApp();
     }    
     setShowingFinishButton(false)
   }

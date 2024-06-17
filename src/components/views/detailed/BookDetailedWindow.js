@@ -4,11 +4,11 @@ import { formatDate } from '../../utils/Utils';
 import DetailedField from './DetailedField';
 import ItemToolbar from './ItemToolbar';
 
-const BookDetailedWindow = ({ book, tabLists, updateItem, addItemToListId, removeItemFromListId, closeDetails }) => {
+const BookDetailedWindow = ({ book, tabLists, updateItem, addItemToListId, removeItemFromListId, closeDetails, refreshListsInApp }) => {
 
   return (
     <div className="detailed-window">
-      <ItemToolbar item={book} lists={tabLists} updateItem={updateItem} addItemToListId={addItemToListId} removeItemFromListId={removeItemFromListId} closeDetails={closeDetails} />
+      <ItemToolbar item={book} lists={tabLists} updateItem={updateItem} addItemToListId={addItemToListId} removeItemFromListId={removeItemFromListId} closeDetails={closeDetails} refreshListsInApp={refreshListsInApp} />
       <img className="image" src={book.webImageUrl} alt="Book cover" />
       <div className="title">
         <a href={book.lubimyCzytacUrl} target="_blank" rel="noopener noreferrer">
