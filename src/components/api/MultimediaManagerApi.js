@@ -97,7 +97,17 @@ const removeListFromUser = async(listId, apiType, onSuccess = () => {}) => {
   deleteCall(`${URL}/${apiType}/list?listId=${listId}`, onSuccess);
 }
 
+const sendSyncInfo = async(syncInfo, onSuccess = () => {}, onFailure = () => {}) => {
+  let url = `${URL}/user/sync`
+  await post(url, syncInfo, onSuccess, onFailure);
+}
+
+const getSyncInfo = async(onSuccess = () => {}, onFailure = () => {}) => {
+  let url = `${URL}/user/sync`
+  let response = await get(url, onSuccess, onFailure);
+  return getResponseData(response);
+}
 
 export { getUserListInfo, getListById, getRecentlyDone, createBookFromUrl, createGameFromUrl, removeListFromUser,
-  createMovieFromUrl, createNewList, getDetailsForItems,
+  createMovieFromUrl, createNewList, getDetailsForItems, sendSyncInfo, getSyncInfo,
   addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, registerInApp, renameList };

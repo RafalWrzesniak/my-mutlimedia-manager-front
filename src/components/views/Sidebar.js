@@ -31,6 +31,7 @@ const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList, refre
 
   const removeList = () => {
     taskService.setTask('Usuwam listę "'+getCurrentList.name+'"', true)
+    // TODO: add to synchronization
     removeListFromUser(activeList, tabToApi(activeApi), refreshListsInApp);
   }
 

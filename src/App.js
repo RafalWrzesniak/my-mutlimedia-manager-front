@@ -9,6 +9,7 @@ import { tabToApi, tabToListObjects, getListsForTab, isBook, isGame, isMovie, de
 import InitLoader from './components/utils/InitLoader';
 import TaskServiceDisplay from './components/utils/TaskServiceDisplay';
 import TaskService from './components/utils/TaskService';
+import SynchronizationService from './components/utils/SynchronizationService';
 import AddItemDialog from './components/views/dialog/AddItemDialog';
 import ReactModal from 'react-modal';
 import BookDetailedWindow from './components/views/detailed/BookDetailedWindow';
@@ -46,6 +47,7 @@ const App = () => {
   const [currentListName, setCurrentListName] = useState('');
 
   const taskService = TaskService();
+  const synchronizationService = SynchronizationService(allUserLists);
 
   const handlePageChange = async (page) => {
     setCurrentPage(page);
@@ -216,7 +218,10 @@ const App = () => {
     taskService.setTask('Uruchamiam funkcję lambda...');
     try {
       setInitLoading(true);
-      let userListsData = await getUserListInfo();
+      let userListsData = await synchronizationService.getAllUserListsIfSynchronized()
+      if(!userListsData || userListsData === null) {
+        userListsData = await getUserListInfo();
+      }
       let savedShowTitle = localStorage.getItem('savedShowTitle');
       if(savedShowTitle) {
         setShowTitle(savedShowTitle === 'true');
@@ -249,6 +254,7 @@ const App = () => {
     setTabLists(updatedLists);
     let task = 'Dodałeś "' + decodeURIComponent(item.polishTitle ? item.polishTitle : item.title) + '" do listy "' + list.name + '"'
     taskService.setTask(task);
+    synchronizationService.storeAndSendSyncInfo()
   }
 
   const updateItemInLists = (item) => {
@@ -261,6 +267,7 @@ const App = () => {
         setDisplayedItems(list.allItems);
       }
     }
+    synchronizationService.storeAndSendSyncInfo()
   }
 
   const findListById = (listId) => {
@@ -282,12 +289,14 @@ const App = () => {
     let title = item.polishTitle ? item.polishTitle : item.title;
     let task = 'Usunąłeś "' + title + '" z listy "' + findListById(listId).name + '"'
     taskService.setTask(task);
+    synchronizationService.storeAndSendSyncInfo()
   }
 
   const addNewList = (list) => {
     allUserLists.push(list)
     let updatedTabLists = getListsForTab(allUserLists, activeTab);
     setTabLists(updatedTabLists);
+    synchronizationService.storeAndSendSyncInfo()
   }
 
   const refreshListsInApp = async () => {
