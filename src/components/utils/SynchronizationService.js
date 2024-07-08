@@ -1,13 +1,15 @@
-import { sendSyncInfo, getSyncInfo } from '../../components/api/MultimediaManagerApi';
+import {getSyncInfo, sendSyncInfo} from '../api/MultimediaManagerApi';
 
-const SynchronizationService = (allUserLists) => {
+const SynchronizationService = (defaultAllUserLists) => {
 
-  const storeAndSendSyncInfo = () => {
-    var currentDate = new Date();
-    localStorage.setItem('syncTimestamp', currentDate.toISOString());
-    localStorage.setItem('allUserLists', JSON.stringify(allUserLists));
-    sendSyncInfo({syncTimestamp: currentDate.toISOString()})
-    console.log('Updated sync info on ' + currentDate.toISOString())
+  const storeAndSendSyncInfo = (newUserListsData) => {
+    const currentDate = new Date();
+    const isoCurrentDate = currentDate.toISOString();
+    sendSyncInfo({syncTimestamp: isoCurrentDate}).then(r => {
+      localStorage.setItem('syncTimestamp', isoCurrentDate);
+      localStorage.setItem('allUserLists', JSON.stringify(newUserListsData ? newUserListsData : defaultAllUserLists));
+    })
+    console.log('Updated sync info on ' + isoCurrentDate)
   };
 
   const getAllUserListsIfSynchronized = async () => {
@@ -19,9 +21,8 @@ const SynchronizationService = (allUserLists) => {
     }
     if(serverSyncInfo.syncTimestamp.substring(0, 19) === localSyncInfo.substring(0, 19)) {
       console.log('Data up to date!')
-      let localAllUserListsRaw = localStorage.getItem('allUserLists')
-      let localAllUserLists = JSON.parse(localAllUserListsRaw)
-      return localAllUserLists;
+      let localAllUserLists = localStorage.getItem('allUserLists')
+      return JSON.parse(localAllUserLists);
     }
     console.log('Need to synchronize from server')
     return null;

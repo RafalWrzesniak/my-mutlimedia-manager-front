@@ -219,8 +219,9 @@ const App = () => {
     try {
       setInitLoading(true);
       let userListsData = await synchronizationService.getAllUserListsIfSynchronized()
-      if(!userListsData || userListsData === null) {
+      if(!userListsData) {
         userListsData = await getUserListInfo();
+        synchronizationService.storeAndSendSyncInfo(userListsData)
       }
       let savedShowTitle = localStorage.getItem('savedShowTitle');
       if(savedShowTitle) {
