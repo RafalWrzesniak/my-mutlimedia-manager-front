@@ -89,7 +89,7 @@ const finishItem = async (itemId, finishDate, spentTime, apiType, onSuccess = ()
   await post(url, {}, onSuccess);
 }
 
-const renameList = async (newListName, listId, apiType, onSuccess = () => {}, onFailure = () => {}) => {
+const renameListOnServer = async (newListName, listId, apiType, onSuccess = () => {}, onFailure = () => {}) => {
   post(`${URL}/${apiType}/list/rename?listId=${listId}&newListName=${encodeURIComponent(newListName)}`, {}, onSuccess, onFailure);
 }
 
@@ -110,4 +110,4 @@ const getSyncInfo = async(onSuccess = () => {}, onFailure = () => {}) => {
 
 export { getUserListInfo, getListById, getRecentlyDone, createBookFromUrl, createGameFromUrl, removeListFromUser,
   createMovieFromUrl, createNewList, getDetailsForItems, sendSyncInfo, getSyncInfo,
-  addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, registerInApp, renameList };
+  addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, registerInApp, renameListOnServer };

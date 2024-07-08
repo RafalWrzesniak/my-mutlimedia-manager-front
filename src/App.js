@@ -297,7 +297,27 @@ const App = () => {
     allUserLists.push(list)
     let updatedTabLists = getListsForTab(allUserLists, activeTab);
     setTabLists(updatedTabLists);
-    synchronizationService.storeAndSendSyncInfo()
+    synchronizationService.storeAndSendSyncInfo(allUserLists)
+  }
+
+  const removeList = (listId) => {
+    let indexOfListToRemove = allUserLists.findIndex(l => l.id === listId)
+    let listName = allUserLists[indexOfListToRemove].name
+    allUserLists.splice(indexOfListToRemove, 1)
+    let updatedTabLists = getListsForTab(allUserLists, activeTab);
+    setTabLists(updatedTabLists);
+    taskService.setTask('Usunąłeś listę "' + listName + '"');
+    synchronizationService.storeAndSendSyncInfo(allUserLists)
+  }
+
+  const renameList = (listId, newListName) => {
+    console.log(listId)
+    console.log(allUserLists)
+    let listToUpdate = allUserLists.find(list => list.id === listId)
+    listToUpdate.name = newListName
+    let updatedTabLists = getListsForTab(allUserLists, activeTab);
+    setTabLists(updatedTabLists);
+    synchronizationService.storeAndSendSyncInfo(allUserLists)
   }
 
   const refreshListsInApp = async () => {
@@ -323,7 +343,7 @@ const App = () => {
           <div>
             <AiOutlineMenu className='lists-menu' onClick={() => setIsMobileSideBarOpen(currentValue => !currentValue)} />
             <Modal isOpen={isMobileSideBarOpen} onRequestClose={() => setIsMobileSideBarOpen(false)} className="mobile-left-panel" overlayClassName="add-item-dialog-overlay">
-              <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} refreshListsInApp={refreshListsInApp} taskService={taskService} />
+              <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} renameList={renameList} taskService={taskService} removeListInApp={removeList} />
             </Modal>
          </div>
          }
@@ -348,7 +368,7 @@ const App = () => {
       <div className="container">
         <InitLoader loading={initLoading} />
         {isDesktop() &&
-          <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} refreshListsInApp={refreshListsInApp} taskService={taskService} />
+          <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} renameList={renameList} taskService={taskService} removeListInApp={removeList} />
         }
         <div className='content-with-menu'>
           <div className="tab-menu-container">

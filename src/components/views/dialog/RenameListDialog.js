@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import '../../../css/add-item-dialog.css';
-import { renameList } from '../../api/MultimediaManagerApi';
+import { renameListOnServer } from '../../api/MultimediaManagerApi';
 import RegularButton from '../../basic/RegularButton';
 import { tabToApi } from '../../utils/Utils';
 
-const RenameListDialog = ({ isOpen, onClose, activeApi, activeList, refreshListsInApp, position, currentName, taskService }) => {
+const RenameListDialog = ({ isOpen, onClose, activeApi, activeList, renameList, position, currentName, taskService }) => {
 
   const [newListName, setNewListName] = useState('');
 
@@ -14,8 +14,8 @@ const RenameListDialog = ({ isOpen, onClose, activeApi, activeList, refreshLists
   };
 
   const onChangeName = async () => {
-      taskService.setTask(`Zmieniłeś nazwę listy z {currentName} na {newListName}`);
-    renameList(newListName, activeList, tabToApi(activeApi), () => refreshListsInApp(), () => taskService.setTask(`Nie udało się zmienić nazwy listy z {currentName} na {newListName}`))
+    taskService.setTask(`Zmieniłeś nazwę listy z '${currentName}' na '${newListName}'`);
+    renameListOnServer(newListName, activeList, tabToApi(activeApi), () => renameList(activeList, newListName), () => taskService.setTask(`Nie udało się zmienić nazwy listy z '${currentName}' na '${newListName}'`))
     setNewListName('');
     onClose();
   };

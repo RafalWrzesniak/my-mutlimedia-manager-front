@@ -8,7 +8,7 @@ import RegularButton from '../basic/RegularButton';
 import { removeListFromUser } from '../api/MultimediaManagerApi';
 import { tabToApi } from '../utils/Utils';
 
-const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList, refreshListsInApp, taskService }) => {
+const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList, renameList, taskService, removeListInApp }) => {
   
   const [isAddListDialogOpen, setIsAddListDialogOpen] = useState(false);
   const [isRenameListDialogOpen, setIsRenameListDialogOpen] = useState(false);
@@ -30,9 +30,8 @@ const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList, refre
   };
 
   const removeList = () => {
-    taskService.setTask('Usuwam listę "'+getCurrentList.name+'"', true)
-    // TODO: add to synchronization
-    removeListFromUser(activeList, tabToApi(activeApi), refreshListsInApp);
+    taskService.setTask('Usuwam listę "'+ getCurrentList().name+ '"', true)
+    removeListFromUser(activeList, tabToApi(activeApi), removeListInApp(activeList));
   }
 
   const getCurrentList = () => {
@@ -61,7 +60,7 @@ const Sidebar = ({ lists, activeList, onListChange, activeApi, addNewList, refre
         <RegularButton text='Dodaj' icon={<MdPlaylistAdd/>} onClick={() => setIsAddListDialogOpen(true)} extraStyle='small' />
         <AddListDialog isOpen={isAddListDialogOpen} onClose={() => setIsAddListDialogOpen(false)} activeApi={activeApi} addNewList={addNewList} taskService={taskService} />
         <RegularButton text='Edytuj' icon={<MdDriveFileRenameOutline/>} onClick={() => setIsRenameListDialogOpen(true)} extraStyle='small' />
-        <RenameListDialog isOpen={isRenameListDialogOpen} onClose={() => setIsRenameListDialogOpen(false)} activeApi={activeApi} activeList={activeList} refreshListsInApp={refreshListsInApp} position={bottomRightOfActiveList} currentName={getCurrentList() && getCurrentList().name} taskService={taskService} />
+        <RenameListDialog isOpen={isRenameListDialogOpen} onClose={() => setIsRenameListDialogOpen(false)} activeApi={activeApi} activeList={activeList} renameList={renameList} position={bottomRightOfActiveList} currentName={getCurrentList() && getCurrentList().name} taskService={taskService} />
         <RegularButton text='Usuń' icon={<MdPlaylistRemove/>} onClick={() => setIsDeleteListDialogOpen(true)} extraStyle='small' disabled={getCurrentList() && getCurrentList().allContentList === true} />
         <ConfirmationDialog isOpen={isDeleteListDialogOpen} onClose={() => setIsDeleteListDialogOpen(false)} onUserConfirm={removeList} secondaryText="Czy na pewno chcesz ją usunąć? Tego nie da się cofnąć!" dialogTitle={`Lista: ${getCurrentList() && getCurrentList().name}`} position={bottomRightOfActiveList} />
       </div>
