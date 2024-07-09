@@ -47,12 +47,14 @@ const ItemToolbar = ({ lists, item, addItemToListId, removeItemFromListId, updat
     let newBookFormat = event.target.value;
     setSelectedBookFormat(newBookFormat);
     setBookFormat(item.id, newBookFormat)
+    updateItem(item);
   }
 
   const changeGamePlatform = (event) => {
     let newGamePlatform = event.target.value;
     setSelectedGamePlatform(newGamePlatform);
     setGamePlatform(item.id, newGamePlatform)
+    updateItem(item);
   }
 
   const showFinishingButton = () => {
