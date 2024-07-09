@@ -306,6 +306,7 @@ const App = () => {
     allUserLists.splice(indexOfListToRemove, 1)
     let updatedTabLists = getListsForTab(allUserLists, activeTab);
     setTabLists(updatedTabLists);
+    handleListChange(updatedTabLists[0].id)
     taskService.setTask('Usunąłeś listę "' + listName + '"');
     synchronizationService.storeAndSendSyncInfo(allUserLists)
   }
