@@ -218,11 +218,9 @@ const App = () => {
     taskService.setTask('Uruchamiam funkcję lambda...');
     try {
       setInitLoading(true);
-      let userListsData = await synchronizationService.getAllUserListsIfSynchronized()
-      if(!userListsData) {
-        userListsData = await getUserListInfo();
-        synchronizationService.storeAndSendSyncInfo(userListsData)
-      }
+      let syncInfo = synchronizationService.getCurrentSyncInfo();
+      let userListsData= await getUserListInfo(syncInfo);
+      synchronizationService.setCurrentListsAsSynchronized(userListsData)
       let savedShowTitle = localStorage.getItem('savedShowTitle');
       if(savedShowTitle) {
         setShowTitle(savedShowTitle === 'true');
@@ -255,20 +253,22 @@ const App = () => {
     setTabLists(updatedLists);
     let task = 'Dodałeś "' + decodeURIComponent(item.polishTitle ? item.polishTitle : item.title) + '" do listy "' + list.name + '"'
     taskService.setTask(task);
-    synchronizationService.storeAndSendSyncInfo()
+    synchronizationService.storeAndSendSyncInfo([listId])
   }
 
   const updateItemInLists = (item) => {
+    let changedListIds = []
     for (let list of tabLists) {
       const index = list.allItems.findIndex(element => element.id === item.id);
       if (index !== -1) {
           list.allItems[index] = item;
+          changedListIds.push(list.id)
       }
       if(list.id === activeList) {
         setDisplayedItems(list.allItems);
       }
     }
-    synchronizationService.storeAndSendSyncInfo()
+    synchronizationService.storeAndSendSyncInfo(changedListIds)
   }
 
   const findListById = (listId) => {
@@ -290,14 +290,14 @@ const App = () => {
     let title = item.polishTitle ? item.polishTitle : item.title;
     let task = 'Usunąłeś "' + title + '" z listy "' + findListById(listId).name + '"'
     taskService.setTask(task);
-    synchronizationService.storeAndSendSyncInfo()
+    synchronizationService.storeAndSendSyncInfo([listId])
   }
 
   const addNewList = (list) => {
     allUserLists.push(list)
     let updatedTabLists = getListsForTab(allUserLists, activeTab);
     setTabLists(updatedTabLists);
-    synchronizationService.storeAndSendSyncInfo(allUserLists)
+    synchronizationService.storeAndSendSyncInfo([list.id], allUserLists)
   }
 
   const removeList = (listId) => {
@@ -308,7 +308,7 @@ const App = () => {
     setTabLists(updatedTabLists);
     handleListChange(updatedTabLists[0].id)
     taskService.setTask('Usunąłeś listę "' + listName + '"');
-    synchronizationService.storeAndSendSyncInfo(allUserLists)
+    synchronizationService.storeAndSendSyncInfo([listId], allUserLists)
   }
 
   const renameList = (listId, newListName) => {
@@ -318,7 +318,7 @@ const App = () => {
     listToUpdate.name = newListName
     let updatedTabLists = getListsForTab(allUserLists, activeTab);
     setTabLists(updatedTabLists);
-    synchronizationService.storeAndSendSyncInfo(allUserLists)
+    synchronizationService.storeAndSendSyncInfo([listId], allUserLists)
   }
 
   const refreshListsInApp = async () => {

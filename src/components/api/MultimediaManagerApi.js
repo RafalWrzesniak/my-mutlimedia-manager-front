@@ -18,8 +18,8 @@ const registerInApp = async (userId, preferredUsername, email, onSuccess = () =>
   await post(url, {}, onSuccess, onFailure);
 }
 
-const getUserListInfo = async () => {
-  const response = await get(`${URL}/user/lists`);
+const getUserListInfo = async (syncInfo) => {
+  const response = await post(`${URL}/user/lists`, syncInfo);
   return getResponseData(response);
 };
 
