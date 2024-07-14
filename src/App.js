@@ -219,7 +219,8 @@ const App = () => {
     try {
       setInitLoading(true);
       let syncInfo = synchronizationService.getCurrentSyncInfo();
-      let userListsData= await getUserListInfo(syncInfo);
+      let fetchedUserListsData = await getUserListInfo(syncInfo);
+      let userListsData = fetchedUserListsData.allLists;
       synchronizationService.setCurrentListsAsSynchronized(userListsData)
       let savedShowTitle = localStorage.getItem('savedShowTitle');
       if(savedShowTitle) {
@@ -253,7 +254,7 @@ const App = () => {
     setTabLists(updatedLists);
     let task = 'Dodałeś "' + decodeURIComponent(item.polishTitle ? item.polishTitle : item.title) + '" do listy "' + list.name + '"'
     taskService.setTask(task);
-    synchronizationService.storeAndSendSyncInfo([listId])
+    synchronizationService.storeAndSendSyncInfo([listId], allUserLists)
   }
 
   const updateItemInLists = (item) => {
@@ -262,7 +263,9 @@ const App = () => {
       const index = list.allItems.findIndex(element => element.id === item.id);
       if (index !== -1) {
           list.allItems[index] = item;
-          changedListIds.push(list.id)
+          if(index < pageSize) {
+            changedListIds.push(list.id)
+          }
       }
       if(list.id === activeList) {
         setDisplayedItems(list.allItems);
@@ -312,8 +315,6 @@ const App = () => {
   }
 
   const renameList = (listId, newListName) => {
-    console.log(listId)
-    console.log(allUserLists)
     let listToUpdate = allUserLists.find(list => list.id === listId)
     listToUpdate.name = newListName
     let updatedTabLists = getListsForTab(allUserLists, activeTab);

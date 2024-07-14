@@ -22,11 +22,12 @@ import moment from 'moment';
     return lists ? lists
       .filter(list => list.listType === tab)
       .map((list) => {
+        let allItems =  list.items ? list.items : tabToListObjects(list, tab);
         return {
           id: list.id,
           name: list.name,
-          items: list.items.length,
-          allItems: list.items,
+          items: allItems ? allItems.length : null,
+          allItems: allItems ? allItems : [],
           listType: list.listType,
           allContentList: list.allContentList
         };

@@ -41,10 +41,9 @@ const SynchronizationService = (defaultAllUserLists) => {
       syncTimestamp: localSyncTimestamp,
       changedListIds: localSyncLastModifiedLists
     }
-
     return {
       syncInfo: syncInfo,
-      currentLists: localAllUserLists
+      currentLists: buildServerUserListsDto(localAllUserLists)
     }
 
   }
@@ -55,6 +54,25 @@ const SynchronizationService = (defaultAllUserLists) => {
     localStorage.setItem('syncTimestamp', isoCurrentDate);
     localStorage.setItem('syncLastModifiedLists', JSON.stringify([]))
     localStorage.setItem('allUserLists', JSON.stringify(userListsData ? userListsData : defaultAllUserLists));
+  }
+
+  const buildServerUserListsDto = (userListsData) => {
+    if(!userListsData) {
+      return {
+        bookLists: [],
+        movieLists: [],
+        gameLists: []
+      }
+    }
+    let bookLists = userListsData.filter(list => list.listType === 'BOOK_LIST')
+    let movieLists = userListsData.filter(list => list.listType === 'MOVIE_LIST')
+    let gameLists = userListsData.filter(list => list.listType === 'GAME_LIST')
+
+    return {
+      bookLists: bookLists,
+      movieLists: movieLists,
+      gameLists: gameLists
+    }
   }
 
   return {
