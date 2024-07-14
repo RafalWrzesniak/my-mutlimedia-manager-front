@@ -18,17 +18,30 @@ import moment from 'moment';
       return list.gameWithUserDetailsDtos;    
   }
 
+  function getIsContentList(list) {
+    if(list.allContentList) {
+      return list.isAllContentList
+    }
+    if(list.listType === 'BOOK_LIST')
+      return list.allBooksList;
+    if(list.listType === 'MOVIE_LIST')
+      return list.allMoviesList
+    if(list.listType === 'GAME_LIST')
+      return list.allGamesList;
+  }
+
   function getListsForTab(lists, tab) {
     return lists ? lists
       .filter(list => list.listType === tab)
       .map((list) => {
+        let allItems =  list.items ? list.items : tabToListObjects(list, tab);
         return {
           id: list.id,
           name: list.name,
-          items: list.items.length,
-          allItems: list.items,
+          items: allItems ? allItems.length : null,
+          allItems: allItems ? allItems : [],
           listType: list.listType,
-          allContentList: list.allContentList
+          allContentList: getIsContentList(list)
         };
       }) : [];
   }

@@ -2,11 +2,16 @@ import {getSyncInfo, sendSyncInfo} from '../api/MultimediaManagerApi';
 
 const SynchronizationService = (defaultAllUserLists) => {
 
-  const storeAndSendSyncInfo = (newUserListsData) => {
+  const storeAndSendSyncInfo = (changedListIds, newUserListsData) => {
     const currentDate = new Date();
     const isoCurrentDate = currentDate.toISOString();
-    sendSyncInfo({syncTimestamp: isoCurrentDate}).then(r => {
+    let syncInfo = {
+      syncTimestamp: isoCurrentDate,
+      changedListIds: changedListIds
+    }
+    sendSyncInfo(syncInfo).then(r => {
       localStorage.setItem('syncTimestamp', isoCurrentDate);
+      localStorage.setItem('syncLastModifiedLists', JSON.stringify(changedListIds))
       localStorage.setItem('allUserLists', JSON.stringify(newUserListsData ? newUserListsData : defaultAllUserLists));
     })
     console.log('Updated sync info on ' + isoCurrentDate)
@@ -28,9 +33,53 @@ const SynchronizationService = (defaultAllUserLists) => {
     return null;
   }
 
+  const getCurrentSyncInfo = () => {
+    let localSyncTimestamp = localStorage.getItem('syncTimestamp')
+    let localSyncLastModifiedLists = JSON.parse(localStorage.getItem('syncLastModifiedLists'))
+    let localAllUserLists = JSON.parse(localStorage.getItem('allUserLists'))
+    let syncInfo = {
+      syncTimestamp: localSyncTimestamp,
+      changedListIds: localSyncLastModifiedLists
+    }
+    return {
+      syncInfo: syncInfo,
+      currentLists: buildServerUserListsDto(localAllUserLists)
+    }
+
+  }
+
+  const setCurrentListsAsSynchronized = (userListsData) => {
+    const currentDate = new Date();
+    const isoCurrentDate = currentDate.toISOString();
+    localStorage.setItem('syncTimestamp', isoCurrentDate);
+    localStorage.setItem('syncLastModifiedLists', JSON.stringify([]))
+    localStorage.setItem('allUserLists', JSON.stringify(userListsData ? userListsData : defaultAllUserLists));
+  }
+
+  const buildServerUserListsDto = (userListsData) => {
+    if(!userListsData) {
+      return {
+        bookLists: [],
+        movieLists: [],
+        gameLists: []
+      }
+    }
+    let bookLists = userListsData.filter(list => list.listType === 'BOOK_LIST')
+    let movieLists = userListsData.filter(list => list.listType === 'MOVIE_LIST')
+    let gameLists = userListsData.filter(list => list.listType === 'GAME_LIST')
+
+    return {
+      bookLists: bookLists,
+      movieLists: movieLists,
+      gameLists: gameLists
+    }
+  }
+
   return {
     storeAndSendSyncInfo,
-    getAllUserListsIfSynchronized
+    getAllUserListsIfSynchronized,
+    getCurrentSyncInfo,
+    setCurrentListsAsSynchronized
   };
 };
 

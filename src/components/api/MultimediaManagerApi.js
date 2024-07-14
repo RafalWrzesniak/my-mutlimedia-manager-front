@@ -18,8 +18,8 @@ const registerInApp = async (userId, preferredUsername, email, onSuccess = () =>
   await post(url, {}, onSuccess, onFailure);
 }
 
-const getUserListInfo = async () => {
-  const response = await get(`${URL}/user/lists`);
+const getUserListInfo = async (syncInfo) => {
+  const response = await post(`${URL}/user/lists`, syncInfo);
   return getResponseData(response);
 };
 
@@ -74,11 +74,6 @@ const setGamePlatform = async (gameId, gamePlatform, onSuccess = () => {}) => {
   post(`${URL}/game/platform?gameId=${gameId}&gamePlatform=${gamePlatform}`, {}, onSuccess);
 }
 
-const getDetailsForItems = async (items, username, apiType, onSuccess = () => {}) => {
-  let encodedItems = items.map(item => item.polishTitle ? {...item, title: item.polishTitle} : item).map(item => encodeItem(item));
-  post(`${URL}/${apiType}/details`, encodedItems, onSuccess);
-}
-
 const finishItem = async (itemId, finishDate, spentTime, apiType, onSuccess = () => {}) => {
   let url = '';
   if(apiType !== 'game') {
@@ -109,5 +104,5 @@ const getSyncInfo = async(onSuccess = () => {}, onFailure = () => {}) => {
 }
 
 export { getUserListInfo, getListById, getRecentlyDone, createBookFromUrl, createGameFromUrl, removeListFromUser,
-  createMovieFromUrl, createNewList, getDetailsForItems, sendSyncInfo, getSyncInfo,
+  createMovieFromUrl, createNewList, sendSyncInfo, getSyncInfo,
   addItemToList, removeItemFromList, setBookFormat, setGamePlatform, getItemById, finishItem, registerInApp, renameListOnServer };
