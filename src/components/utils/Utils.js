@@ -18,6 +18,18 @@ import moment from 'moment';
       return list.gameWithUserDetailsDtos;    
   }
 
+  function getIsContentList(list) {
+    if(list.allContentList) {
+      return list.isAllContentList
+    }
+    if(list.listType === 'BOOK_LIST')
+      return list.allBooksList;
+    if(list.listType === 'MOVIE_LIST')
+      return list.allMoviesList
+    if(list.listType === 'GAME_LIST')
+      return list.allGamesList;
+  }
+
   function getListsForTab(lists, tab) {
     return lists ? lists
       .filter(list => list.listType === tab)
@@ -29,7 +41,7 @@ import moment from 'moment';
           items: allItems ? allItems.length : null,
           allItems: allItems ? allItems : [],
           listType: list.listType,
-          allContentList: list.allContentList
+          allContentList: getIsContentList(list)
         };
       }) : [];
   }

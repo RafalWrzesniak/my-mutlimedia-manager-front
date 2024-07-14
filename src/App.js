@@ -298,6 +298,7 @@ const App = () => {
 
   const addNewList = (list) => {
     allUserLists.push(list)
+    allUserLists.sort((a,b) => a.name.localeCompare(b.name))
     let updatedTabLists = getListsForTab(allUserLists, activeTab);
     setTabLists(updatedTabLists);
     synchronizationService.storeAndSendSyncInfo([list.id], allUserLists)
