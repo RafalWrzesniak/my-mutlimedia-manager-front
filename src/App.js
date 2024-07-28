@@ -5,7 +5,7 @@ import TabMenu from './components/views/TabMenu';
 import Content from './components/views/Content';
 import Paginator from './components/views/Paginator';
 import { getListById, getUserListInfo, getRecentlyDone, getItemById } from './components/api/MultimediaManagerApi';
-import { tabToApi, tabToListObjects, getListsForTab, isBook, isGame, isMovie, decodeItem, isDesktop } from './components/utils/Utils';
+import { tabToApi, tabToListObjects, getListsForTab, isBook, isGame, isMovie, decodeItem, isDesktop, getAllListItems } from './components/utils/Utils';
 import InitLoader from './components/utils/InitLoader';
 import TaskServiceDisplay from './components/utils/TaskServiceDisplay';
 import TaskService from './components/utils/TaskService';
@@ -28,7 +28,7 @@ const App = () => {
   const [pageSize] = useState(30);
   const [activeTab, setActiveTab] = useState('BOOK_LIST');
   const [username, setUsername] = useState('');
-  const [activeList, setActiveList] = useState(null);
+  const [activeList, setActiveList] = useState();
   const [allUserLists, setAllUserLists] = useState([]);
   const [tabLists, setTabLists] = useState([]);
   const [displayedItems, setDisplayedItemsFunc] = useState([]);
@@ -218,31 +218,63 @@ const App = () => {
     taskService.setTask('Uruchamiam funkcję lambda...');
     try {
       setInitLoading(true);
+      let localUserLists = synchronizationService.getLocalUserLists();
+      if(localUserLists) {
+        setInitAllUserLists(localUserLists)
+        taskService.setTask('Aktualizuje dane w tle...', true);
+      }
       let syncInfo = synchronizationService.getCurrentSyncInfo();
       let fetchedUserListsData = await getUserListInfo(syncInfo);
       let userListsData = fetchedUserListsData.allLists;
       synchronizationService.setCurrentListsAsSynchronized(userListsData)
-      let savedShowTitle = localStorage.getItem('savedShowTitle');
-      if(savedShowTitle) {
-        setShowTitle(savedShowTitle === 'true');
-      }
-      setAllUserLists(userListsData);
-      let updatedLists = getListsForTab(userListsData, activeTab);
-      setTabLists(updatedLists);
-      let activeList = updatedLists.length > 0 ? updatedLists[0] : -1;
-      setActiveList(activeList.id);
-      setCurrentListName(activeList.name)
-      setDisplayedItems(activeList.allItems);
-      toolbarRef.current.restartSorting(activeTab);
-      toolbarRef.current.turnOffRecentlyDoneButton();
-      toolbarRef.current.clearSearchInput();
-      setInitLoading(false);
-      taskService.clearTask();
+      setInitAllUserLists(userListsData)
     } catch (error) {
       taskService.setTask('Błąd serwera! Nie udało się pobrać danych :(');
       setInitLoading(false);
     }
   };
+
+  const setInitAllUserLists = async (userListsData) => {
+    try {
+      let savedShowTitle = localStorage.getItem('savedShowTitle');
+      if(savedShowTitle) {
+        setShowTitle(savedShowTitle === 'true');
+      }
+      setAllUserLists(userListsData);
+      setActiveTab(activeTab => {
+        let updatedLists = getListsForTab(userListsData, activeTab);
+        setTabLists(updatedLists);
+        return activeTab;
+      })
+      setActiveList(currentList => {
+        let updatedLists = getListsForTab(userListsData, activeTab);
+        let listToBeActive;
+        if(!currentList) {
+          listToBeActive = updatedLists.length > 0 ? updatedLists[0] : -1;
+        } else {
+          listToBeActive = currentList;
+        }
+        let listObject = userListsData.filter(list => list.id === (listToBeActive.id ? listToBeActive.id : listToBeActive))[0]
+        console.log(listObject)
+        setCurrentListName(listObject.name)
+        setDisplayedItems(getAllListItems(listObject));
+        return listObject.id;
+        }
+      )
+      setInitLoading(false);
+      taskService.clearTask();
+      if(!toolbarRef.current) {
+        await new Promise(r => setTimeout(r, 300));
+      }
+      toolbarRef.current.restartSorting(activeTab);
+      toolbarRef.current.turnOffRecentlyDoneButton();
+      toolbarRef.current.clearSearchInput();
+    } catch (error) {
+      console.log(error)
+      taskService.setTask('Nie udało się wyświetlić danych :(');
+      setInitLoading(false);
+    }
+  }
 
   const addItemToList = (item, listId) => {
     let list = findListById(listId);

@@ -46,6 +46,21 @@ import moment from 'moment';
       }) : [];
   }
 
+  function getAllListItems(list) {
+    if(list.allItems) {
+      return list.allItems;
+    }
+    if(list.bookWithUserDetailsDtos) {
+          return list.bookWithUserDetailsDtos;
+    }
+    if(list.movieWithUserDetailsDtos) {
+          return list.movieWithUserDetailsDtos;
+    }
+    if(list.gameWithUserDetailsDtos) {
+          return list.gameWithUserDetailsDtos;
+    }
+  }
+
   function formatDate(date) {
     return moment(date).format('DD.MM.YYYY');
   }  
@@ -127,4 +142,4 @@ import moment from 'moment';
    }
 
   export { tabToApi, tabToListObjects, getListsForTab, formatDate, formatTime, listToString,
-     isBook, isGame, getFinishedOn, itemToApi, isMovie, isEncoded, encodeItem, decodeItem, isDesktop}
+     isBook, isGame, getFinishedOn, itemToApi, isMovie, isEncoded, encodeItem, decodeItem, isDesktop, getAllListItems}

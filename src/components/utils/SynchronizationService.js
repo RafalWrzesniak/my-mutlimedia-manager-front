@@ -45,7 +45,10 @@ const SynchronizationService = (defaultAllUserLists) => {
       syncInfo: syncInfo,
       currentLists: buildServerUserListsDto(localAllUserLists)
     }
+  }
 
+  const getLocalUserLists = () => {
+    return JSON.parse(localStorage.getItem('allUserLists'))
   }
 
   const setCurrentListsAsSynchronized = (userListsData) => {
@@ -79,7 +82,8 @@ const SynchronizationService = (defaultAllUserLists) => {
     storeAndSendSyncInfo,
     getAllUserListsIfSynchronized,
     getCurrentSyncInfo,
-    setCurrentListsAsSynchronized
+    setCurrentListsAsSynchronized,
+    getLocalUserLists
   };
 };
 
