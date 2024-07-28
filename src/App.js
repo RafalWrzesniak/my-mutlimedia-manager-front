@@ -221,7 +221,7 @@ const App = () => {
       let localUserLists = synchronizationService.getLocalUserLists();
       if(localUserLists) {
         setInitAllUserLists(localUserLists)
-        taskService.setTask('Aktualizuje dane w tle...', true);
+        taskService.setTask('Aktualizuję dane w tle...', true);
       }
       let syncInfo = synchronizationService.getCurrentSyncInfo();
       let fetchedUserListsData = await getUserListInfo(syncInfo);
