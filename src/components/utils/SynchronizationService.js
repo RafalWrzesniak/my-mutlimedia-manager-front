@@ -78,12 +78,19 @@ const SynchronizationService = (defaultAllUserLists) => {
     }
   }
 
+  const clearLocalData = () => {
+    localStorage.removeItem('syncTimestamp');
+    localStorage.removeItem('syncLastModifiedLists')
+    localStorage.removeItem('allUserLists');
+  }
+
   return {
     storeAndSendSyncInfo,
     getAllUserListsIfSynchronized,
     getCurrentSyncInfo,
     setCurrentListsAsSynchronized,
-    getLocalUserLists
+    getLocalUserLists,
+    clearLocalData
   };
 };
 

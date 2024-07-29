@@ -20,6 +20,8 @@ import { CgProfile } from 'react-icons/cg';
 import { AiOutlineMenu } from "react-icons/ai";
 import Modal from 'react-modal';
 import {RingLoader} from "react-spinners";
+import { MdBrowserUpdated } from "react-icons/md";
+import RegularButton from './components/basic/RegularButton';
 
 ReactModal.setAppElement('#root');
 
@@ -357,19 +359,13 @@ const App = () => {
 
   const refreshListsInApp = async () => {
     taskService.setTask('Odświeżam listy w apliakcji..', true);
-    let userListsData = await getUserListInfo();
-    setAllUserLists(userListsData);
-    let updatedLists = getListsForTab(userListsData, activeTab);
-    setTabLists(updatedLists);
-    let currentList = updatedLists.filter(list => list.id === activeList)[0]
-    setDisplayedItems(currentList.allItems)
-    if(!updatedLists.map(list => list.id).includes(activeList) && updatedLists.length > 0) {
-      setActiveList(updatedLists[0].id)
-      setDisplayedItems(updatedLists[0].allItems);
-    }
-    taskService.clearTask();
+    synchronizationService.clearLocalData();
+    let syncInfo = synchronizationService.getCurrentSyncInfo();
+    let fetchedUserListsData = await getUserListInfo(syncInfo);
+    let userListsData = fetchedUserListsData.allLists;
+    synchronizationService.setCurrentListsAsSynchronized(userListsData)
+    setInitAllUserLists(userListsData)
   }
-
 
   return (
     <div className="app">
@@ -394,8 +390,11 @@ const App = () => {
         </div>
         {isDesktop() && <TaskServiceDisplay loading={taskService.getLoading()} task={taskService.getTask()} />}
         <div className='user-menu'>
-          <CgProfile className='icon-user-menu'/>
-          {isDesktop() ? username : ''}
+          {isLoggedIn && <RegularButton icon={<MdBrowserUpdated />} extraStyle={'icon-only'} onClick={refreshListsInApp} />}
+          <div>
+            <CgProfile className='icon-user-menu'/>
+            {isDesktop() ? username : ''}
+          </div>
         </div>
       </div>
       {(!isLoggedIn) && <Login onSuccessfulLogin={fetchInitialData} taskService={taskService} />}

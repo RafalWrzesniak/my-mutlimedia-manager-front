@@ -34,6 +34,7 @@
   padding: 5px;
   margin-right: 20px;
   align-items: center;
+  gap: 10px;
 }
 
 .icon-user-menu {
