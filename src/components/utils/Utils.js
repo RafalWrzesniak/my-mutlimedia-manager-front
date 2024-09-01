@@ -19,7 +19,7 @@ import moment from 'moment';
   }
 
   function getIsContentList(list) {
-    if(list.allContentList) {
+    if('allContentList' in list) {
       return list.isAllContentList
     }
     if(list.listType === 'BOOK_LIST')
