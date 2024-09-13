@@ -28,7 +28,6 @@
   @media (max-width: 2000px) {
     .detailed-window {
       min-width: 290px;
-      overflow-y: hidden;
     }
   }
 
@@ -107,4 +106,13 @@
   .detailed-window::-webkit-scrollbar-thumb:hover {
     background-color: #555;
   }
-  
+
+  @media (max-width: 600px) {
+    .detailed-window::-webkit-scrollbar-track {
+      display: none;
+    }
+
+    .detailed-window::-webkit-scrollbar-thumb {
+      display: none;
+    }
+  }
