@@ -104,7 +104,7 @@ body {
 @media (max-width: 600px) {
   .content-with-toolbar {
     border-radius: 0 0 15px 15px;
-    padding: 10px 4vw 10px 8vw;
+    padding: 10px 2vw 10px 4vw;
   }
 }
 
@@ -128,7 +128,12 @@ body {
 
 @media (max-width: 2000px) {
   .container {
+    margin-top: calc(50px + 3vh);
     max-height: 75vh;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    max-height: 97vh;
+    height: 87vh;
   }
 }
 
@@ -202,6 +207,7 @@ body {
   .content {
     max-height: 80%;
     gap: 5vw;
+    overflow-y: hidden;
   }
 }
 

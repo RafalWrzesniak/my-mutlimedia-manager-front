@@ -7,6 +7,12 @@
       background-color: var(--background_color);
     }
 
+  @media (max-width: 600px) {
+    .toolbar {
+      margin-left: 9vw;
+    }
+  }
+
   .input-with-select {
     position: relative;
     display: flex;

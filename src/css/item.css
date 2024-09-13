@@ -22,7 +22,21 @@
     transition: border-color 0.5s ease;
     margin-bottom: 2px;
   }
-  
+
+  @media (max-width: 2000px) {
+    .item-button {
+      min-width: 176px;
+      min-height: 242px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .item-button {
+      min-width: 40vw;
+      min-height: 28vh;
+    }
+  }
+
   .item-button:hover:not(.active) {
     border-color: var(--my_blue);
   }
