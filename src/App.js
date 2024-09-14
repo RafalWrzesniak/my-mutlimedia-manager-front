@@ -257,7 +257,6 @@ const App = () => {
           listToBeActive = currentList;
         }
         let listObject = userListsData.filter(list => list.id === (listToBeActive.id ? listToBeActive.id : listToBeActive))[0]
-        console.log(listObject)
         setCurrentListName(listObject.name)
         setDisplayedItems(getAllListItems(listObject));
         return listObject.id;

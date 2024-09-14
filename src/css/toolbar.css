@@ -9,7 +9,7 @@
 
   @media (max-width: 600px) {
     .toolbar {
-      margin-left: 7vw;
+      margin-left: calc((100% - 257px)/4);
     }
   }
 
