@@ -5,13 +5,18 @@ import DetailedField from './DetailedField';
 import ItemToolbar from './ItemToolbar';
 
 const MovieDetailedWindow = ({ movie, tabLists, updateItem, addItemToListId, removeItemFromListId, closeDetails }) => {
-  let sezonString = 'sezon'
-  let seasonCount = movie.seriesInfo.seasonsCount;
-  if(seasonCount > 1 && seasonCount < 5) {
-    sezonString += 'y'
-  } else if(seasonCount >= 5) {
-    sezonString += 'ów'
+
+  const prepareSeasonString = () => {
+    let sezonString = 'sezon'
+    let seasonCount = movie.seriesInfo.seasonsCount;
+    if(seasonCount > 1 && seasonCount < 5) {
+      sezonString += 'y'
+    } else if(seasonCount >= 5) {
+      sezonString += 'ów'
+    }
+    return sezonString
   }
+
   return (
     <div className="detailed-window">
     <ItemToolbar item={movie} lists={tabLists} updateItem={updateItem} addItemToListId={addItemToListId} removeItemFromListId={removeItemFromListId} closeDetails={closeDetails} />
@@ -25,7 +30,7 @@ const MovieDetailedWindow = ({ movie, tabLists, updateItem, addItemToListId, rem
         <DetailedField description="Oryginalny tytuł" value={movie.title} />
         <DetailedField description="Premiera" value={formatDate(movie.releaseDate)} />
         {(!movie.seriesInfo) && (<DetailedField description="Długość" value={formatTime(movie.runtimeMins)} />)}
-        {(movie.seriesInfo) && (<DetailedField description="Serial" value={`${seasonCount} ${sezonString}, ${movie.seriesInfo.allEpisodesCount} odcinków`} />)}
+        {(movie.seriesInfo) && (<DetailedField description="Serial" value={`${movie.seriesInfo.seasonsCount} ${prepareSeasonString()}, ${movie.seriesInfo.allEpisodesCount} odcinków`} />)}
         <DetailedField description="Ocena" value={`${movie.imDbRating} / ${movie.imDbRatingVotes}`} />
         <DetailedField description="Gatunek" value={listToString(movie.genreList)} />
         <DetailedField description="Produkcja" value={listToString(movie.countryList)} />
