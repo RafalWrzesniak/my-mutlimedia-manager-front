@@ -18,9 +18,9 @@ import moment from 'moment';
       return list.gameWithUserDetailsDtos;    
   }
 
-  function getIsContentList(list) {
+  function isAllContentList(list) {
     if('allContentList' in list) {
-      return list.isAllContentList
+      return list.allContentList
     }
     if(list.listType === 'BOOK_LIST')
       return list.allBooksList;
@@ -41,7 +41,7 @@ import moment from 'moment';
           items: allItems ? allItems.length : null,
           allItems: allItems ? allItems : [],
           listType: list.listType,
-          allContentList: getIsContentList(list)
+          allContentList: isAllContentList(list)
         };
       }) : [];
   }
@@ -141,5 +141,5 @@ import moment from 'moment';
     return window.innerWidth > 600;
    }
 
-  export { tabToApi, tabToListObjects, getListsForTab, formatDate, formatTime, listToString,
+  export { tabToApi, tabToListObjects, getListsForTab, formatDate, formatTime, listToString, isAllContentList,
      isBook, isGame, getFinishedOn, itemToApi, isMovie, isEncoded, encodeItem, decodeItem, isDesktop, getAllListItems}

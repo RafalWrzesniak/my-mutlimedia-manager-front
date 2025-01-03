@@ -4,8 +4,20 @@ import Sidebar from './components/views/Sidebar';
 import TabMenu from './components/views/TabMenu';
 import Content from './components/views/Content';
 import Paginator from './components/views/Paginator';
-import { getListById, getUserListInfo, getRecentlyDone } from './components/api/MultimediaManagerApi';
-import { tabToApi, tabToListObjects, getListsForTab, isBook, isGame, isMovie, decodeItem, isDesktop, getAllListItems } from './components/utils/Utils';
+import { getListById, getUserListInfo } from './components/api/MultimediaManagerApi';
+import {
+  tabToApi,
+  tabToListObjects,
+  getListsForTab,
+  isBook,
+  isGame,
+  isMovie,
+  decodeItem,
+  isDesktop,
+  getAllListItems,
+  isAllContentList,
+  getFinishedOn
+} from './components/utils/Utils';
 import InitLoader from './components/utils/InitLoader';
 import TaskServiceDisplay from './components/utils/TaskServiceDisplay';
 import TaskService from './components/utils/TaskService';
@@ -160,7 +172,7 @@ const App = () => {
       taskService.setTask('Szukam ostatnio ukończonych..', true);
       toolbarRef.current.clearSearchInput();
       setSearchInputData({})
-      let recentlyDoneItems = await getRecentlyDone(tabToApi(activeTab))
+      let recentlyDoneItems = findRecentlyDone()
       setDisplayedItems(recentlyDoneItems)
       taskService.clearTask();
       if(activeList !== -1) {
@@ -172,6 +184,15 @@ const App = () => {
     } else if(activeList) {
       handleListChange(rememberedList)
     }
+  }
+
+  const findRecentlyDone = () => {
+    return tabLists
+        .filter(list => isAllContentList(list))
+        .flatMap(list => getAllListItems(list))
+        .filter(item => getFinishedOn(item))
+        .sort((a, b) => new Date(getFinishedOn(b)) - new Date(getFinishedOn(a)))
+        .slice(0, 30)
   }
 
   const handleInputSearch = async (propertyName, valueToFind) => {
