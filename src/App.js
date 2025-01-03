@@ -278,9 +278,12 @@ const App = () => {
           listToBeActive = currentList;
         }
         let listObject = userListsData.filter(list => list.id === (listToBeActive.id ? listToBeActive.id : listToBeActive))[0]
-        setCurrentListName(listObject.name)
-        setDisplayedItems(getAllListItems(listObject));
-        return listObject.id;
+        if(listObject) {
+          setCurrentListName(listObject.name)
+          setDisplayedItems(getAllListItems(listObject));
+          return listObject.id;
+        }
+        return -1
         }
       )
       setInitLoading(false);
@@ -289,7 +292,6 @@ const App = () => {
         await new Promise(r => setTimeout(r, 300));
       }
       toolbarRef.current.restartSorting(activeTab);
-      toolbarRef.current.turnOffRecentlyDoneButton();
       toolbarRef.current.clearSearchInput();
     } catch (error) {
       console.log(error)
