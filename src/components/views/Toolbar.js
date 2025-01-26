@@ -173,7 +173,6 @@ const Toolbar = forwardRef((props, ref) => {
     }
   };
 
-
   useEffect(() => {
     let savedShowTitle = localStorage.getItem('savedShowTitle');
     if(savedShowTitle) {
@@ -183,21 +182,21 @@ const Toolbar = forwardRef((props, ref) => {
 
   return (
     <div className="toolbar" >
-      <RegularButton text='Dodaj' icon={<AiOutlineAppstoreAdd/>} onClick={handleAddItem} disabled={recentlyDoneIsActive} />
+      <RegularButton text='Dodaj' icon={<AiOutlineAppstoreAdd/>} onClick={handleAddItem} disabled={recentlyDoneIsActive || props.waitingForSync} />
       <RegularButton text='Ostatnie' icon={<AiOutlineFileDone/>} onClick={handleRecentlyDone} isActive={recentlyDoneIsActive} />
 
-      <select className="select-wrapper" value={selectedSortingOption} onChange={handleSortChange} disabled={recentlyDoneIsActive} >
+      <select className="select-wrapper" value={selectedSortingOption} onChange={handleSortChange} disabled={recentlyDoneIsActive || props.waitingForSync} >
         {sortingOptions}
       </select>
 
       {sortingDirection === 'DESC' ? 
-        <RegularButton text='Malejąco' icon={<BsSortDown/>} onClick={handleSortDirectionChange} disabled={recentlyDoneIsActive} /> :
-        <RegularButton text='Rosnąco' icon={<BsSortUp/>} onClick={handleSortDirectionChange} disabled={recentlyDoneIsActive} />
+        <RegularButton text='Malejąco' icon={<BsSortDown/>} onClick={handleSortDirectionChange} disabled={recentlyDoneIsActive || props.waitingForSync} /> :
+        <RegularButton text='Rosnąco' icon={<BsSortUp/>} onClick={handleSortDirectionChange} disabled={recentlyDoneIsActive || props.waitingForSync} />
       }
       <div className="input-with-select">
         <input type="text" className="search-input" value={searchInputValue} placeholder="Wyszukiwanie..." 
-          disabled={recentlyDoneIsActive} maxLength={15} onChange={handleSearchInputChange} />  
-          <select className="select-input" onChange={handleChangingPropertyToFind} value={propertyToFind} disabled={recentlyDoneIsActive} >
+          disabled={recentlyDoneIsActive || props.waitingForSync} maxLength={15} onChange={handleSearchInputChange} />
+          <select className="select-input" onChange={handleChangingPropertyToFind} value={propertyToFind} disabled={recentlyDoneIsActive || props.waitingForSync} >
             {chooseProperSearchProperty(props.activeTab).map((option) => (
               <option className="select-option" key={option.value} value={option.value}>
                 {option.label}

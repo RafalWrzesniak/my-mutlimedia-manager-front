@@ -56,6 +56,7 @@ const App = () => {
   const [sortDirection, setSortDirection] = useState('ASC');
   const [searchInputData, setSearchInputData] = useState({});
   const [initLoading, setInitLoading] = useState(true);
+  const [waitingForSync, setWaitingForSync] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
   const [currentListName, setCurrentListName] = useState('');
@@ -169,12 +170,10 @@ const App = () => {
 
   const recentlyDoneHandler = async () => {
     if((activeList && activeList !== -1) || searchInputData.propertyName) {
-      taskService.setTask('Szukam ostatnio ukończonych..', true);
       toolbarRef.current.clearSearchInput();
       setSearchInputData({})
       let recentlyDoneItems = findRecentlyDone()
       setDisplayedItems(recentlyDoneItems)
-      taskService.clearTask();
       if(activeList !== -1) {
         setRememberedList(activeList)
       }
@@ -251,6 +250,7 @@ const App = () => {
       let userListsData = fetchedUserListsData.allLists;
       synchronizationService.setCurrentListsAsSynchronized(userListsData)
       setInitAllUserLists(userListsData)
+      setWaitingForSync(false)
     } catch (error) {
       taskService.setTask('Błąd serwera! Nie udało się pobrać danych :(');
       setInitLoading(false);
@@ -289,7 +289,7 @@ const App = () => {
       setInitLoading(false);
       taskService.clearTask();
       if(!toolbarRef.current) {
-        await new Promise(r => setTimeout(r, 300));
+        await new Promise(r => setTimeout(r, 200));
       }
       toolbarRef.current.restartSorting(activeTab);
       toolbarRef.current.clearSearchInput();
@@ -422,7 +422,7 @@ const App = () => {
       <div className="container">
         <InitLoader loading={initLoading} />
         {isDesktop() &&
-          <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} renameList={renameList} taskService={taskService} removeListInApp={removeList} />
+          <Sidebar lists={tabLists} activeList={activeList} onListChange={handleListChange} activeApi={activeTab} addNewList={addNewList} renameList={renameList} taskService={taskService} removeListInApp={removeList} waitingForSync={waitingForSync} />
         }
         <div className='content-with-menu'>
           <div className="tab-menu-container">
@@ -438,6 +438,7 @@ const App = () => {
             handleSearchInputChange={handleInputSearch}
             switchShowTitle={setShowTitle}
             activeTab={activeTab}
+            waitingForSync={waitingForSync}
             />
             <AddItemDialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} lists={tabLists} activeApi={tabToApi(activeTab)} addItemToListId={addItemToList} taskService={taskService} />
             <Content items={displayedItems} activeItem={activeItem} onItemChange={handleItemChange} showTitle={showTitle} />
