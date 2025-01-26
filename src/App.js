@@ -319,9 +319,7 @@ const App = () => {
       const index = list.allItems.findIndex(element => element.id === item.id);
       if (index !== -1) {
           list.allItems[index] = item;
-          if(index < pageSize) {
-            changedListIds.push(list.id)
-          }
+          changedListIds.push(list.id)
       }
       if(list.id === activeList) {
         setDisplayedItems(list.allItems);
