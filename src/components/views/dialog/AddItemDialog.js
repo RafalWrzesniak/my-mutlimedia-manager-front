@@ -60,14 +60,8 @@ const AddItemDialog = ({ isOpen, onClose, lists, activeApi, addItemToListId, tas
   };
 
   const onFailAddItem = (response, product) => {
-    let task = 'Nie udało utworzyć się ' + product + ' z podanego linku :(';
     console.log(response)
-    if(response.response.data.messages) {
-      let message = response.response.data.messages[0];
-      if(message.includes('Invalid') && message.includes('url')) {
-        task = task + ' Podany link jest nieprawidłowy'
-      }
-    }
+    let task = 'Nie udało utworzyć się ' + product + ' z podanego linku :(';
     taskService.setTask(task);
   }
 
